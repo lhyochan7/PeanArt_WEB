@@ -4,5 +4,5 @@ import com.peanart.vo.UserVO;
 
 
 public interface MainService {
-    UserVO getTest();
+    public UserVO getTest();
 }

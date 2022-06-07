@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MainController {
     @Autowired
-    private MainService testService;
+    private MainService mainService;
 
     @GetMapping("/index")
     public UserVO getTest(){
-        return testService.getTest();
+        return mainService.getTest();
     }
 
 }

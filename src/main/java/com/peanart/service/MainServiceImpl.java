@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 public class MainServiceImpl implements MainService {
 
     @Autowired
-    private MainDAO testRepository;
+    private MainDAO mainDAO;
 
     @Override
     public UserVO getTest() {
-        return testRepository.getTest();
+        return mainDAO.getTest();
     }
 }
