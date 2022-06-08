@@ -1,12 +1,30 @@
 <template>
     <v-card elevation="0">
         <v-toolbar elevation="0">
-        <h2>PeanArt</h2>
+        <router-link style="text-decoration:none; color:black;" to="/"><h2>PeanArt</h2></router-link>
         <v-spacer></v-spacer>
         <v-btn text x-large>상품 제작</v-btn>
-        <v-btn text x-large>목록</v-btn>
-        <v-btn text x-large>내 정보</v-btn>
-        <v-btn text x-large>나가기</v-btn>
+        <v-menu>
+          <template v-slot:activator="{on, attrs}">
+            <v-btn text x-large v-bind="attrs" v-on="on">목록<v-icon>mdi-menu-down</v-icon></v-btn>
+          </template>
+          <v-list>
+            <v-list-item>
+              <v-list-item-title>전체</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>개인 전시회</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>개인 전시회</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>기타</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <router-link style="text-decoration:none;" to="/login.do"><v-btn text x-large>내 정보</v-btn></router-link>
+        <v-btn text x-large>로그인</v-btn>
         </v-toolbar>
     </v-card>
 </template>

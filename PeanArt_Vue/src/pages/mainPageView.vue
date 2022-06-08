@@ -15,6 +15,7 @@
                       <v-card-text class="mt-8 font-weight-bold">달리 반 피카소</v-card-text>
                     </v-card>
                     <v-spacer/>
+                    <v-img src="../assets/new_icon.png" max-width="180" max-height="180"></v-img>
                   </v-layout>
                 </v-container>
               </v-img>
@@ -29,16 +30,16 @@
         </v-row>
         <v-row>
           <v-col sm="3">
-            <v-img src="./assets/ai_1.png" class="rounded-xl"></v-img>
+            <v-img src="../assets/ai_1.png" class="rounded-xl"></v-img>
           </v-col>
           <v-col sm="3">
-            <v-img src="./assets/ai_2.png" class="rounded-xl"></v-img>
+            <v-img src="../assets/ai_2.png" class="rounded-xl"></v-img>
           </v-col>
           <v-col sm="3">
-            <v-img src="./assets/ai_3.png" class="rounded-xl"></v-img>
+            <v-img src="../assets/ai_3.png" class="rounded-xl"></v-img>
           </v-col>
           <v-col sm="3">
-            <v-img src="./assets/ai_4.png" class="rounded-xl"></v-img>
+            <v-img src="../assets/ai_4.png" class="rounded-xl"></v-img>
           </v-col>
         </v-row>
         <v-row>
@@ -52,11 +53,11 @@
   </v-app>
 </template>
 <script>
-import Exhib_card from './components/exhib_card.vue';
-import nav_bar from './components/nav_bar.vue';
-import foot_bar from './components/foot_bar.vue';
+import Exhib_card from '../components/exhib_card.vue';
+import nav_bar from '../components/nav_bar.vue';
+import foot_bar from '../components/foot_bar.vue';
 export default {
-  name: 'testPage',
+  name: 'mainPage',
 
   components: {
     Exhib_card,
@@ -69,7 +70,7 @@ export default {
       'title':'테스트 전시회',
       'date':'2022년 10월 12일, 수요일',
       'artist':'달리 반 피카소',
-      'cover': require('./assets/cover.png'),
+      'cover': require('../assets/cover.png'),
     }
     //
   }),
