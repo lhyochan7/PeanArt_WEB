@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.peanart.dao.MainDAO">
+<mapper namespace="com.peanart.main.dao.MainDAO">
     <select id="getTest" resultType="UserVO">
         select usr_id, usr_nickname
         from tb_user

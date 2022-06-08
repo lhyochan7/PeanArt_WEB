@@ -1,6 +1,6 @@
-package com.peanart.dao;
+package com.peanart.main.dao;
 
-import com.peanart.vo.UserVO;
+import com.peanart.main.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

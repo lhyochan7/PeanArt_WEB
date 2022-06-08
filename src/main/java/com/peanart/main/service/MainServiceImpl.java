@@ -1,7 +1,7 @@
-package com.peanart.service;
+package com.peanart.main.service;
 
-import com.peanart.dao.MainDAO;
-import com.peanart.vo.UserVO;
+import com.peanart.main.dao.MainDAO;
+import com.peanart.main.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,6 @@
-package com.peanart.service;
+package com.peanart.main.service;
 
-import com.peanart.vo.UserVO;
-
+import com.peanart.main.vo.UserVO;
 import java.util.List;
 
 
