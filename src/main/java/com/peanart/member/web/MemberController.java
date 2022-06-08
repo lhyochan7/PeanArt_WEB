@@ -36,39 +36,37 @@ public class MemberController {
         MemberVO memberVO = new MemberVO();
         memberVO.setUsrId(loginForm.getUsrId());
         memberVO.setUsrPw(loginForm.getUsrPw());
-        System.out.println(memberService.loginCheck(memberVO));
-
         MemberVO user = memberService.loginCheck(memberVO);
-        System.out.println(user);
-//        if(user==null){
-//            model.addAttribute("check", "false");
-//            model.addAttribute("loginForm", loginForm);
-//            return "login.html";
-//        }
-//
-//        //key user로 MemberVO 객체 넘겨주기
-//        model.addAttribute("user", user);
-//
-//        session.setAttribute("usrId", user.getUsrId());
-//        session.setAttribute("usrSeq", user.getUsrSeq());
-//        session.setAttribute("usrName", user.getUsrName());
+        System.out.println("user" + user);
+        if(user==null){
+            model.addAttribute("check", "false");
+            model.addAttribute("loginForm", loginForm);
+            return "login.html";
+        }
+
+        //key user로 MemberVO 객체 넘겨주기
+        model.addAttribute("user", user);
+
+        session.setAttribute("usrId", user.getUsrId());
+        session.setAttribute("usrSeq", user.getUsrSeq());
+        session.setAttribute("usrName", user.getUsrName());
         return "";
     }
 
-//    @PostMapping("/join.do")
-//    public String join(MemberVO memberVO){
-//        System.out.println(memberVO);
-//        MemberVO user = new MemberVO();
-//
-//        user.setUsrId(memberVO.getUsrId());
-//        user.setUsrPw(memberVO.getUsrPw());
-//        user.setUsrAdrs(memberVO.getUsrAdrs());
-//        user.setUsrName(memberVO.getUsrName());
-//        user.setUsrNickname(memberVO.getUsrNickname());
-//
-//        memberService.join(user);
-//
-//        return "redirect:/login.do";
-//    }
+    @PostMapping("/join.do")
+    public String join(HttpServletRequest req, HttpSession session, ModelMap model, MemberVO memberVO){
+        System.out.println(memberVO);
+        MemberVO user = new MemberVO();
+
+        user.setUsrId(memberVO.getUsrId());
+        user.setUsrPw(memberVO.getUsrPw());
+        user.setUsrAdrs(memberVO.getUsrAdrs());
+        user.setUsrName(memberVO.getUsrName());
+        user.setUsrNickname(memberVO.getUsrNickname());
+
+        memberService.join(user);
+
+        return "";
+    }
 
 }
