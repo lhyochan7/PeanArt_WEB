@@ -5,6 +5,8 @@ import com.peanart.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MainServiceImpl implements MainService {
 
@@ -12,7 +14,7 @@ public class MainServiceImpl implements MainService {
     private MainDAO mainDAO;
 
     @Override
-    public UserVO getTest() {
+    public List<UserVO> getTest() {
         return mainDAO.getTest();
     }
 }

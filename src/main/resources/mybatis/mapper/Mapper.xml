@@ -9,7 +9,6 @@
         select usr_id, usr_nickname
         from tb_user
     </select>
-
 </mapper>
 
 

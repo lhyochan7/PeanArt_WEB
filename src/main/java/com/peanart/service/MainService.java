@@ -2,7 +2,9 @@ package com.peanart.service;
 
 import com.peanart.vo.UserVO;
 
+import java.util.List;
+
 
 public interface MainService {
-    public UserVO getTest();
+    public List<UserVO> getTest();
 }
