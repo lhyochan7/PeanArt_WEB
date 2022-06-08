@@ -45,7 +45,25 @@ export default {
             return pattern.test(value) || 'Invalid e-mail.'
           },
         }
-  }),
+  }), 
+   methods: {
+      loginRequest: function() {
+          axios.post('http://localhost:8080/loginCheck.do', {
+              usrId: this.email,
+              usrPw: this.password
+          }, { headers: {
+            "Content-Type": `application/json`,
+          },}).then(function(response){
+              console.log(response);
+          })
+      },
+      testReq: function() {
+          axios.get('http://localhost:8080/test.do')
+          .then(function(response){
+              console.log(response);
+          })
+      }
+  }
 };
 </script>
 
