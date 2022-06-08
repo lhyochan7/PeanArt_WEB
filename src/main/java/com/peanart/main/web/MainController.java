@@ -39,23 +39,32 @@ public class MainController {
 
 
     @PostMapping("/upload")
-    public String upload(@RequestParam MultipartFile[] uploadfile, Model model) throws IllegalStateException, IOException {
+    public String upload(@RequestParam MultipartFile uploadfile, Model model) throws IllegalStateException, IOException {
         List<FileVO> files = new ArrayList<>();
 
-        for(MultipartFile file : uploadfile) {
-            if(!file.isEmpty()) {
-                FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
-                files.add(fvo);
+//        for(MultipartFile file : uploadfile) {
+//            if(!file.isEmpty()) {
+//                FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
+//                files.add(fvo);
+//
+//                File newFileName = new File(fvo.getUuid() + "_" + fvo.getFileName());
+//
+//                file.transferTo(newFileName);
+//            }
+//        }
 
-                File newFileName = new File(fvo.getUuid() + "_" + fvo.getFileName());
+        FileVO fvo = new FileVO(UUID.randomUUID().toString(), uploadfile.getOriginalFilename(), uploadfile.getContentType());
+        files.add(fvo);
 
-                file.transferTo(newFileName);
-            }
-        }
+        File newFileName = new File(fvo.getUuid() + "_" + fvo.getFileName());
 
-        model.addAttribute("files", files);
+        uploadfile.transferTo(newFileName);
 
-        System.out.println(files);
+        String path = "http://localhost:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();
+       // model.addAttribute("files", files);
+        model.addAttribute("path", path);
+
+        System.out.println(path);
         System.out.println("FILES FOUND");
         return "result";
     }
