@@ -1,4 +1,4 @@
-package com.peanart.web;
+package com.peanart;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
