@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +32,7 @@ public class MemberController {
     //Login 체크하기
 
     @PostMapping("/loginCheck.do")
-    public String checkLogin(HttpServletRequest req, HttpSession session, ModelMap model, LoginForm loginForm){
+    public String checkLogin(HttpServletRequest req, HttpSession session, ModelMap model, @RequestBody LoginForm loginForm){
         System.out.println("loginForm" + loginForm);
         MemberVO memberVO = new MemberVO();
         memberVO.setUsrId(loginForm.getUsrId());
