@@ -14,7 +14,7 @@ public class MainController {
     private MainService mainService;
 
     @GetMapping("/index")
-    public List<UserVO> getTest(){
+    public List<UserVO> getTest(String id){
         return mainService.getTest();
     }
 
