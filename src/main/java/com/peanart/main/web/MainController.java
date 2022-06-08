@@ -1,5 +1,6 @@
 package com.peanart.main.web;
 
+import com.peanart.Board.vo.BoardVO;
 import com.peanart.main.service.MainService;
 import com.peanart.main.vo.FileVO;
 import com.peanart.main.vo.UserVO;
@@ -37,9 +38,18 @@ public class MainController {
         return mainService.getTest();
     }
 
+    @RequestMapping("/poster")
+    public String getExibList(Model model){
+        System.out.println("getPoster");
+
+        List<BoardVO> exibList = mainService.getExibList();
+        System.out.println(exibList);
+        return "result";
+    }
 
     @PostMapping("/upload")
     public String upload(@RequestParam MultipartFile uploadfile, Model model) throws IllegalStateException, IOException {
+
         List<FileVO> files = new ArrayList<>();
 
 //        for(MultipartFile file : uploadfile) {

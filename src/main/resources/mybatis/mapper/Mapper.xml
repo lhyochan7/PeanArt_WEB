@@ -9,6 +9,10 @@
         select usr_id, usr_nickname
         from tb_user
     </select>
+    <select id="getExibList" resultType="BoardVO">
+        select *
+        from tb_exhibit
+    </select>
 </mapper>
 
 

@@ -65,4 +65,17 @@ public class BoardVO {
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
+
+    @Override
+    public String toString() {
+        return "BoardVO{" +
+                "exhibSeq=" + exhibSeq +
+                ", exhibTitle='" + exhibTitle + '\'' +
+                ", exhibSimpleExp='" + exhibSimpleExp + '\'' +
+                ", exhibStartDate='" + exhibStartDate + '\'' +
+                ", exhibLocation='" + exhibLocation + '\'' +
+                ", fileDirName='" + fileDirName + '\'' +
+                ", fileName='" + fileName + '\'' +
+                '}';
+    }
 }

@@ -1,5 +1,6 @@
 package com.peanart.main.dao;
 
+import com.peanart.Board.vo.BoardVO;
 import com.peanart.main.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -11,4 +12,5 @@ import java.util.List;
 public interface MainDAO {
     List<UserVO> getTest();
 
+    List<BoardVO> getExibList();
 }
