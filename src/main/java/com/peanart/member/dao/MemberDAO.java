@@ -9,4 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface MemberDAO {
     MemberVO loginCheck(MemberVO memberVO);
     void join(MemberVO memberVO);
+
+    MemberVO idCheck(String usrId);
+
+    MemberVO nicknameCheck(String usrNickname);
 }

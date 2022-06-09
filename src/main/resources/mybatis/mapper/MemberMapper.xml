@@ -10,6 +10,7 @@
         from tb_user
         where usr_id = #{usrId} and usr_pw = #{usrPw}
     </select>
+
     <insert id="join">
         insert tb_user
             (
@@ -20,6 +21,14 @@
                 #{usrId}, #{usrPw}, #{usrNickname}, #{usrName}, #{usrAdrs}, SYSDATE(), SYSDATE()
             )
     </insert>
+
+    <select id="idCheck" resultType="MemberVO">
+        select * from tb_user where usr_id = #{usrId}
+    </select>
+
+    <select id="nicknameCheck" resultType="MemberVO">
+        select * from tb_user where usr_nickname = #{usrNickname}
+    </select>
 </mapper>
 
 
