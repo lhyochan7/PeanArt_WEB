@@ -8,7 +8,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -73,24 +77,25 @@ public class MemberController {
         return "";
     }
 
-    @PostMapping("/idCheck.do")
-    public String idCheck(HttpServletRequest req, HttpSession session, ModelMap model, String usrId){
-        Boolean isIdDuplicate = false;
-        if(memberService.idCheck(usrId) != null){
-            isIdDuplicate = true;
+    @PostMapping("/duplicheck.do")
+    public Map<String, Object> idCheck(HttpServletRequest req, HttpSession session, ModelMap model, @RequestParam(value="email", required = false) String email, @RequestParam(value="nickname", required = false) String nickname){
+        Map<String, Object> rtn = new HashMap<>();
+        if(email != null){
+            if(memberService.idCheck(email) != null){
+                rtn.put("type", "email");
+                rtn.put("duplicated", false);
+                rtn.put("status", true);
+                return rtn;
+            }
+        } else if (nickname != null){
+            if(memberService.nicknameCheck(nickname) != null){
+                rtn.put("type", "nickname");
+                rtn.put("duplicated", false);
+                rtn.put("status", true);
+                return rtn;
+            }
         }
-        model.addAttribute("isIdDuplicate", isIdDuplicate);
-        return "";
+        rtn.put("status", false);
+        return rtn;
     }
-
-    @PostMapping("/nicknameCheck.do")
-    public String nicknameCheck(HttpServletRequest req, HttpSession session, ModelMap model, String usrNickname){
-        Boolean isNickDuplicate = false;
-        if(memberService.nicknameCheck(usrNickname) != null){
-            isNickDuplicate = true;
-        }
-        model.addAttribute("isNickDuplicate", isNickDuplicate);
-        return "";
-    }
-
 }
