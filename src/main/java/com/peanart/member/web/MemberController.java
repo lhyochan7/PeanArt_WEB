@@ -73,4 +73,24 @@ public class MemberController {
         return "";
     }
 
+    @PostMapping("/idCheck.do")
+    public String idCheck(HttpServletRequest req, HttpSession session, ModelMap model, String usrId){
+        Boolean isIdDuplicate = false;
+        if(memberService.idCheck(usrId) != null){
+            isIdDuplicate = true;
+        }
+        model.addAttribute("isIdDuplicate", isIdDuplicate);
+        return "";
+    }
+
+    @PostMapping("/nicknameCheck.do")
+    public String nicknameCheck(HttpServletRequest req, HttpSession session, ModelMap model, String usrNickname){
+        Boolean isNickDuplicate = false;
+        if(memberService.nicknameCheck(usrNickname) != null){
+            isNickDuplicate = true;
+        }
+        model.addAttribute("isNickDuplicate", isNickDuplicate);
+        return "";
+    }
+
 }
