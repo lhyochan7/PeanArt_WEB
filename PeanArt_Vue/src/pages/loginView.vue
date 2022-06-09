@@ -21,7 +21,7 @@
                      @click:append="show_pwd = !show_pwd"
                      label="비밀번호"
                      outlined></v-text-field>
-                    <v-btn outlined rounded block class="mb-6">들어가기</v-btn>
+                    <v-btn outlined rounded block class="mb-6" @click="loginRequest">들어가기</v-btn>
                     <p class="caption">계정이 아직 없으신가요? <router-link to="/register.do" style="text-decoration:none; color:black;" class="font-weight-bold">회원가입 하러 가기!</router-link></p>
                 </v-col>
             </v-row>
@@ -31,6 +31,7 @@
 
 <script>
 import nav_bar from '../components/nav_bar.vue'
+import axios from 'axios'
 export default {
     name: 'loginPage',
     components: { nav_bar },
@@ -57,12 +58,6 @@ export default {
               console.log(response);
           })
       },
-      testReq: function() {
-          axios.get('http://localhost:8080/test.do')
-          .then(function(response){
-              console.log(response);
-          })
-      }
   }
 };
 </script>
