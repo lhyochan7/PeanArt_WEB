@@ -8,7 +8,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,7 +34,10 @@ public class MemberController {
 //    }
 
     //Login 체크하기
-
+    @GetMapping("/duplicheck")
+    public boolean checkDuplicate(HttpServletRequest req, HttpSession session, ModelMap model){
+        return true;
+    }
     @PostMapping("/loginCheck.do")
     public String checkLogin(HttpServletRequest req, HttpSession session, ModelMap model, @RequestBody LoginForm loginForm){
         System.out.println("loginForm" + loginForm);
@@ -55,39 +62,40 @@ public class MemberController {
     }
 
     @PostMapping("/join.do")
-    public String join(HttpServletRequest req, HttpSession session, ModelMap model, MemberVO memberVO){
+    public String join(HttpServletRequest req, HttpSession session, ModelMap model, @RequestBody MemberVO memberVO){
         System.out.println(memberVO);
-        MemberVO user = new MemberVO();
-
-        user.setUsrId(memberVO.getUsrId());
-        user.setUsrPw(memberVO.getUsrPw());
-        user.setUsrAdrs(memberVO.getUsrAdrs());
-        user.setUsrName(memberVO.getUsrName());
-        user.setUsrNickname(memberVO.getUsrNickname());
-
-        memberService.join(user);
+//        MemberVO user = new MemberVO();
+//
+//        user.setUsrId(memberVO.getUsrId());
+//        user.setUsrPw(memberVO.getUsrPw());
+//        user.setUsrAdrs(memberVO.getUsrAdrs());
+//        user.setUsrName(memberVO.getUsrName());
+//        user.setUsrNickname(memberVO.getUsrNickname());
+//        user.setUsrPhone(memberVO.getUsrPhone());
+        memberService.join(memberVO);
 
         return "";
     }
 
-    @PostMapping("/idCheck.do")
-    public String idCheck(HttpServletRequest req, HttpSession session, ModelMap model, String usrId){
-        Boolean isIdDuplicate = false;
-        if(memberService.idCheck(usrId) != null){
-            isIdDuplicate = true;
+    @PostMapping("/duplicheck.do")
+    public Map<String, Object> idCheck(HttpServletRequest req, HttpSession session, ModelMap model, @RequestParam(value="email", required = false) String email, @RequestParam(value="nickname", required = false) String nickname){
+        Map<String, Object> rtn = new HashMap<>();
+        if(email != null){
+            if(memberService.idCheck(email) != null){
+                rtn.put("type", "email");
+                rtn.put("duplicated", false);
+                rtn.put("status", true);
+                return rtn;
+            }
+        } else if (nickname != null){
+            if(memberService.nicknameCheck(nickname) != null){
+                rtn.put("type", "nickname");
+                rtn.put("duplicated", false);
+                rtn.put("status", true);
+                return rtn;
+            }
         }
-        model.addAttribute("isIdDuplicate", isIdDuplicate);
-        return "";
+        rtn.put("status", false);
+        return rtn;
     }
-
-    @PostMapping("/nicknameCheck.do")
-    public String nicknameCheck(HttpServletRequest req, HttpSession session, ModelMap model, String usrNickname){
-        Boolean isNickDuplicate = false;
-        if(memberService.nicknameCheck(usrNickname) != null){
-            isNickDuplicate = true;
-        }
-        model.addAttribute("isNickDuplicate", isNickDuplicate);
-        return "";
-    }
-
 }
