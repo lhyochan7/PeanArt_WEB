@@ -6,9 +6,7 @@
 
 <mapper namespace="com.peanart.Board.dao.BoardDAO">
     <select id="getBoardList" resultType="BoardVO">
-        SELECT A.exhib_seq, A.exhib_title, A.exhib_simple_exp, A.exhib_start_date, A.exhib_location,
-        B.file_dir_name, B.file_name
-        FROM tb_exhibit as A LEFT JOIN tb_file_exhibit as B ON A.exhib_seq = B.exhib_seq
+        SELECT * FROM tb_exhibit
     </select>
 
 </mapper>

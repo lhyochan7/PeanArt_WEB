@@ -1,9 +1,22 @@
 package com.peanart.main.vo;
 
 public class FileVO {
+
+    private int exhibSeq;
     private String uuid;
+    private String fileDirName;
     private String fileName;
+
+    public String getFileDirName() {
+        return fileDirName;
+    }
+    public void setFileDirName(String fileDirName) {
+        this.fileDirName = fileDirName;
+    }
+
     private String contentType;
+
+
 
     public FileVO() {}
 
@@ -45,5 +58,13 @@ public class FileVO {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public int getExhibSeq() {
+        return exhibSeq;
+    }
+
+    public void setExhibSeq(int exhibSeq) {
+        this.exhibSeq = exhibSeq;
     }
 }

@@ -16,6 +16,9 @@
 <span th:text="${path}"></span>
 <img th:src="${path}">
 
+<ul th:each="file: ${files}">
+    <li><span th:text="${file.fileName}"></span>
+</ul>
 
 </body>
 </html>

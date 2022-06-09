@@ -6,5 +6,6 @@
         <mapper resource="Mapper.xml"/>
         <mapper resource="MemberMapper.xml"/>
         <mapper resource="BoardMapper.xml"/>
+        <mapper resource="ExhibRegisterMapper.xml"/>
     </mappers>
 </configuration>
