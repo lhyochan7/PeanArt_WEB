@@ -37,12 +37,12 @@ public class MainController {
     String path;
 
     @GetMapping("/index")
-    public List<UserVO> getTest(String id){
+    public List<UserVO> getTest(String id) {
         return mainService.getTest();
     }
 
     @RequestMapping(value = "/poster")
-    public List<BoardVO> getExibList(Model model){
+    public List<BoardVO> getExibList(Model model) {
         System.out.println("getPoster");
 
         List<BoardVO> exibList = mainService.getExibList();
@@ -51,47 +51,36 @@ public class MainController {
     }
 
     @PostMapping("/upload")
-    public String upload(@RequestParam MultipartFile uploadfile, @RequestParam String exhibTitle, Model model) throws IllegalStateException, IOException {
+    public String upload(@RequestParam MultipartFile[] uploadfile, @RequestParam String exhibTitle, Model model) throws IllegalStateException, IOException {
 
+        // 업로드 이미지들
         List<FileVO> files = new ArrayList<>();
 
-//        for(MultipartFile file : uploadfile) {
-//            if(!file.isEmpty()) {
-//                FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
-//                files.add(fvo);
-//
-//                File newFileName = new File(fvo.getUuid() + "_" + fvo.getFileName());
-//
-//                file.transferTo(newFileName);
-//            }
-//        }
-
+        // 고유 폴더 이름 만들기 ( UUID_전시회이름 )
         String dirUuid = UUID.randomUUID().toString();
-
         String folderName = dirUuid + "_" + exhibTitle;
-
         System.out.println(folderName);
 
-        FileVO fvo = new FileVO(UUID.randomUUID().toString(), uploadfile.getOriginalFilename(), uploadfile.getContentType());
-        files.add(fvo);
-
-        try {
-            File directory = new File(path + "/" + folderName);
-            if (! directory.exists()){
-                directory.mkdir();
-            }
-
-            File newFileName = new File(path + "/" +folderName + "/" + fvo.getUuid() + "_" + fvo.getFileName());
-            uploadfile.transferTo(newFileName);
-
-
-        } catch (Exception e){
-            e.printStackTrace();
+        File directory = new File(path + "/" + folderName);
+        if (!directory.exists()) {
+            directory.mkdir();
         }
 
-        String path = "http://localhost:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();
-       // model.addAttribute("files", files);
-        model.addAttribute("path", path);
+        for (MultipartFile file : uploadfile) {
+            if (!file.isEmpty()) {
+                FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
+                files.add(fvo);
+
+                File newFileName = new File(path + "/" +folderName + "/" + fvo.getUuid() + "_" + fvo.getFileName());
+
+                file.transferTo(newFileName);
+            }
+        }
+
+
+        //String path = "http://localhost:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();
+        model.addAttribute("files", files);
+        //model.addAttribute("path", path);
 
         System.out.println(path);
         System.out.println("FILES FOUND");
