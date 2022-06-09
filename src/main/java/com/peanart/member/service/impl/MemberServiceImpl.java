@@ -84,4 +84,14 @@ public class MemberServiceImpl implements MemberService {
         memberVO.setUsrPw(hash);
         memberDAO.join(memberVO);
     }
+
+    @Override
+    public MemberVO idCheck(String usrId) {
+        return memberDAO.idCheck(usrId);
+    }
+
+    @Override
+    public MemberVO nicknameCheck(String usrNickname) {
+        return memberDAO.nicknameCheck(usrNickname);
+    }
 }
