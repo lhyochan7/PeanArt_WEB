@@ -34,10 +34,6 @@ public class MemberController {
 //    }
 
     //Login 체크하기
-    @GetMapping("/duplicheck")
-    public boolean checkDuplicate(HttpServletRequest req, HttpSession session, ModelMap model){
-        return true;
-    }
     @PostMapping("/loginCheck.do")
     public String checkLogin(HttpServletRequest req, HttpSession session, ModelMap model, @RequestBody LoginForm loginForm){
         System.out.println("loginForm" + loginForm);
