@@ -8,6 +8,15 @@ public class MemberVO {
     private String usrNickname;
     private String usrName;
     private String usrAdrs;
+    private String usrPhone;
+
+    public String getUsrPhone() {
+        return usrPhone;
+    }
+
+    public void setUsrPhone(String usrPhone) {
+        this.usrPhone = usrPhone;
+    }
 
     public int getUsrSeq() {
         return usrSeq;

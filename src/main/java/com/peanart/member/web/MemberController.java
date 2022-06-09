@@ -30,7 +30,10 @@ public class MemberController {
 //    }
 
     //Login 체크하기
-
+    @GetMapping("/duplicheck")
+    public boolean checkDuplicate(HttpServletRequest req, HttpSession session, ModelMap model){
+        return true;
+    }
     @PostMapping("/loginCheck.do")
     public String checkLogin(HttpServletRequest req, HttpSession session, ModelMap model, @RequestBody LoginForm loginForm){
         System.out.println("loginForm" + loginForm);
@@ -55,17 +58,17 @@ public class MemberController {
     }
 
     @PostMapping("/join.do")
-    public String join(HttpServletRequest req, HttpSession session, ModelMap model, MemberVO memberVO){
+    public String join(HttpServletRequest req, HttpSession session, ModelMap model, @RequestBody MemberVO memberVO){
         System.out.println(memberVO);
-        MemberVO user = new MemberVO();
-
-        user.setUsrId(memberVO.getUsrId());
-        user.setUsrPw(memberVO.getUsrPw());
-        user.setUsrAdrs(memberVO.getUsrAdrs());
-        user.setUsrName(memberVO.getUsrName());
-        user.setUsrNickname(memberVO.getUsrNickname());
-
-        memberService.join(user);
+//        MemberVO user = new MemberVO();
+//
+//        user.setUsrId(memberVO.getUsrId());
+//        user.setUsrPw(memberVO.getUsrPw());
+//        user.setUsrAdrs(memberVO.getUsrAdrs());
+//        user.setUsrName(memberVO.getUsrName());
+//        user.setUsrNickname(memberVO.getUsrNickname());
+//        user.setUsrPhone(memberVO.getUsrPhone());
+        memberService.join(memberVO);
 
         return "";
     }

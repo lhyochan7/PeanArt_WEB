@@ -13,11 +13,11 @@
     <insert id="join">
         insert tb_user
             (
-                usr_id, usr_pw, usr_nickname, usr_name, usr_adrs, usr_cret_date, usr_mod_date
+                usr_id, usr_pw, usr_phone, usr_nickname, usr_name, usr_adrs, usr_cret_date, usr_mod_date
             )
         values
             (
-                #{usrId}, #{usrPw}, #{usrNickname}, #{usrName}, #{usrAdrs}, SYSDATE(), SYSDATE()
+                #{usrId}, #{usrPw}, #{usrPhone}, #{usrNickname}, #{usrName}, #{usrAdrs}, SYSDATE(), SYSDATE()
             )
     </insert>
 </mapper>
