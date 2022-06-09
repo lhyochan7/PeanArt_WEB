@@ -33,22 +33,25 @@ public class MainController {
     @Autowired
     private MainService mainService;
 
+    @Value("${spring.servlet.multipart.location}")
+    String path;
+
     @GetMapping("/index")
     public List<UserVO> getTest(String id){
         return mainService.getTest();
     }
 
-    @RequestMapping("/poster")
-    public String getExibList(Model model){
+    @RequestMapping(value = "/poster")
+    public List<BoardVO> getExibList(Model model){
         System.out.println("getPoster");
 
         List<BoardVO> exibList = mainService.getExibList();
         System.out.println(exibList);
-        return "result";
+        return exibList;
     }
 
     @PostMapping("/upload")
-    public String upload(@RequestParam MultipartFile uploadfile, Model model) throws IllegalStateException, IOException {
+    public String upload(@RequestParam MultipartFile uploadfile, @RequestParam String exhibTitle, Model model) throws IllegalStateException, IOException {
 
         List<FileVO> files = new ArrayList<>();
 
@@ -63,12 +66,28 @@ public class MainController {
 //            }
 //        }
 
+        String dirUuid = UUID.randomUUID().toString();
+
+        String folderName = dirUuid + "_" + exhibTitle;
+
+        System.out.println(folderName);
+
         FileVO fvo = new FileVO(UUID.randomUUID().toString(), uploadfile.getOriginalFilename(), uploadfile.getContentType());
         files.add(fvo);
 
-        File newFileName = new File(fvo.getUuid() + "_" + fvo.getFileName());
+        try {
+            File directory = new File(path + "/" + folderName);
+            if (! directory.exists()){
+                directory.mkdir();
+            }
 
-        uploadfile.transferTo(newFileName);
+            File newFileName = new File(path + "/" +folderName + "/" + fvo.getUuid() + "_" + fvo.getFileName());
+            uploadfile.transferTo(newFileName);
+
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         String path = "http://localhost:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();
        // model.addAttribute("files", files);

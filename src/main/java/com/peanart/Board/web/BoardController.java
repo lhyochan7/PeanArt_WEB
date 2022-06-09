@@ -30,7 +30,9 @@ public class BoardController {
 
     @GetMapping("/BoardList")
     public List<BoardVO> getBoardList() {
-        return boardService.getBoardList();
+        List<BoardVO> list = boardService.getBoardList();
+        System.out.println(list);
+        return list;
     }
 
     @Value("${spring.servlet.multipart.location}")
