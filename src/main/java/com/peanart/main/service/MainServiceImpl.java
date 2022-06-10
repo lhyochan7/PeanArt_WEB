@@ -24,4 +24,9 @@ public class MainServiceImpl implements MainService {
     public List<BoardVO> getExibList() {
         return mainDAO.getExibList();
     }
+
+    @Override
+    public List<BoardVO> getFiveExhib() {
+        return mainDAO.getFiveExhib();
+    }
 }

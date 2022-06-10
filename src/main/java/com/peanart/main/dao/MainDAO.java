@@ -13,4 +13,6 @@ public interface MainDAO {
     List<UserVO> getTest();
 
     List<BoardVO> getExibList();
+
+    List<BoardVO> getFiveExhib();
 }
