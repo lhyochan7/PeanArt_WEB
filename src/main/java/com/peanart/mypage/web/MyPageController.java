@@ -3,6 +3,7 @@ package com.peanart.mypage.web;
 import com.peanart.main.vo.FileVO;
 import com.peanart.mypage.service.MyPageService;
 import com.peanart.mypage.vo.MyPageFileVO;
+import com.peanart.mypage.vo.MyPageFollowForm;
 import com.peanart.mypage.vo.MyPageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,13 +46,19 @@ public class MyPageController {
 
         model.addAttribute("path", imgSrc);
         System.out.println("imgSrc : " + imgSrc);
+
+        // follow list 폴더 이름, 파일 이름, 팔로우당한 사람 아이디, 닉네임
+        List<MyPageFollowForm> followList = myPageService.getFollowList(usrSeq);
+        model.addAttribute("followList", followList);
+
         return "result";
     }
 
     @PostMapping("/profileImg")
     public String profileImg(@RequestParam MultipartFile profileImg, @RequestParam String usrId, Model model) throws IllegalStateException, IOException {
 
-        int usrSeq = 1;
+        // 세션에서 아이디 받는 걸로 바꿔줘잉
+        int usrSeq = 5;
         int isExist = myPageService.isThereImg(usrSeq);
         System.out.println(isExist);
         if(isExist == 0){
@@ -77,7 +84,7 @@ public class MyPageController {
             myPageFileVO.setFileName(fvo.getUuid() + "_" + fvo.getFileName());
 
             // 나중에 session에서 user 분류값 넣기
-            myPageFileVO.setUsrSeq(1);
+            myPageFileVO.setUsrSeq(usrSeq);
 
             myPageService.setProfileImg(myPageFileVO);
         }
@@ -102,7 +109,7 @@ public class MyPageController {
             myPageFileVO.setFileName(fvo.getUuid() + "_" + fvo.getFileName());
 
             // 나중에 session에서 user 분류값 넣기
-            myPageFileVO.setUsrSeq(1);
+            myPageFileVO.setUsrSeq(usrSeq);
 
             myPageService.updateProfileImg(myPageFileVO);
         }
