@@ -1,12 +1,22 @@
 plugins {
 	id 'org.springframework.boot' version '2.7.0'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id "com.github.node-gradle.node" version "3.1.0" // <gradle build중 node 명령어 실행
 	id 'java'
 }
 
 group = 'com.peanart'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+
+node {
+    version = '16.15.1'
+    npmVersion = '8.11.0'
+    download = true
+	distBaseUrl = 'https://nodejs.org/dist'
+    workDir = file("${project.buildDir}/nodejs")
+    npmWorkDir = file("${project.buildDir}/npm")
+}
 
 repositories {
 	mavenCentral()
@@ -32,3 +42,21 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+// npm library 설치 및 build 자동 실행
+task deleteVueArtifact(type: Delete) {
+    delete "src/main/resources/static"
+}
+
+//npm install
+task frontNpmInstall(type: NpmTask) {
+    workingDir = file("${project.projectDir}/PeanArt_Vue")
+    args = ['install']
+}
+
+//npm run build
+task npmBuild(type: NpmTask, dependsOn: ['deleteVueArtifact', 'frontNpmInstall']) {
+    workingDir = file("${project.projectDir}/PeanArt_Vue")
+    args = ['run', 'build']
+}
+
+processResources.dependsOn 'npmBuild' 
