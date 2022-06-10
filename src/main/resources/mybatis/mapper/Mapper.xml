@@ -13,6 +13,12 @@
         select *
         from tb_exhibit
     </select>
+    <select id="getFiveExhib" resultType="BoardVO">
+        SELECT *
+        FROM tb_exhibit
+        ORDER BY exhib_cret_date DESC
+        LIMIT 5
+    </select>
 </mapper>
 
 

@@ -12,15 +12,35 @@
             ON A.usr_seq = B.usr_seq
         WHERE A.usr_seq = #{usrSeq}
     </select>
+
+    <insert id="setProfileImg">
+        INSERT INTO tb_file_user
+        (
+            usr_seq, file_dir_name, file_name, file_usr_cret_date
+        )
+        VALUES
+        (
+            #{usrSeq}, #{fileDirName}, #{fileName}, SYSDATE()
+        )
+    </insert>
+
+    <update id="updateProfileImg">
+        UPDATE tb_file_user
+        SET file_dir_name = #{fileDirName}, file_name = #{fileName}, file_usr_cret_date = SYSDATE()
+        WHERE usr_seq = #{usrSeq}
+    </update>
+
+    <select id="isThereImg" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM tb_file_user
+        WHERE usr_seq = #{usrSeq}
+    </select>
+
+    <select id="getProfileImg" resultType="MyPageFileVO">
+        SELECT file_dir_name, file_name
+        FROM tb_file_user
+        WHERE usr_seq = #{usrSeq}
+    </select>
 </mapper>
 
 
-        <!--
-        <mapper namespace="com.example.demo.model.aws.dao.TestMapper">
-
-            <select id="getAllDataList" resultType="com.example.demo.model.aws.dto.portfolio">
-                SELECT * FROM portfolio;
-            </select>
-
-        </mapper>
-        -->

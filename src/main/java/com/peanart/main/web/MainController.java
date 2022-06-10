@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,9 +37,11 @@ public class MainController {
     @Value("${spring.servlet.multipart.location}")
     String path;
 
-    @GetMapping("/index")
-    public List<UserVO> getTest(String id) {
-        return mainService.getTest();
+    @ResponseBody
+    @RequestMapping("/mainPoster")
+    public List<BoardVO> getFiveExhib(ModelMap model){
+        model.addAttribute("mainPoster", mainService.getFiveExhib());
+        return mainService.getFiveExhib();
     }
 
     @RequestMapping(value = "/poster")

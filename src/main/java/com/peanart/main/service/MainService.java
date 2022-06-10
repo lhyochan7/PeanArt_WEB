@@ -9,4 +9,6 @@ public interface MainService {
     public List<UserVO> getTest();
 
     List<BoardVO> getExibList();
+
+    List<BoardVO> getFiveExhib();
 }
