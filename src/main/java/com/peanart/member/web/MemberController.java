@@ -60,6 +60,7 @@ public class MemberController {
         return "";
     }
 
+    // 회원가입
     @PostMapping("/join.do")
     public String join(HttpServletRequest req, HttpSession session, ModelMap model, MemberVO memberVO){
         System.out.println(memberVO);
@@ -69,6 +70,7 @@ public class MemberController {
         return"" ;
     }
 
+    // 중복 확인
     @GetMapping("/duplicheck.do")
     public ResponseEntity<Map<String, Object>> idCheck(HttpServletRequest req, HttpSession session, ModelMap model, @RequestParam(value="email", required = false) String email, @RequestParam(value="nickname", required = false) String nickname){
         Map<String, Object> rtn = new HashMap<>();

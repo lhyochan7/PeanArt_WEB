@@ -32,6 +32,7 @@ public class MyPageController {
     @Autowired
     MyPageService myPageService;
 
+    // mypage 상단 user info
     @RequestMapping("/myPage")
     public String getUserInfo(HttpServletRequest req, HttpSession session, ModelMap model){
         //MyPage User Info
@@ -54,6 +55,7 @@ public class MyPageController {
         return "result";
     }
 
+    // mypage profile 사진 등록 / 변경
     @PostMapping("/profileImg")
     public String profileImg(@RequestParam MultipartFile profileImg, @RequestParam String usrId, Model model) throws IllegalStateException, IOException {
 
