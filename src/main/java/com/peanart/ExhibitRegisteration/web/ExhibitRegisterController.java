@@ -7,6 +7,7 @@ import com.peanart.main.vo.FileVO;
 import com.peanart.member.service.impl.MemberServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@RestController
+@Controller
 public class ExhibitRegisterController {
 
     @Autowired
@@ -31,7 +32,15 @@ public class ExhibitRegisterController {
     @Value("${spring.servlet.multipart.location}")
     String path;
 
-    @PostMapping("/exhibRegister.do")
+
+    @RequestMapping("/test.do")
+    public String dd() {
+        return "exhibinsert";
+    }
+
+
+
+    @RequestMapping("/exhibRegister.do")
     public String reg(@RequestParam MultipartFile[] uploadFile, @RequestParam MultipartFile posterFile, HttpServletRequest req, HttpSession session, ModelMap model, ExhibitRegisterVO exhibitRegisterVO) throws IOException {
 
         //int usrSeq = (int)session.getAttribute("usrSeq");
@@ -83,6 +92,6 @@ public class ExhibitRegisterController {
             }
         }
 
-        return "";
+        return "exhibinsert";
     }
 }

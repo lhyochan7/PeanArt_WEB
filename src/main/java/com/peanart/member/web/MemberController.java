@@ -72,7 +72,7 @@ public class MemberController {
 //        user.setUsrPhone(memberVO.getUsrPhone());
         memberService.join(memberVO);
 
-        return "";
+        return"" ;
     }
 
     @GetMapping("/duplicheck.do")
