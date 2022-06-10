@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <nav_bar></nav_bar>
-        <v-container fill-height>
+        <v-container height="100%">
             <v-row>
                 <v-col md="6">
                     <v-img src="../assets/cover.png" height="200%"></v-img>
