@@ -18,6 +18,7 @@
                             ></v-text-field>
                             <v-btn class="ml-2" x-large outlined @click="usr_emailChecked ? clearEmail() : emailCheckRequest()">{{usr_emailChecked? '중복확인 취소': '중복확인'}}</v-btn>
                         </div>
+                        <v-alert type="error" :value="emailAlert" transition="slide-y-transition" class="mt-n7">중복된 이메일이 존재합니다. 다시 시도해주세요.</v-alert>
                         <div class="d-flex">
                             <v-text-field
                             v-model="usr_nickname"
@@ -28,6 +29,7 @@
                             ></v-text-field>
                             <v-btn class="ml-2" x-large outlined @click="usr_nicknameChecked ? clearNickname() : nicknameCheckRequest()">{{usr_nicknameChecked? '중복확인 취소': '중복확인'}}</v-btn>
                         </div>
+                        <v-alert type="error" :value="nicknameAlert" transition="slide-y-transition" class="mt-n7">중복된 닉네임이 존재합니다. 다시 시도해주세요.</v-alert>
                         <v-text-field
                         v-model="password"
                         :append-icon="show_pwd ? 'mdi-eye' : 'mdi-eye-off'"
@@ -89,6 +91,8 @@ export default {
         usr_nicknameChecked:false,
         usr_addr:'',
         usr_phone:'',
+        emailAlert:false,
+        nicknameAlert:false,
         rules: {
             required: value => !!value || '필수.',
             email: value => {
@@ -152,7 +156,6 @@ export default {
           // 휴대폰 번호 입력시 XXX-XXXX-XXXX 구조로 변환시켜줌
           var x = this.usr_phone.replace(/\D/g, '').match(/(\d{0,3})(\d{0,4})(\d{0,4})/);
           this.usr_phone = !x[2] ? x[1] : x[1] + '-' + x[2] + (x[3] ? '-' + x[3] : '');
-          console.log(this.usr_phone);
           },
     // ---------- 회원가입 요청 함수 -------------
       registerRequest: function() {
@@ -171,31 +174,65 @@ export default {
             "Content-Type": `application/json`,
           },}).then(response => {
               console.log(response);
+              if(response.status === 200){
+                  // 응답이 OK(200) 이면 login 페이지로 이동
+                  alert('회원가입에 성공했습니다!')
+                  this.$router.push('/login.do');
+              } else {
+                  alert('회원가입에 실패했습니다. 다시 시도해주세요');
+              }
           })
           }
       },
       // ---------- 닉네임, 이메일 중복확인 및 중복확인 취소 작업용 함수 ----------
       emailCheckRequest: function() {
-          const param = { email: this.usr_email }
+          if(this.usr_email.length === 0){
+              // 입력한 값이 없을 때 아무 행동 X
+              return;
+          }
+          const param = { params:{email: this.usr_email} }
           axios.get("http://localhost:8080/duplicheck.do", param).then(response =>{
               console.log(response);
-              if(response.data === true){
-                  this.usr_nicknameChecked = true;
-              } else{
-                  this.usr_nicknameChecked = false;
+              if(response.status === 404){
+                  alert('에러가 발생했습니다. 잠시후 시도해주세요.');
+                  return;
               }
+              if(response.data.type === "email"){
+                    if(response.data.duplicated === false){
+                        this.usr_emailChecked = true;
+                    } else{
+                        this.usr_emailChecked = false;
+                        this.emailAlert = true;
+                        setTimeout(()=>{
+                            this.emailAlert = false;
+                        },3000)
+                    }
+                }
           });
       },
       nicknameCheckRequest: function() {
-          //this.usr_nicknameChecked = true;
-          const param = { nickname: this.usr_nickname }
+          if(this.usr_nickname.length === 0){
+              // 입력한 값이 없을 때 아무 행동 X
+              return;
+          }
+          const param = { params:{nickname: this.usr_nickname} }
           axios.get("http://localhost:8080/duplicheck.do", param).then(response =>{
               console.log(response);
-              if(response.data === true){
-                  this.emailChecked = true;
-              } else{
-                  this.emailChecked = false;
+              if(response.status === 404){
+                  alert('에러가 발생했습니다. 잠시후 시도해주세요.');
+                  return;
               }
+              if(response.data.type === "nickname"){
+                    if(response.data.duplicated === false){
+                        this.usr_nicknameChecked = true;
+                    } else{
+                        this.usr_nicknameChecked = false;
+                        this.emailAlert = true;
+                        setTimeout(()=>{
+                            this.emailAlert = false;
+                        },3000)
+                    }
+                }
           });
         },
       clearEmail: function() {

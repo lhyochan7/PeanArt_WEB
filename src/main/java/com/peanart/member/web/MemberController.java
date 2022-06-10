@@ -4,6 +4,8 @@ import com.peanart.member.service.impl.MemberServiceImpl;
 import com.peanart.member.vo.LoginForm;
 import com.peanart.member.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,25 +75,26 @@ public class MemberController {
         return "";
     }
 
-    @PostMapping("/duplicheck.do")
-    public Map<String, Object> idCheck(HttpServletRequest req, HttpSession session, ModelMap model, @RequestParam(value="email", required = false) String email, @RequestParam(value="nickname", required = false) String nickname){
+    @GetMapping("/duplicheck.do")
+    public ResponseEntity<Map<String, Object>> idCheck(HttpServletRequest req, HttpSession session, ModelMap model, @RequestParam(value="email", required = false) String email, @RequestParam(value="nickname", required = false) String nickname){
         Map<String, Object> rtn = new HashMap<>();
         if(email != null){
+            rtn.put("type", "email");
             if(memberService.idCheck(email) != null){
-                rtn.put("type", "email");
+                rtn.put("duplicated", true);
+            } else {
                 rtn.put("duplicated", false);
-                rtn.put("status", true);
-                return rtn;
             }
+            return ResponseEntity.status(HttpStatus.OK).body(rtn);
         } else if (nickname != null){
-            if(memberService.nicknameCheck(nickname) != null){
-                rtn.put("type", "nickname");
+            rtn.put("type", "nickname");
+            if(memberService.nicknameCheck(nickname) != null) {
+                rtn.put("duplicated", true);
+            } else{
                 rtn.put("duplicated", false);
-                rtn.put("status", true);
-                return rtn;
             }
+            return ResponseEntity.status(HttpStatus.OK).body(rtn);
         }
-        rtn.put("status", false);
-        return rtn;
+        return ResponseEntity.status(HttpStatus.OK).body(rtn);
     }
 }
