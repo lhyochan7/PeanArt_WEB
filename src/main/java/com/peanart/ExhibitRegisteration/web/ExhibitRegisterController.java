@@ -49,7 +49,7 @@ public class ExhibitRegisterController {
         exhibitRegisterVO.setGoodsAllow((int)exhibitRegisterVO.getGoodsAllow());
         exhibitRegisterVO.setExhibKind((int)exhibitRegisterVO.getExhibKind());
 
-        // 파일 업로드
+
         // 업로드 이미지들
         List<FileVO> files = new ArrayList<>();
 
