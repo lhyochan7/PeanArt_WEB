@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.peanart.ExhibitRegisteration.dao.ExRegDAO">
+
+    <insert id="insertExhib" parameterType="ExhibitRegisterVO">
+        insert tb_exhibit
+        (
+        exhib_title, exhib_kind, exhib_theme, exhib_simple_exp, exhib_detail_exp,
+        exhib_start_date, exhib_end_date, exhib_location, exhib_uri, usr_seq,
+        exhib_cret_date, exhib_mod_date,  file_dir_name, file_name, goods_allow
+        )
+        values
+        (
+        #{exhibTitle}, #{exhibKind}, #{exhibTheme}, #{exhibSimpleExp}, #{exhibDetailExp},
+        #{exhibStartDate}, #{exhibEndDate}, #{exhibLocation}, #{exhibUri}, #{usrSeq},
+        SYSDATE(), SYSDATE(), #{exhibPosterFileDirName},#{exhibPosterFileName}, #{goodsAllow}
+        )
+    </insert>
+
+    <select id="getLastID" resultType="int">
+        SELECT LAST_INSERT_ID()
+    </select>
+
+    <insert id="insertExExhibFile" parameterType="FileVO">
+        insert tb_file_exhibit
+        (
+        exhib_seq, file_dir_name, file_uuid, file_name, file_exhib_cret_date
+        )
+        values
+        (
+        #{exhibSeq}, #{fileDirName}, #{uuid}, #{fileName}, SYSDATE()
+        )
+    </insert>
+</mapper>
+
+
+        <!--
+        <mapper namespace="com.example.demo.model.aws.dao.TestMapper">
+
+            <select id="getAllDataList" resultType="com.example.demo.model.aws.dto.portfolio">
+                SELECT * FROM portfolio;
+            </select>
+
+        </mapper>
+        -->
