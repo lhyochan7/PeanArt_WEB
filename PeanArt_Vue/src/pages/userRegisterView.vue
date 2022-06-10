@@ -177,7 +177,7 @@ export default {
       // ---------- 닉네임, 이메일 중복확인 및 중복확인 취소 작업용 함수 ----------
       emailCheckRequest: function() {
           const param = { email: this.usr_email }
-          axios.get("http://localhost:8080/duplicheck", {param}).then(response =>{
+          axios.get("http://localhost:8080/duplicheck.do", param).then(response =>{
               console.log(response);
               if(response.data === true){
                   this.usr_nicknameChecked = true;
@@ -189,7 +189,7 @@ export default {
       nicknameCheckRequest: function() {
           //this.usr_nicknameChecked = true;
           const param = { nickname: this.usr_nickname }
-          axios.get("http://localhost:8080/duplicheck", {param}).then(response =>{
+          axios.get("http://localhost:8080/duplicheck.do", param).then(response =>{
               console.log(response);
               if(response.data === true){
                   this.emailChecked = true;
