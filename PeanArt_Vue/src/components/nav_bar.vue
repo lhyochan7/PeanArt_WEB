@@ -32,21 +32,37 @@
           </v-list>
         </v-menu>
         <router-link style="text-decoration:none;" to="/myPage.do"><v-btn text x-large>내 정보</v-btn></router-link>
-        <router-link style="text-decoration:none;" to="/login.do"><v-btn text x-large>로그인</v-btn></router-link>
+        <div v-if="usrId != ''">
+          <v-btn text x-large @click="logOut()">로그아웃</v-btn>
+        </div>
+        <div v-else>
+          <router-link style="text-decoration:none;" to="/login.do"><v-btn text x-large>로그인</v-btn></router-link>
+        </div>
         </v-toolbar>
     </v-card>
 </template>
 
 <script>
 
+
 export default {
   name: 'nav_bar',
 
   components: {
   },
-
+  methods: {
+    logOut: function() {
+      this.usrId='';
+      sessionStorage.removeItem('usrId');
+      this.$router.push('/main.do');
+    }
+  },
   data: () => ({
     //
+    usrId: '',
   }),
+  created() {
+    this.usrId = sessionStorage.getItem('usrId') || '';
+  }
 };
 </script>
