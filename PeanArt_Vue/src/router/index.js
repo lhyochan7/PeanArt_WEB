@@ -18,6 +18,18 @@ export default new VueRouter({
         }, {
             path: '/register.do',
             component: () => import('../pages/userRegisterView.vue'),
+        }, {
+            path: '/exhib/:id/detail.do',
+            component: () => import('../pages/exhibitDetailView.vue'),
+        }, {
+            path: '/exhib/list.do',
+            component: () => import('../pages/exhibitListView.vue'),
+        }, {
+            path: '/exhib/register.do',
+            component: () => import('../pages/exhibitRegisterView.vue'),
+        }, {
+            path: '/myPage.do',
+            component: () => import('../pages/myPageView.vue'),
         }
     ]
 });
