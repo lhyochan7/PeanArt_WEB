@@ -1,9 +1,12 @@
 package com.peanart.main.web;
 
 import com.peanart.Board.vo.BoardVO;
+import com.peanart.ExhibitRegisteration.vo.ExhibitRegisterVO;
 import com.peanart.main.service.MainService;
 import com.peanart.main.vo.FileVO;
 import com.peanart.main.vo.UserVO;
+import com.peanart.main.vo.VisitedExhibVO;
+import com.peanart.mypage.vo.MyPageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.data.ConditionalOnRepositoryType;
@@ -19,6 +22,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -26,6 +30,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -111,6 +116,49 @@ public class MainController {
 //
 //        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
         return null;
+    }
+
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ExhibitRegisterVO>> searchExhib (@RequestParam (value = "kind", required = false) Integer kind,
+                                                @RequestParam (value="searchTxt", required = false) String searchTxt,
+                                                @RequestParam (value="item", required = false) Integer searchOpt)
+    {
+
+        HashMap<String, String> map = new HashMap<>();
+
+        if(searchTxt != null) {
+            System.out.println("searchTxt " + searchTxt);
+            map.put("searchTxt", searchTxt);
+        }
+        if (kind != null) {
+            System.out.println("kind " + kind);
+            map.put("kind", String.valueOf(kind));
+        }
+        if (searchOpt!= null) {
+            System.out.println("searchOpt (item) " + searchOpt);
+            map.put("searchOpt", String.valueOf(searchOpt));
+        }
+
+        System.out.println(map.get("searchTxt"));
+        List<ExhibitRegisterVO> searchList = mainService.getSearchList(map);
+
+        System.out.println(searchList);
+
+
+        return new ResponseEntity<List<ExhibitRegisterVO>>(searchList, HttpStatus.OK);
+    }
+
+    @RequestMapping("/myPageVisitedExhib")
+    public ResponseEntity<List<VisitedExhibVO>> myPageVisitedExhib (HttpSession session)
+    {
+        //Integer userSeq = session.getAttribute("userSeq");
+
+        Integer userSeq = 1;
+
+        List<VisitedExhibVO> visitedList = mainService.getMyPageVisitedExhib(userSeq);
+
+       return new ResponseEntity<List<VisitedExhibVO>>(visitedList, HttpStatus.OK);
     }
 
 
