@@ -170,14 +170,14 @@ export default {
                   usrPhone: this.usr_phone
               }
               console.log(params)
-              axios.post("http://localhost:8080/join.do", params,{ headers: {
+              axios.post("http://localhost:8080/join", params,{ headers: {
             "Content-Type": `application/json`,
           },}).then(response => {
               console.log(response);
               if(response.status === 200){
                   // 응답이 OK(200) 이면 login 페이지로 이동
                   alert('회원가입에 성공했습니다!')
-                  this.$router.push('/login.do');
+                  this.$router.push('/login');
               } else {
                   alert('회원가입에 실패했습니다. 다시 시도해주세요');
               }
@@ -191,7 +191,7 @@ export default {
               return;
           }
           const param = { params:{email: this.usr_email} }
-          axios.get("http://localhost:8080/duplicheck.do", param).then(response =>{
+          axios.get("http://localhost:8080/duple-check", param).then(response =>{
               console.log(response);
               if(response.status === 404){
                   alert('에러가 발생했습니다. 잠시후 시도해주세요.');
@@ -216,7 +216,7 @@ export default {
               return;
           }
           const param = { params:{nickname: this.usr_nickname} }
-          axios.get("http://localhost:8080/duplicheck.do", param).then(response =>{
+          axios.get("http://localhost:8080/duple-check", param).then(response =>{
               console.log(response);
               if(response.status === 404){
                   alert('에러가 발생했습니다. 잠시후 시도해주세요.');

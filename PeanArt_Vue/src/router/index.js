@@ -8,27 +8,27 @@ export default new VueRouter({
     routes: [
         {
             path: '/',
-            redirect: 'main.do',
+            redirect: 'main',
         }, {
-            path: '/main.do',
+            path: '/main',
             component: () => import('../pages/mainPageView.vue'),
         }, {
-            path: '/login.do',
+            path: '/login',
             component: () => import('../pages/loginView.vue'),
         }, {
-            path: '/register.do',
+            path: '/register',
             component: () => import('../pages/userRegisterView.vue'),
         }, {
-            path: '/exhib/:id/detail.do',
+            path: '/exhib/:id/detail',
             component: () => import('../pages/exhibitDetailView.vue'),
         }, {
-            path: '/exhib/list.do',
+            path: '/exhib/list',
             component: () => import('../pages/exhibitListView.vue'),
         }, {
-            path: '/exhib/register.do',
+            path: '/exhib/register',
             component: () => import('../pages/exhibitRegisterView.vue'),
         }, {
-            path: '/myPage.do',
+            path: '/myPage',
             component: () => import('../pages/myPageView.vue'),
         }
     ]

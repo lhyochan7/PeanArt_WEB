@@ -49,7 +49,7 @@ export default {
   }),
    methods: {
       loginRequest: function() {
-        //   axios.post('http://localhost:8080/loginCheck.do', {
+        //   axios.post('http://localhost:8080/loginCheck', {
         //       usrId: this.email,
         //       usrPw: this.password
         //   }, { headers: {
