@@ -34,12 +34,15 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<FileVO> getfile(int exhibSeq) {
-        return boardDAO.getfile(exhibSeq);
+    public List<FileVO> getFile(int exhibSeq) {
+        return boardDAO.getFile(exhibSeq);
     }
-
     @Override
     public List<ReviewVO> getReview(int exhibSeq) {
         return boardDAO.getReview(exhibSeq);
+    }
+    @Override
+    public void regReview(ReviewVO reviewVO) {
+        boardDAO.regReview(reviewVO);
     }
 }

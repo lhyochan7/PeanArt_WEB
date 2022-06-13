@@ -9,29 +9,33 @@ import com.peanart.mypage.vo.MyPageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 
-@RestController
+@Controller
 public class BoardController {
     @Autowired
     private BoardService boardService;
 
     @GetMapping("/BoardList")
-    public List<BoardVO> getBoardList() {
+    public ResponseEntity<List<BoardVO>> getBoardList() {
         List<BoardVO> list = boardService.getBoardList();
         System.out.println(list);
-        return list;
+        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
+
     @GetMapping("/detail")
-    public ResponseEntity<HashMap<String, Object>> getExhibInfo(@RequestParam("exhibSeq") Integer exhibSeq) {
+    public ResponseEntity<HashMap<String, Object>> getExhibInfo (HttpSession session, @RequestParam("exhibSeq") Integer exhibSeq, Model model) {
 
         HashMap<String, Object> map = new HashMap<>();
 
         ExhibitRegisterVO exhibitRegisterVO = boardService.getExhibInfo(exhibSeq);
-        List<FileVO> fileList = boardService.getfile(exhibSeq);
+        List<FileVO> fileList = boardService.getFile(exhibSeq);
         MyPageVO myPageVO =  boardService.getUserInfo(exhibitRegisterVO.getUsrSeq());
         List<ReviewVO> reviewVO= boardService.getReview(exhibSeq);
 
@@ -40,6 +44,22 @@ public class BoardController {
         map.put("userInfo", myPageVO);
         map.put("reviewList", reviewVO);
 
+        model.addAttribute("map", map);
+
+        session.setAttribute("exhibSeq", exhibSeq);
+        session.setAttribute("usrSeq", exhibitRegisterVO.getUsrSeq());
         return ResponseEntity.status(HttpStatus.OK).body(map);
+    }
+
+    @PostMapping("/reviewRegister.do")
+    public ResponseEntity<String> regReview( HttpSession session, @RequestParam String revContent){
+        ReviewVO reviewVO = new ReviewVO();
+
+        reviewVO.setUsrSeq((int)session.getAttribute("usrSeq"));
+        reviewVO.setExhibSeq((int)session.getAttribute("exhibSeq"));
+        reviewVO.setRevContent(revContent);
+        boardService.regReview(reviewVO);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Ajax 해줘"); //페이지 전체 요청보단 ajax로 리뷰 영역만 갱신 해야함
     }
 }

@@ -15,6 +15,7 @@ public interface BoardDAO {
     List<BoardVO> getBoardList();
     ExhibitRegisterVO getExhibInfo(int ExhibSeq);
     MyPageVO getUserInfo (int usrSeq);
-    List<FileVO> getfile(int exhibSeq);
+    List<FileVO> getFile(int exhibSeq);
     List<ReviewVO> getReview(int exhibSeq);
+    void regReview(ReviewVO reviewVO);
 }

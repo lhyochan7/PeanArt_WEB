@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+
+        function reviewRegister(){
+            document.exhibRegiform.method = "POST";
+            document.exhibRegiform.action = "/reviewRegister.do";
+            document.exhibRegiform.submit();
+        }
+    </script>
+</head>
+<body>
+
+<span th:text="${map.exhib.exhibTitle}"></span>
+
+
+<form id = "exhibRegiform" name="exhibRegiform" >
+  리뷰 내용: <input type="text" name="revContent">
+  <br>
+  <button onclick="reviewRegister();">reviewRegister</button>
+</form>
+</body>
+</html>

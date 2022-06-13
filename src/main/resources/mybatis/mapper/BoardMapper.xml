@@ -31,5 +31,15 @@
         WHERE exhib_seq = ${exhibSeq};
     </select>
 
+    <insert id="regReview" >
+        INSERT INTO tb_review
+        (
+        usr_seq, exhib_seq, rev_content, rev_cret_date, rev_mod_date
+        )
+        values
+        (
+        #{usrSeq}, #{exhibSeq}, #{revContent}, SYSDATE(), SYSDATE()
+        )
+    </insert>
 
 </mapper>
