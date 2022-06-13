@@ -6,14 +6,9 @@ import com.peanart.main.vo.FileVO;
 import com.peanart.main.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.data.ConditionalOnRepositoryType;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -21,15 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Controller
+@RestController
 public class MainController {
     @Autowired
     private MainService mainService;
@@ -44,13 +37,15 @@ public class MainController {
         return mainService.getFiveExhib();
     }
 
-    @RequestMapping(value = "/poster")
-    public List<BoardVO> getExibList(Model model) {
+    @RequestMapping(value = "/ExhibList")
+    public ResponseEntity<List<BoardVO>> getExibList(Model model) {
         System.out.println("getPoster");
 
-        List<BoardVO> exibList = mainService.getExibList();
-        System.out.println(exibList);
-        return exibList;
+        List<BoardVO> exhibList = mainService.getExibList();
+        System.out.println(exhibList);
+
+
+        return new ResponseEntity<>(exhibList, HttpStatus.OK);
     }
 
     @PostMapping("/upload")
@@ -74,7 +69,7 @@ public class MainController {
                 FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
                 files.add(fvo);
 
-                File newFileName = new File(path + "/" +folderName + "/" + fvo.getUuid() + "_" + fvo.getFileName());
+                File newFileName = new File(path + "/" +folderName + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
 
                 file.transferTo(newFileName);
             }
@@ -97,7 +92,7 @@ public class MainController {
     public ResponseEntity<Resource> download(@ModelAttribute FileVO fvo) throws IOException {
         System.out.println(fvo.getFileName());
 
-        Path path = Paths.get(filePath + '/' + fvo.getUuid() + '_' + fvo.getFileName());
+        Path path = Paths.get(filePath + '/' + fvo.getfile_Uuid()+ '_' + fvo.getFileName());
 
         System.out.println(path.toString());
         //Path path = Paths.get(fileDirName + fileName);

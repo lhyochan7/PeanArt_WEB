@@ -35,6 +35,8 @@
         #{exhibSeq}, #{fileDirName}, #{uuid}, #{fileName}, SYSDATE()
         )
     </insert>
+    
+
 </mapper>
 
 

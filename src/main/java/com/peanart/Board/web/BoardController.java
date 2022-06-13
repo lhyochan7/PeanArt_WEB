@@ -1,55 +1,65 @@
 package com.peanart.Board.web;
 
-import com.peanart.Board.dao.BoardDAO;
 import com.peanart.Board.service.BoardService;
 import com.peanart.Board.vo.BoardVO;
+import com.peanart.Board.vo.ReviewVO;
+import com.peanart.ExhibitRegisteration.vo.ExhibitRegisterVO;
 import com.peanart.main.vo.FileVO;
+import com.peanart.mypage.vo.MyPageVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 
-@RestController
+@Controller
 public class BoardController {
     @Autowired
     private BoardService boardService;
 
     @GetMapping("/BoardList")
-    public List<BoardVO> getBoardList() {
+    public ResponseEntity<List<BoardVO>> getBoardList() {
         List<BoardVO> list = boardService.getBoardList();
         System.out.println(list);
-        return list;
+        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @Value("${spring.servlet.multipart.location}")
-    String filePath;
+    @GetMapping("/detail")
+    public ResponseEntity<HashMap<String, Object>> getExhibInfo (HttpSession session, @RequestParam("exhibSeq") Integer exhibSeq, Model model) {
 
-//    @GetMapping("/download")
-//    public ResponseEntity<Resource> download(@ModelAttribute FileVO fvo) throws IOException {
-//        Path path = Paths.get(filePath + "/" + fvo.getUuid() + "_" + fvo.getFileName());
-//        String contentType = Files.probeContentType(path);
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentDisposition(ContentDisposition.builder("attachment").filename(fvo.getFileName(), StandardCharsets.UTF_8).build());
-//        headers.add(HttpHeaders.CONTENT_TYPE, contentType);
-//
-//        Resource resource = new InputStreamResource(Files.newInputStream(path));
-//
-//        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
-//    }
+        HashMap<String, Object> map = new HashMap<>();
 
+        ExhibitRegisterVO exhibitRegisterVO = boardService.getExhibInfo(exhibSeq);
+        List<FileVO> fileList = boardService.getFile(exhibSeq);
+        MyPageVO myPageVO =  boardService.getUserInfo(exhibitRegisterVO.getUsrSeq());
+        List<ReviewVO> reviewVO= boardService.getReview(exhibSeq);
+
+        map.put("exhib", exhibitRegisterVO);
+        map.put("fileList",fileList);
+        map.put("userInfo", myPageVO);
+        map.put("reviewList", reviewVO);
+
+        model.addAttribute("map", map);
+
+        session.setAttribute("exhibSeq", exhibSeq);
+        session.setAttribute("usrSeq", exhibitRegisterVO.getUsrSeq());
+        return ResponseEntity.status(HttpStatus.OK).body(map);
+    }
+
+    @PostMapping("/reviewRegister.do")
+    public ResponseEntity<String> regReview( HttpSession session, @RequestParam String revContent){
+        ReviewVO reviewVO = new ReviewVO();
+
+        reviewVO.setUsrSeq((int)session.getAttribute("usrSeq"));
+        reviewVO.setExhibSeq((int)session.getAttribute("exhibSeq"));
+        reviewVO.setRevContent(revContent);
+        boardService.regReview(reviewVO);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Ajax 해줘"); //페이지 전체 요청보단 ajax로 리뷰 영역만 갱신 해야함
+    }
 }
