@@ -35,64 +35,69 @@ public class ExhibitRegisterController {
     @PostMapping("/exhib/regist")
     public ResponseEntity reg(@RequestParam MultipartFile[] uploadFile, @RequestParam MultipartFile posterFile, HttpServletRequest req, HttpSession session, ExhibitRegisterVO exhibitRegisterVO) throws IOException {
         Map<String, Object> rtn = new HashMap<>();
-
-        if(session.getAttribute("usrSeq") != null){
-            //int usrSeq = (int)session.getAttribute("usrSeq");
-            //연결할때 주석 풀어서 usrSeq 값 부여 ^^
-            exhibitRegisterVO.setUsrSeq(1);
-            exhibitRegisterVO.setGoodsAllow((int)exhibitRegisterVO.getGoodsAllow());
-            exhibitRegisterVO.setExhibKind((int)exhibitRegisterVO.getExhibKind());
-
-
-            // 업로드 이미지들
-            List<FileVO> files = new ArrayList<>();
-
-            // 고유 폴더 이름 만들기 ( UUID_전시회이름 )
-            String dirUuid = UUID.randomUUID().toString();
-            String folderName = dirUuid + "_" + exhibitRegisterVO.getExhibTitle();
-            System.out.println(folderName);
-
-            exhibitRegisterVO.setFileDirName(folderName);
-            exhibitRegisterVO.setFileName(dirUuid + "_" + posterFile.getOriginalFilename());
-            System.out.println(exhibitRegisterVO.getFileDirName());
-            System.out.println(exhibitRegisterVO.getFileName());
-
-            File directory = new File(path + "/" + folderName);
-            if (!directory.exists()) {
-                directory.mkdir();
-            }
-
-            File poster = new File(path + "/" +folderName + "/" + dirUuid + "_" + posterFile.getOriginalFilename());
-            posterFile.transferTo(poster);
-
-            //String path = "http://localhost:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();
-
-            // rtn에 포스터 값 전달, Multipart type
-            rtn.put("poster", posterFile);
+        try {
+            if(session.getAttribute("usrSeq") != null){
+                //int usrSeq = (int)session.getAttribute("usrSeq");
+                //연결할때 주석 풀어서 usrSeq 값 부여 ^^
+                exhibitRegisterVO.setUsrSeq(1);
+                exhibitRegisterVO.setGoodsAllow((int)exhibitRegisterVO.getGoodsAllow());
+                exhibitRegisterVO.setExhibKind((int)exhibitRegisterVO.getExhibKind());
 
 
-            exRegService.insertExhib(exhibitRegisterVO);
-            int exhibSeq = (int)exRegService.getLastID();
-            System.out.println(exhibSeq);
-            for (MultipartFile file : uploadFile) {
-                if (!file.isEmpty()) {
-                    int fileIndex = 1;
-                    FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
-                    files.add(fvo);
+                // 업로드 이미지들
+                List<FileVO> files = new ArrayList<>();
 
-                    File newFileName = new File(path + "/" +folderName + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
+                // 고유 폴더 이름 만들기 ( UUID_전시회이름 )
+                String dirUuid = UUID.randomUUID().toString();
+                String folderName = dirUuid + "_" + exhibitRegisterVO.getExhibTitle();
+                System.out.println(folderName);
 
-                    fvo.setFileDirName(folderName);
-                    fvo.setExhibSeq(exhibSeq);
-                    exRegService.insertExExhibFile(fvo);
-                    file.transferTo(newFileName);
+                exhibitRegisterVO.setFileDirName(folderName);
+                exhibitRegisterVO.setFileName(dirUuid + "_" + posterFile.getOriginalFilename());
+                System.out.println(exhibitRegisterVO.getFileDirName());
+                System.out.println(exhibitRegisterVO.getFileName());
 
-                    // rtn에 key : 파일+순서(1부터) value : 파일 multipart type
-                    rtn.put("fileIndex" + fileIndex, file);
+                File directory = new File(path + "/" + folderName);
+                if (!directory.exists()) {
+                    directory.mkdir();
                 }
+
+                File poster = new File(path + "/" +folderName + "/" + dirUuid + "_" + posterFile.getOriginalFilename());
+                posterFile.transferTo(poster);
+
+                //String path = "http://localhost:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();
+
+                // rtn에 포스터 값 전달, Multipart type
+                rtn.put("poster", posterFile);
+
+
+                exRegService.insertExhib(exhibitRegisterVO);
+                int exhibSeq = (int)exRegService.getLastID();
+                System.out.println(exhibSeq);
+                for (MultipartFile file : uploadFile) {
+                    if (!file.isEmpty()) {
+                        int fileIndex = 1;
+                        FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
+                        files.add(fvo);
+
+                        File newFileName = new File(path + "/" +folderName + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
+
+                        fvo.setFileDirName(folderName);
+                        fvo.setExhibSeq(exhibSeq);
+                        exRegService.insertExExhibFile(fvo);
+                        file.transferTo(newFileName);
+
+                        // rtn에 key : 파일+순서(1부터) value : 파일 multipart type
+                        rtn.put("fileIndex" + fileIndex, file);
+                    }
+                }
+                return ResponseEntity.ok().body(rtn);
             }
-            return ResponseEntity.ok().body(rtn);
+            return ResponseEntity.badRequest().build();
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.badRequest().build();
+
     }
 }

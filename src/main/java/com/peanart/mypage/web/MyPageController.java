@@ -41,97 +41,105 @@ public class MyPageController {
     public ResponseEntity <Map<String, Object>> getUserInfo(HttpServletRequest req, HttpSession session, ModelMap model){
         Map<String, Object> rtn = new HashMap<>();
 
-        // 세션에서 유저 판별값 받아오기
-        int usrSeq = 0;
-        usrSeq = Integer.parseInt(session.getAttribute("usrSeq").toString());
+        try {
+            // 세션에서 유저 판별값 받아오기
+            int usrSeq = 0;
+            usrSeq = Integer.parseInt(session.getAttribute("usrSeq").toString());
 
-        //MyPage User Info
-        if(usrSeq != 0){
-            MyPageVO user = myPageService.getUserInfo(usrSeq);
-            rtn.put("userInfo", user);
+            //MyPage User Info
+            if(usrSeq != 0){
+                MyPageVO user = myPageService.getUserInfo(usrSeq);
+                rtn.put("userInfo", user);
 
-            String folderName = user.getFileDirName();
-            String fileName = user.getFileName();
+                String folderName = user.getFileDirName();
+                String fileName = user.getFileName();
 
-            String profileImg = "http://localhost:8080/imagePath/" + folderName + "/" + fileName;
+                String profileImg = "http://localhost:8080/imagePath/" + folderName + "/" + fileName;
 
-            rtn.put("profileImg", profileImg);
+                rtn.put("profileImg", profileImg);
 
-            // follow list 폴더 이름, 파일 이름, 팔로우당한 사람 아이디, 닉네임
-            List<MyPageFollowForm> followList = myPageService.getFollowList(usrSeq);
-            rtn.put("followList", followList);
+                // follow list 폴더 이름, 파일 이름, 팔로우당한 사람 아이디, 닉네임
+                List<MyPageFollowForm> followList = myPageService.getFollowList(usrSeq);
+                rtn.put("followList", followList);
 
-            // rtn에 profile Img 호출 URI, Follo List 담겨있음
-            return ResponseEntity.ok()
-                    .body(rtn);
+                // rtn에 profile Img 호출 URI, Follo List 담겨있음
+                return ResponseEntity.ok()
+                        .body(rtn);
+            }
+            return ResponseEntity.badRequest().build();
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.badRequest().build();
     }
 
     // mypage profile 사진 등록 / 변경
     @PostMapping("/profile-img")
     public ResponseEntity<MultipartFile> profileImg(@RequestParam MultipartFile profileImg, @RequestParam String usrId, Model model) throws IllegalStateException, IOException {
+        try {
+            // 세션에서 아이디 받는 걸로 바꿔줘잉
+            int usrSeq = 0;
+            int isExist = myPageService.isThereImg(usrSeq);
+            System.out.println(isExist);
+            if(isExist == 0){
 
-        // 세션에서 아이디 받는 걸로 바꿔줘잉
-        int usrSeq = 0;
-        int isExist = myPageService.isThereImg(usrSeq);
-        System.out.println(isExist);
-        if(isExist == 0){
+                // 고유 폴더 이름 만들기 ( UUID_userId )
+                String dirUuid = UUID.randomUUID().toString();
+                String folderName = dirUuid + "_" + usrId;
+                System.out.println(folderName);
 
-            // 고유 폴더 이름 만들기 ( UUID_userId )
-            String dirUuid = UUID.randomUUID().toString();
-            String folderName = dirUuid + "_" + usrId;
-            System.out.println(folderName);
+                File directory = new File(path + "/" + folderName);
+                if (!directory.exists()) {
+                    directory.mkdir();
+                }
 
-            File directory = new File(path + "/" + folderName);
-            if (!directory.exists()) {
-                directory.mkdir();
+                FileVO fvo = new FileVO(UUID.randomUUID().toString(), profileImg.getOriginalFilename(), profileImg.getContentType());
+                File newFileName = new File(path + "/" +folderName + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
+                profileImg.transferTo(newFileName);
+
+                model.addAttribute("profileImg", profileImg);
+
+                MyPageFileVO myPageFileVO = new MyPageFileVO();
+                myPageFileVO.setFileDirName(folderName);
+                myPageFileVO.setFileName(fvo.getfile_Uuid() + "_" + fvo.getFileName());
+
+                // 나중에 session에서 user 분류값 넣기
+                myPageFileVO.setUsrSeq(usrSeq);
+
+                myPageService.setProfileImg(myPageFileVO);
+
+                // 프로필 사진 생성 후 URI / body에는 profileImg multipart 타입
+                return ResponseEntity.created(URI.create("프로필 사진 등록 후 URI")).body(profileImg);
             }
+            else{
+                MyPageFileVO userProfile = myPageService.getProfileImg(usrSeq);
 
-            FileVO fvo = new FileVO(UUID.randomUUID().toString(), profileImg.getOriginalFilename(), profileImg.getContentType());
-            File newFileName = new File(path + "/" +folderName + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
-            profileImg.transferTo(newFileName);
+                String folderName = userProfile.getFileDirName();
 
-            model.addAttribute("profileImg", profileImg);
+                File directory = new File(path + "/" + folderName);
+                if (!directory.exists()) {
+                    directory.mkdir();
+                }
 
-            MyPageFileVO myPageFileVO = new MyPageFileVO();
-            myPageFileVO.setFileDirName(folderName);
-            myPageFileVO.setFileName(fvo.getfile_Uuid() + "_" + fvo.getFileName());
+                FileVO fvo = new FileVO(UUID.randomUUID().toString(), profileImg.getOriginalFilename(), profileImg.getContentType());
+                File newFileName = new File(path + "/" +folderName + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
+                profileImg.transferTo(newFileName);
 
-            // 나중에 session에서 user 분류값 넣기
-            myPageFileVO.setUsrSeq(usrSeq);
+                model.addAttribute("profileImg", profileImg);
 
-            myPageService.setProfileImg(myPageFileVO);
+                MyPageFileVO myPageFileVO = new MyPageFileVO();
+                myPageFileVO.setFileDirName(folderName);
+                myPageFileVO.setFileName(fvo.getfile_Uuid() + "_" + fvo.getFileName());
 
-            // 프로필 사진 생성 후 URI / body에는 profileImg multipart 타입
-            return ResponseEntity.created(URI.create("프로필 사진 등록 후 URI")).body(profileImg);
-        }
-        else{
-            MyPageFileVO userProfile = myPageService.getProfileImg(usrSeq);
+                // 나중에 session에서 user 분류값 넣기
+                myPageFileVO.setUsrSeq(usrSeq);
 
-            String folderName = userProfile.getFileDirName();
-
-            File directory = new File(path + "/" + folderName);
-            if (!directory.exists()) {
-                directory.mkdir();
+                myPageService.updateProfileImg(myPageFileVO);
             }
-
-            FileVO fvo = new FileVO(UUID.randomUUID().toString(), profileImg.getOriginalFilename(), profileImg.getContentType());
-            File newFileName = new File(path + "/" +folderName + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
-            profileImg.transferTo(newFileName);
-
-            model.addAttribute("profileImg", profileImg);
-
-            MyPageFileVO myPageFileVO = new MyPageFileVO();
-            myPageFileVO.setFileDirName(folderName);
-            myPageFileVO.setFileName(fvo.getfile_Uuid() + "_" + fvo.getFileName());
-
-            // 나중에 session에서 user 분류값 넣기
-            myPageFileVO.setUsrSeq(usrSeq);
-
-            myPageService.updateProfileImg(myPageFileVO);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
         }
-        return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }
