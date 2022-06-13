@@ -67,14 +67,14 @@ public class MyPageController {
             }
 
             FileVO fvo = new FileVO(UUID.randomUUID().toString(), profileImg.getOriginalFilename(), profileImg.getContentType());
-            File newFileName = new File(path + "/" +folderName + "/" + fvo.getUuid() + "_" + fvo.getFileName());
+            File newFileName = new File(path + "/" +folderName + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
             profileImg.transferTo(newFileName);
 
             model.addAttribute("profileImg", profileImg);
 
             MyPageFileVO myPageFileVO = new MyPageFileVO();
             myPageFileVO.setFileDirName(folderName);
-            myPageFileVO.setFileName(fvo.getUuid() + "_" + fvo.getFileName());
+            myPageFileVO.setFileName(fvo.getfile_Uuid() + "_" + fvo.getFileName());
 
             // 나중에 session에서 user 분류값 넣기
             myPageFileVO.setUsrSeq(1);
@@ -92,14 +92,14 @@ public class MyPageController {
             }
 
             FileVO fvo = new FileVO(UUID.randomUUID().toString(), profileImg.getOriginalFilename(), profileImg.getContentType());
-            File newFileName = new File(path + "/" +folderName + "/" + fvo.getUuid() + "_" + fvo.getFileName());
+            File newFileName = new File(path + "/" +folderName + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
             profileImg.transferTo(newFileName);
 
             model.addAttribute("profileImg", profileImg);
 
             MyPageFileVO myPageFileVO = new MyPageFileVO();
             myPageFileVO.setFileDirName(folderName);
-            myPageFileVO.setFileName(fvo.getUuid() + "_" + fvo.getFileName());
+            myPageFileVO.setFileName(fvo.getfile_Uuid() + "_" + fvo.getFileName());
 
             // 나중에 session에서 user 분류값 넣기
             myPageFileVO.setUsrSeq(1);

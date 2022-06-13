@@ -1,26 +1,17 @@
 package com.peanart.Board.web;
 
-import com.peanart.Board.dao.BoardDAO;
 import com.peanart.Board.service.BoardService;
 import com.peanart.Board.vo.BoardVO;
+import com.peanart.Board.vo.ReviewVO;
+import com.peanart.ExhibitRegisteration.vo.ExhibitRegisterVO;
 import com.peanart.main.vo.FileVO;
+import com.peanart.mypage.vo.MyPageVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -34,22 +25,21 @@ public class BoardController {
         System.out.println(list);
         return list;
     }
+    @GetMapping("/detail")
+    public ResponseEntity<HashMap<String, Object>> getExhibInfo(@RequestParam("exhibSeq") Integer exhibSeq) {
 
-    @Value("${spring.servlet.multipart.location}")
-    String filePath;
+        HashMap<String, Object> map = new HashMap<>();
 
-//    @GetMapping("/download")
-//    public ResponseEntity<Resource> download(@ModelAttribute FileVO fvo) throws IOException {
-//        Path path = Paths.get(filePath + "/" + fvo.getUuid() + "_" + fvo.getFileName());
-//        String contentType = Files.probeContentType(path);
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentDisposition(ContentDisposition.builder("attachment").filename(fvo.getFileName(), StandardCharsets.UTF_8).build());
-//        headers.add(HttpHeaders.CONTENT_TYPE, contentType);
-//
-//        Resource resource = new InputStreamResource(Files.newInputStream(path));
-//
-//        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
-//    }
+        ExhibitRegisterVO exhibitRegisterVO = boardService.getExhibInfo(exhibSeq);
+        List<FileVO> fileList = boardService.getfile(exhibSeq);
+        MyPageVO myPageVO =  boardService.getUserInfo(exhibitRegisterVO.getUsrSeq());
+        List<ReviewVO> reviewVO= boardService.getReview(exhibSeq);
 
+        map.put("exhib", exhibitRegisterVO);
+        map.put("fileList",fileList);
+        map.put("userInfo", myPageVO);
+        map.put("reviewList", reviewVO);
+
+        return ResponseEntity.status(HttpStatus.OK).body(map);
+    }
 }

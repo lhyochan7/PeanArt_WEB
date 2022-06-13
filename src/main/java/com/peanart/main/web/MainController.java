@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Controller
+@RestController
 public class MainController {
     @Autowired
     private MainService mainService;
@@ -44,13 +44,15 @@ public class MainController {
         return mainService.getFiveExhib();
     }
 
-    @RequestMapping(value = "/poster")
-    public List<BoardVO> getExibList(Model model) {
+    @RequestMapping(value = "/ExhibList")
+    public ResponseEntity<List<BoardVO>> getExibList(Model model) {
         System.out.println("getPoster");
 
-        List<BoardVO> exibList = mainService.getExibList();
-        System.out.println(exibList);
-        return exibList;
+        List<BoardVO> exhibList = mainService.getExibList();
+        System.out.println(exhibList);
+
+
+        return new ResponseEntity<>(exhibList, HttpStatus.OK);
     }
 
     @PostMapping("/upload")
@@ -74,7 +76,7 @@ public class MainController {
                 FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
                 files.add(fvo);
 
-                File newFileName = new File(path + "/" +folderName + "/" + fvo.getUuid() + "_" + fvo.getFileName());
+                File newFileName = new File(path + "/" +folderName + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
 
                 file.transferTo(newFileName);
             }
@@ -97,7 +99,7 @@ public class MainController {
     public ResponseEntity<Resource> download(@ModelAttribute FileVO fvo) throws IOException {
         System.out.println(fvo.getFileName());
 
-        Path path = Paths.get(filePath + '/' + fvo.getUuid() + '_' + fvo.getFileName());
+        Path path = Paths.get(filePath + '/' + fvo.getfile_Uuid()+ '_' + fvo.getFileName());
 
         System.out.println(path.toString());
         //Path path = Paths.get(fileDirName + fileName);

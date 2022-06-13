@@ -3,7 +3,7 @@ package com.peanart.main.vo;
 public class FileVO {
 
     private int exhibSeq;
-    private String uuid;
+    private String fileUuid;
     private String fileDirName;
     private String fileName;
 
@@ -20,8 +20,8 @@ public class FileVO {
 
     public FileVO() {}
 
-    public FileVO(String uuid, String fileName, String contentType) {
-        this.uuid = uuid;
+    public FileVO(String file_uuid, String fileName, String contentType) {
+        this.fileUuid = file_uuid;
         this.fileName = fileName;
         this.contentType = contentType;
         System.out.println(contentType);
@@ -30,18 +30,18 @@ public class FileVO {
     @Override
     public String toString() {
         return "FileVO{" +
-                "uuid='" + uuid + '\'' +
+                "uuid='" + fileUuid + '\'' +
                 ", fileName='" + fileName + '\'' +
                 ", contentType='" + contentType + '\'' +
                 '}';
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getfile_Uuid() {
+        return fileUuid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setfile_Uuid(String uuid) {
+        this.fileUuid = uuid;
     }
 
     public String getFileName() {

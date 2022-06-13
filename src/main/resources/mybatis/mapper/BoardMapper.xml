@@ -9,4 +9,27 @@
         SELECT * FROM tb_exhibit
     </select>
 
+    <select id="getExhibInfo" parameterType="int" resultType="ExhibitRegisterVO">
+        SELECT * FROM tb_exhibit
+        WHERE exhib_seq = ${exhibSeq}
+    </select>
+
+    <select id="getfile" parameterType="int" resultType="FileVO">
+        SELECT * FROM tb_file_exhibit
+        WHERE exhib_seq = ${exhibSeq}
+    </select>
+
+    <select id="getUserInfo" parameterType="int" resultType="MyPageVO">
+        SELECT A.usr_seq, A.usr_id, A.usr_phone, A.usr_nickname, A.usr_name, A.usr_adrs, B.file_dir_name, B.file_name
+        FROM tb_user A
+        LEFT JOIN tb_file_user B
+        ON A.usr_seq = B.usr_seq
+        WHERE A.usr_seq = #{usrSeq}
+    </select>
+    <select id="getReview" parameterType="int" resultType="ReviewVO">
+        SELECT * FROM tb_review
+        WHERE exhib_seq = ${exhibSeq};
+    </select>
+
+
 </mapper>

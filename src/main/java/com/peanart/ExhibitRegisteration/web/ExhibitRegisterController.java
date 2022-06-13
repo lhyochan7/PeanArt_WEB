@@ -58,10 +58,10 @@ public class ExhibitRegisterController {
         String folderName = dirUuid + "_" + exhibitRegisterVO.getExhibTitle();
         System.out.println(folderName);
 
-        exhibitRegisterVO.setExhibPosterFileDirName(folderName);
-        exhibitRegisterVO.setExhibPosterFileName(dirUuid + "_" + posterFile.getOriginalFilename());
-        System.out.println(exhibitRegisterVO.getExhibPosterFileDirName());
-        System.out.println(exhibitRegisterVO.getExhibPosterFileName());
+        exhibitRegisterVO.setFileDirName(folderName);
+        exhibitRegisterVO.setFileName(dirUuid + "_" + posterFile.getOriginalFilename());
+        System.out.println(exhibitRegisterVO.getFileDirName());
+        System.out.println(exhibitRegisterVO.getFileName());
 
         File directory = new File(path + "/" + folderName);
         if (!directory.exists()) {
@@ -83,7 +83,7 @@ public class ExhibitRegisterController {
                 FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
                 files.add(fvo);
 
-                File newFileName = new File(path + "/" +folderName + "/" + fvo.getUuid() + "_" + fvo.getFileName());
+                File newFileName = new File(path + "/" +folderName + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
 
                 fvo.setFileDirName(folderName);
                 fvo.setExhibSeq(exhibSeq);
