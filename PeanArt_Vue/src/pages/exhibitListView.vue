@@ -3,7 +3,7 @@
       <nav_bar></nav_bar>
       <v-container>
         <v-row no-gutters>
-            <router-link to="/exhib/register.do" style="text-decoration:none; color:black;"><v-btn outlined x-large>전시회 등록</v-btn></router-link>
+            <router-link to="/exhib/register" style="text-decoration:none; color:black;"><v-btn outlined x-large>전시회 등록</v-btn></router-link>
             <v-spacer/>
             <v-spacer/>
             <v-col md="2">
@@ -80,7 +80,7 @@ export default {
                 }
             }
             console.log(param);
-            Axios.get("http://localhost:8080/exhibit.do", param).then(response =>{
+            Axios.get("http://localhost:8080/exhibit", param).then(response =>{
                 console.log(response);
             })
             this.list = [{

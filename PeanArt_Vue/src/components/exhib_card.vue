@@ -1,5 +1,5 @@
 <template>
-      <router-link style="text-decoration:none; color:black;" :to="`${exhibData.seq}/detail.do`">
+      <router-link style="text-decoration:none; color:black;" :to="`${exhibData.seq}/detail`">
           <v-card
             class="rounded-xl mt-4 mb-4"
             elevation="0"
