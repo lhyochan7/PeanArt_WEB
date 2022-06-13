@@ -12,7 +12,7 @@
                 해당 전시회에 관한 정보들을 입력해주세요
             </v-col>
         </v-row>
-        <v-expansion-panels flat>
+        <v-expansion-panels flat v-model="panelVar" readonly>
             <v-expansion-panel>
                 <v-expansion-panel-header>
                     <v-row class="justify-center">
@@ -23,27 +23,62 @@
                     </v-row>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                        <v-row class="justify-center">
-                            <v-col md="8">
-                                <v-text-field label="*전시 이름" outlined></v-text-field>
+                        <v-row class="justify-center" no-gutters>
+                            <v-col md="2">
+                                <v-select
+                                v-model="exhibKind"
+                                label="*전시회 종류"
+                                :items="kindItem"
+                                item-text="name"
+                                item-value="value"
+                                :rules="[rules.required]"
+                                outlined></v-select>
+                            </v-col>
+                            <v-col md="6">
+                                <v-text-field
+                                v-model="exhibTitle"
+                                label="*전시 이름"
+                                :rules="[rules.required]"
+                                outlined></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row class="justify-center">
                             <v-col md="8">
-                                <v-text-field label="*전시회 장소" outlined></v-text-field>
+                                <v-text-field
+                                v-model="exhibLocation"
+                                label="*전시회 장소" 
+                                :rules="[rules.required]" 
+                                outlined></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row class="justify-center">
                             <v-col md="8">
-                                <v-text-field label="*전시회 홈페이지 주소" outlined></v-text-field>
+                                <v-text-field
+                                v-model="exhibUri"
+                                label="전시회 홈페이지 주소"
+                                outlined></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row class="justify-center">
                             <v-col md="8">
-                                <v-textarea label="*상세 설명" outlined auto-grow counter></v-textarea>
+                                <v-textarea
+                                v-model="exhibInfo"
+                                label="*간략 설명"
+                                :rules="[rules.required]"
+                                outlined auto-grow counter></v-textarea>
                             </v-col>
                         </v-row>
                         <v-row class="justify-center">
+                            <v-col md="8">
+                                <v-textarea
+                                v-model="exhibDetail"
+                                label="*상세 설명"
+                                :rules="[rules.required]"
+                                outlined auto-grow counter></v-textarea>
+                            </v-col>
+                        </v-row>
+                        <v-row class="justify-center">
+                            <!--전시 시작일 선택용 menu-->
                             <v-col md="4">
                                 <v-menu
                                     ref="menuStart"
@@ -57,7 +92,7 @@
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-text-field
                                             v-model="startDate"
-                                            label="전시 시작일"
+                                            label="*전시 시작일"
                                             prepend-inner-icon="mdi-calendar"
                                             readonly
                                             v-bind="attrs"
@@ -92,6 +127,8 @@
                                     </v-date-picker>
                                 </v-menu>
                             </v-col>
+                            <!--전시 시작일 선택용 menu 끝-->
+                            <!--전시 종료일 선택용 menu-->
                             <v-col md="4">
                                 <v-menu
                                     ref="menuEnd"
@@ -105,12 +142,13 @@
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-text-field
                                             v-model="endDate"
-                                            label="전시 종료일"
+                                            label="*전시 종료일"
                                             prepend-inner-icon="mdi-calendar"
                                             readonly
                                             v-bind="attrs"
                                             v-on="on"
                                             outlined
+                                            :rules="[rules.required]"
                                         ></v-text-field>
                                     </template>
                                     <v-date-picker
@@ -140,10 +178,17 @@
                                     </v-date-picker>
                                 </v-menu>
                             </v-col>
+                            <!--전시 종료일 선택용 menu-->
                         </v-row>
                         <v-row class="justify-center">
-                            <v-col md="8">
-                                <v-btn block outlined rounded>완료</v-btn>
+                            <v-col md="2">
+                                <v-checkbox
+                                v-model="exhibGoodsAllow"
+                                label="굿즈허용여부"
+                                ></v-checkbox>
+                            </v-col>
+                            <v-col md="6">
+                                <v-btn block outlined rounded @click="panelVar=1">완료</v-btn>
                             </v-col>
                         </v-row>
                 </v-expansion-panel-content>
@@ -163,7 +208,7 @@
                                 <v-file-input
                                 accept="image/png"
                                 placeholder="전시회 포스터 이미지를 첨부해주세요."
-                                prepend-inner-icon="mdi-camera"
+                                prepend-inner-icon="mdi-image"
                                 label="전시회 포스터 이미지"
                                 outlined
                                 @change="previewPosterImage"
@@ -173,7 +218,7 @@
                     </v-row>
                     <v-row class="justify-center">
                         <v-col md="8">
-                            <v-img :src="posterUrl" max-height="300px" max-width="300px" contain></v-img>
+                            <v-img v-if="posterUrl!=null" :src="posterUrl" max-height="300px" max-width="300px" contain></v-img>
                         </v-col>
                     </v-row>
                     <v-row class="justify-center">
@@ -181,7 +226,7 @@
                                 <v-file-input
                                 accept="image/png"
                                 placeholder="전시회 이미지를 첨부해주세요."
-                                prepend-inner-icon="mdi-camera"
+                                prepend-inner-icon="mdi-image-multiple"
                                 label="전시회 이미지"
                                 outlined
                                 @change="previewInnerImage"
@@ -196,7 +241,10 @@
                         </v-col>
                     </v-row>
                     <v-row class="justify-center">
-                        <v-col md="8">
+                        <v-col md="4">
+                            <v-btn block outlined @click="panelVar=0">뒤로 가기</v-btn>
+                        </v-col>
+                        <v-col md="4">
                             <v-btn block outlined>등록</v-btn>
                         </v-col>
                     </v-row>
@@ -226,6 +274,25 @@ export default {
     posterImage: null,
     innerUrl:[],
     innerImage:null,
+    // 종류 select 용 Variable
+    kindItem: [
+        {name:'대학 전시회', value:1}, 
+        {name:'개인 전시회', value:2}, 
+        {name:'기타', value:3}
+    ],
+    panelVar: 0,
+    // 전시회 등록용 Variable
+    exhibTitle:null,
+    exhibLocation:null,
+    exhibUri:null,
+    exhibInfo:null,
+    exhibDetail:null,
+    exhibKind:null,
+    exhibGoodsAllow:false,
+    // Input 검증 용 Rules
+    rules: {
+        required: value => !!value || '필수.',
+    },
   }),
   methods:{
     // DatePicker custom용 methods

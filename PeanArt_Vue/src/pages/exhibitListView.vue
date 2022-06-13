@@ -7,7 +7,7 @@
             <v-spacer/>
             <v-spacer/>
             <v-col md="2">
-                <v-select outlined :items="searchItem" item-text="name" item-value="value" v-model="searchSeletedItem"></v-select>
+                <v-select outlined label="분류" :items="searchItem" item-text="name" item-value="value" v-model="searchSeletedItem"></v-select>
             </v-col>
             <v-col md="4">
                 <v-text-field outlined clearable v-model="searchInput"></v-text-field>
