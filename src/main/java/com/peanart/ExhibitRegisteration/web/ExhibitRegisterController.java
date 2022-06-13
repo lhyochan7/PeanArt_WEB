@@ -6,10 +6,10 @@ import com.peanart.main.vo.FileVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-@Controller
+@RestController
 public class ExhibitRegisterController {
 
     @Autowired
@@ -65,9 +65,9 @@ public class ExhibitRegisterController {
             File poster = new File(path + "/" +folderName + "/" + dirUuid + "_" + posterFile.getOriginalFilename());
             posterFile.transferTo(poster);
 
-
-
             //String path = "http://localhost:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();
+
+            // rtn에 포스터 값 전달, Multipart type
             rtn.put("poster", posterFile);
 
 
@@ -76,7 +76,7 @@ public class ExhibitRegisterController {
             System.out.println(exhibSeq);
             for (MultipartFile file : uploadFile) {
                 if (!file.isEmpty()) {
-                    int fileIndex = 0;
+                    int fileIndex = 1;
                     FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
                     files.add(fvo);
 
@@ -86,6 +86,8 @@ public class ExhibitRegisterController {
                     fvo.setExhibSeq(exhibSeq);
                     exRegService.insertExExhibFile(fvo);
                     file.transferTo(newFileName);
+
+                    // rtn에 key : 파일+순서(1부터) value : 파일 multipart type
                     rtn.put("fileIndex" + fileIndex, file);
                 }
             }
