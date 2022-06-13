@@ -4,10 +4,12 @@ import com.peanart.member.vo.MemberVO;
 import com.peanart.mypage.dao.MyPageDAO;
 import com.peanart.mypage.service.MyPageService;
 import com.peanart.mypage.vo.MyPageFileVO;
+import com.peanart.mypage.vo.MyPageFollowForm;
 import com.peanart.mypage.vo.MyPageVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class MyPageServicecImpl implements MyPageService {
@@ -38,5 +40,10 @@ public class MyPageServicecImpl implements MyPageService {
     @Override
     public MyPageFileVO getProfileImg(int usrSeq) {
         return myPageDAO.getProfileImg(usrSeq);
+    }
+
+    @Override
+    public List<MyPageFollowForm> getFollowList(int usrSeq) {
+        return myPageDAO.getFollowList(usrSeq);
     }
 }

@@ -41,6 +41,22 @@
         FROM tb_file_user
         WHERE usr_seq = #{usrSeq}
     </select>
+
+
+    <select id="getFollowList" resultType="MyPageFollowForm">
+        SELECT tmp.file_dir_name, tmp.file_name, D.usr_id, D.usr_nickname
+        FROM
+        (SELECT A.usr_seq, A.usr_id, B.followed_usr_seq, C.file_dir_name, C.file_name
+        FROM tb_user A
+        LEFT JOIN tb_user_follow B
+        ON A.usr_seq = B.usr_seq
+        JOIN tb_file_user C
+        ON B.followed_usr_seq = C.usr_seq
+        WHERE A.usr_seq = #{usrSeq}) AS tmp
+        LEFT JOIN tb_user D
+        ON tmp.followed_usr_seq = D.usr_seq
+    </select>
+
 </mapper>
 
 

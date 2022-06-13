@@ -6,6 +6,7 @@ import com.peanart.member.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,22 +60,17 @@ public class MemberController {
         return "";
     }
 
+    // 회원가입
     @PostMapping("/join.do")
-    public String join(HttpServletRequest req, HttpSession session, ModelMap model, @RequestBody MemberVO memberVO){
+    public String join(HttpServletRequest req, HttpSession session, ModelMap model, MemberVO memberVO){
         System.out.println(memberVO);
-//        MemberVO user = new MemberVO();
-//
-//        user.setUsrId(memberVO.getUsrId());
-//        user.setUsrPw(memberVO.getUsrPw());
-//        user.setUsrAdrs(memberVO.getUsrAdrs());
-//        user.setUsrName(memberVO.getUsrName());
-//        user.setUsrNickname(memberVO.getUsrNickname());
-//        user.setUsrPhone(memberVO.getUsrPhone());
+
         memberService.join(memberVO);
 
         return"" ;
     }
 
+    // 중복 확인
     @GetMapping("/duplicheck.do")
     public ResponseEntity<Map<String, Object>> idCheck(HttpServletRequest req, HttpSession session, ModelMap model, @RequestParam(value="email", required = false) String email, @RequestParam(value="nickname", required = false) String nickname){
         Map<String, Object> rtn = new HashMap<>();

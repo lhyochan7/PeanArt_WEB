@@ -35,7 +35,7 @@ public class ExhibitRegisterController {
 
     @RequestMapping("/test.do")
     public String dd() {
-        return "exhibinsert";
+        return "upload";
     }
 
 
