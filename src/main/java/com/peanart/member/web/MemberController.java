@@ -5,6 +5,7 @@ import com.peanart.member.vo.LoginForm;
 import com.peanart.member.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +22,17 @@ public class MemberController {
     @Autowired
     MemberServiceImpl memberService;
 
+    @GetMapping("/test")
+    public String test(){
+        return "test";
+    }
+    @GetMapping("/result")
+    public String result(){
+        return "result";
+    }
+
     //Login 페이지 이동
-    @GetMapping("/login")
+    @GetMapping("/login2")
     public ResponseEntity goLogin(HttpServletRequest req, HttpSession session, ModelMap model){
         try {
             return ResponseEntity.ok().build();
@@ -46,6 +56,7 @@ public class MemberController {
             if(user==null){
                 return ResponseEntity.badRequest().build();
             }
+
             // session에 Id, Seq, name 넘겨주기
             session.setAttribute("usrId", user.getUsrId());
             session.setAttribute("usrSeq", user.getUsrSeq());

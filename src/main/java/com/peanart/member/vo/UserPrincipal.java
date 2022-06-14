@@ -1,34 +1,38 @@
 package com.peanart.member.vo;
 
-import lombok.Data;
+
+import java.util.Arrays;
+import java.util.Collection;
+
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Collections;
+@ToString
+@Getter
+public class UserPrincipal implements UserDetails {
 
-@Getter@Setter@ToString@Data
-public class LoginForm implements UserDetails {
-    private String usrId;
-    private String usrPw;
-    private String userAuth;
+    private User user;
+    private MemberVO memberVO;
+
+    public UserPrincipal(MemberVO memberVO) {
+        this.memberVO = memberVO;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList((new SimpleGrantedAuthority(this.userAuth)));
+        return Arrays.asList(new UserGrant());
     }
 
     @Override
     public String getPassword() {
-        return this.usrPw;
+        return memberVO.getUsrPw();
     }
 
     @Override
     public String getUsername() {
-        return this.usrId;
+        return memberVO.getUsrId();
     }
 
     @Override
@@ -48,6 +52,14 @@ public class LoginForm implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return memberVO.getActive() == 1;
+    }
+
+    public String getId() {
+        return memberVO.getUsrId();
+    }
+
+    public String getName() {
+        return memberVO.getUsrName();
     }
 }

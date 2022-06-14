@@ -9,13 +9,16 @@ public class MemberVO {
     private String usrName;
     private String usrAdrs;
     private String usrPhone;
+    private String roleName;
 
-    public String getUsrPhone() {
-        return usrPhone;
+    private int active;
+
+    public int getActive() {
+        return active;
     }
 
-    public void setUsrPhone(String usrPhone) {
-        this.usrPhone = usrPhone;
+    public void setActive(int active) {
+        this.active = active;
     }
 
     public int getUsrSeq() {
@@ -66,6 +69,22 @@ public class MemberVO {
         this.usrAdrs = usrAdrs;
     }
 
+    public String getUsrPhone() {
+        return usrPhone;
+    }
+
+    public void setUsrPhone(String usrPhone) {
+        this.usrPhone = usrPhone;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
     @Override
     public String toString() {
         return "MemberVO{" +
@@ -75,6 +94,8 @@ public class MemberVO {
                 ", usrNickname='" + usrNickname + '\'' +
                 ", usrName='" + usrName + '\'' +
                 ", usrAdrs='" + usrAdrs + '\'' +
+                ", usrPhone='" + usrPhone + '\'' +
+                ", roleName='" + roleName + '\'' +
                 '}';
     }
 }
