@@ -45,7 +45,7 @@ public class MemberController {
 
     //Login 체크하기 / 로그인 성공 : HttpStatus = ok, 실패 : HttpStatus = bad request, 그 외 : not found
     @PostMapping("/loginCheck")
-    public ResponseEntity<MemberVO> checkLogin(HttpServletRequest req, HttpSession session,  @RequestBody LoginForm loginForm){
+    public ResponseEntity<MemberVO> checkLogin(HttpServletRequest req, HttpSession session, LoginForm loginForm){
         System.out.println("loginForm" + loginForm);
         try {
             MemberVO memberVO = new MemberVO();
@@ -61,6 +61,7 @@ public class MemberController {
             session.setAttribute("usrId", user.getUsrId());
             session.setAttribute("usrSeq", user.getUsrSeq());
             session.setAttribute("usrName", user.getUsrName());
+            session.setAttribute("role", user.getRoleId());
 
             // body에 MemberVO user 리턴
             return ResponseEntity.ok()

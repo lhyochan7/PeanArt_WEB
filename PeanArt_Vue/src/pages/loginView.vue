@@ -31,7 +31,7 @@
 
 <script>
 import nav_bar from '../components/nav_bar.vue'
-//import axios from 'axios'
+import axios from 'axios'
 export default {
     name: 'loginPage',
     components: { nav_bar },
@@ -49,16 +49,16 @@ export default {
   }),
    methods: {
       loginRequest: function() {
-        //   axios.post('http://localhost:8080/loginCheck', {
-        //       usrId: this.email,
-        //       usrPw: this.password
-        //   }, { headers: {
-        //     "Content-Type": `application/json`,
-        //   },}).then(function(response){
-        //       console.log(response);
-        //   })
+           axios.post('http://localhost:8080/loginCheck', {
+               usrId: this.email,
+               usrPw: this.password
+           }, { headers: {
+             "Content-Type": `application/json`,
+           },}).then(function(response){
+               console.log(response);
+           })
         sessionStorage.setItem('usrId', this.email);
-        this.$router.push('/main.do');
+        this.$router.push('/main');
       },
   }
 };
