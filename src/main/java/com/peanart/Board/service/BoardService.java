@@ -6,6 +6,7 @@ import com.peanart.ExhibitRegisteration.vo.ExhibitRegisterVO;
 import com.peanart.main.vo.FileVO;
 import com.peanart.mypage.vo.MyPageVO;
 
+import java.io.File;
 import java.util.List;
 
 public interface BoardService {
@@ -17,5 +18,8 @@ public interface BoardService {
 
     List<ReviewVO> getReview(int exhibSeq);
     void regReview(ReviewVO reviewVO);
+
+    void deleteExhib(int exhibseq);
+
 
 }

@@ -14,7 +14,7 @@
         WHERE exhib_seq = ${exhibSeq}
     </select>
 
-    <select id="getfile" parameterType="int" resultType="FileVO">
+    <select id="getFile" parameterType="int" resultType="FileVO">
         SELECT * FROM tb_file_exhibit
         WHERE exhib_seq = ${exhibSeq}
     </select>
@@ -42,4 +42,26 @@
         )
     </insert>
 
+    <update id="modExhib">
+        UPDATE tb_exhibit
+        SET (
+            exhib_title, exhib_kind, exhib_theme, exhib_simple_exp, exhib_detail_exp,
+            exhib_start_date, exhib_end_date, exhib_location, exhib_uri, usr_seq,
+            exhib_cret_date, exhib_mod_date,  file_dir_name, file_name, goods_allow
+        )
+            =
+            (
+            #{exhibTitle}, #{exhibKind}, #{exhibTheme}, #{exhibSimpleExp}, #{exhibDetailExp},
+            #{exhibStartDate}, #{exhibEndDate}, #{exhibLocation}, #{exhibUri}, #{usrSeq},
+            #{exhibCretDate}, SYSDATE(), #{exhibPosterFileDirName},#{exhibPosterFileName}, #{goodsAllow}
+        )   WHERE usr_Seq = (
+                SELECT usr_seq from tb_exhibit
+                WHERE exhib_seq = ${exhibSeq}
+                )
+    </update>
+
+    <delete id="deleteExhib">
+        delete from tb_exhibit
+        where exhib_seq = #{exhibSeq}
+    </delete>
 </mapper>

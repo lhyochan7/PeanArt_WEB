@@ -6,6 +6,7 @@ import com.peanart.main.vo.FileVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-@RestController
+@Controller
 public class ExhibitRegisterController {
 
     @Autowired
@@ -29,17 +30,19 @@ public class ExhibitRegisterController {
 
     @RequestMapping("/test.do")
     public String dd() {
-        return "upload";
+        return "exhibinsert";
     }
 
-    @PostMapping("/exhib/regist")
+    @PostMapping("/exhib/register")
     public ResponseEntity reg(@RequestParam MultipartFile[] uploadFile, @RequestParam MultipartFile posterFile, HttpServletRequest req, HttpSession session, ExhibitRegisterVO exhibitRegisterVO) throws IOException {
         Map<String, Object> rtn = new HashMap<>();
+        System.out.println("입구에용");
+        session.setAttribute("usrSeq",2);
         try {
             if(session.getAttribute("usrSeq") != null){
                 //int usrSeq = (int)session.getAttribute("usrSeq");
                 //연결할때 주석 풀어서 usrSeq 값 부여 ^^
-                exhibitRegisterVO.setUsrSeq(1);
+                exhibitRegisterVO.setUsrSeq(2);
                 exhibitRegisterVO.setGoodsAllow((int)exhibitRegisterVO.getGoodsAllow());
                 exhibitRegisterVO.setExhibKind((int)exhibitRegisterVO.getExhibKind());
 
@@ -50,12 +53,9 @@ public class ExhibitRegisterController {
                 // 고유 폴더 이름 만들기 ( UUID_전시회이름 )
                 String dirUuid = UUID.randomUUID().toString();
                 String folderName = dirUuid + "_" + exhibitRegisterVO.getExhibTitle();
-                System.out.println(folderName);
 
                 exhibitRegisterVO.setFileDirName(folderName);
                 exhibitRegisterVO.setFileName(dirUuid + "_" + posterFile.getOriginalFilename());
-                System.out.println(exhibitRegisterVO.getFileDirName());
-                System.out.println(exhibitRegisterVO.getFileName());
 
                 File directory = new File(path + "/" + folderName);
                 if (!directory.exists()) {
@@ -93,7 +93,7 @@ public class ExhibitRegisterController {
                 }
                 return ResponseEntity.ok().body(rtn);
             }
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().build(); //400 400 400 400 400 400 0400 400
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.notFound().build();

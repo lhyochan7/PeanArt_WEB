@@ -18,4 +18,5 @@ public interface BoardDAO {
     List<FileVO> getFile(int exhibSeq);
     List<ReviewVO> getReview(int exhibSeq);
     void regReview(ReviewVO reviewVO);
+    void deleteExhib(int exhibseq);
 }
