@@ -23,6 +23,7 @@
                     </v-row>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
+                    <v-form ref="firstForm">
                         <v-row class="justify-center" no-gutters>
                             <v-col md="2">
                                 <v-select
@@ -43,18 +44,22 @@
                             </v-col>
                         </v-row>
                         <v-row class="justify-center">
-                            <v-col md="8">
+                            <v-col md="6">
                                 <v-text-field
                                 v-model="exhibLocation"
                                 label="*전시회 장소" 
                                 :rules="[rules.required]" 
                                 outlined></v-text-field>
                             </v-col>
+                            <v-col md="2">
+                                <v-btn x-large outlined @click="loadAddress()">주소 검색</v-btn>
+                            </v-col>
                         </v-row>
                         <v-row class="justify-center">
                             <v-col md="8">
                                 <v-text-field
                                 v-model="exhibUri"
+                                :rules="[isURL]"
                                 label="전시회 홈페이지 주소"
                                 outlined></v-text-field>
                             </v-col>
@@ -95,6 +100,7 @@
                                             label="*전시 시작일"
                                             prepend-inner-icon="mdi-calendar"
                                             readonly
+                                            :rules="[rules.required]"
                                             v-bind="attrs"
                                             v-on="on"
                                             outlined
@@ -191,6 +197,7 @@
                                 <v-btn block outlined rounded @click="panelVar=1">완료</v-btn>
                             </v-col>
                         </v-row>
+                    </v-form>
                 </v-expansion-panel-content>
             </v-expansion-panel>
             
@@ -230,9 +237,22 @@
                                 label="전시회 이미지"
                                 outlined
                                 @change="previewInnerImage"
-                                v-model="innerImage"
+                                v-model="innerImage2"
                                 multiple
-                            ></v-file-input>
+                                :clearable="false"
+                            >
+                                <template v-slot:selection="{ index, text }">
+                                    <v-chip
+                                        small
+                                        label
+                                        color="primary"
+                                        close
+                                        @click:close="deleteFile(index, text)"
+                                    >
+                                        {{ text }}
+                                    </v-chip>
+                                </template>
+                            </v-file-input>
                         </v-col>
                     </v-row>
                     <v-row cense>
@@ -275,7 +295,8 @@ export default {
     posterUrl: null,
     posterImage: null,
     innerUrl:[],
-    innerImage:null,
+    innerImage:[],
+    innerImage2:[],
     // 종류 select 용 Variable
     kindItem: [
         {name:'대학 전시회', value:1}, 
@@ -284,22 +305,19 @@ export default {
     ],
     panelVar: 0,
     // 전시회 등록용 Variable
-    exhibTitle:null,
-    exhibLocation:null,
-    exhibUri:null,
-    exhibSimpleInfo:null,
-    exhibDetailInfo:null,
-    exhibKind:null,
-    exhibGoodsAllow:false,
+    exhibTitle:'',
+    exhibLocation:'',
+    exhibUri:'',
+    exhibSimpleInfo:'',
+    exhibDetailInfo:'',
+    exhibKind:'',
+    exhibGoodsAllow:'',
     // Input 검증 용 Rules
     rules: {
         required: value => !!value || '필수.',
         title: value => value.length<1000 || '제목은 1000자 이내여야 합니다.',
         simpleInfo: value => value.length < 100 || '간략 설명은 100자 이내여야 합니다.',
         detailInfo: value => value.length < 10000 || '상세 설명은 10000자 이내여야 합니다.',
-        uri: value => {
-            return (value.length < 500 && this.isURL(value)) || '올바르지 않은 URL 입니다.'
-        }
     },
   }),
   methods:{
@@ -332,7 +350,7 @@ export default {
         const date = dateSplit[0] + '.' + parseInt(dateSplit[1])
         return date
     },
-    //
+    // 첨부사진 preview용 method
     previewPosterImage() {
         if(this.posterImage!=null){
             this.posterUrl = URL.createObjectURL(this.posterImage);
@@ -341,33 +359,57 @@ export default {
         }
     },
     previewInnerImage() {
-        if(this.innerImage.length != 0){
-            this.innerUrl = []
-            this.innerImage.forEach(element =>{
-                this.innerUrl.push({'src':URL.createObjectURL(element)})
-            })
-        } else{
-            this.innerUrl = []
+        for (var file of this.innerImage2){
+            if(this.innerImage.find(image => image.name == file.name) == undefined){
+                this.innerImage.push(file)
+                this.innerUrl.push({'src':URL.createObjectURL(file)})
+            }
         }
+        this.innerUrl = []
+        console.log(this.innerImage)
+        this.innerImage.forEach(element =>{
+            this.innerUrl.push({'src':URL.createObjectURL(element)})
+        })
+        this.innerImage2 == [];
+    },
+    deleteFile(index, text){
+        console.log(text)
+        this.innerImage.splice(index, 1)
+        this.innerUrl.splice(index, 1)
+        this.previewInnerImage()
     },
     // URL 판별용 Method
-    isURL(str) {
+    isURL(value) {
       let url;
-
-      try {
-        url = new URL(str);
-      } catch (_) {
-        return false;
+      if(value.length === 0){
+        return true;
       }
-
-      return url.protocol === "http:" || url.protocol === "https:";
+      try {
+        url = new URL(value);
+      } catch (_) {
+        return '올바르지 않은 URL 입니다.';
+      }
+      return (url.protocol === "http:" || url.protocol === "https:") || '올바르지 않은 URL 입니다.';
     },
+    loadAddress: function() {
+          // 주소 입력위해 Daum 주소검색 API 호출 
+          new window.daum.Postcode({
+              onComplete: (data) => {
+                  this.exhibLocation = data.roadAddress;
+              }
+          }).open();
+      },
+      nextStep: function() {
+        if(this.$refs.firstForm.validate()){
+           this.panelVar=1
+        }
+      }
+  },
     mounted() {
         let Script = document.createElement("script");
         Script.setAttribute("src", "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js");
         document.head.appendChild(Script);
     }
-  }
 }
 </script>
 
