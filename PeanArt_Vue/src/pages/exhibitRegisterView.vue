@@ -38,7 +38,7 @@
                                 <v-text-field
                                 v-model="exhibTitle"
                                 label="*전시 이름"
-                                :rules="[rules.required]"
+                                :rules="[rules.required, rules.title]"
                                 outlined></v-text-field>
                             </v-col>
                         </v-row>
@@ -62,18 +62,18 @@
                         <v-row class="justify-center">
                             <v-col md="8">
                                 <v-textarea
-                                v-model="exhibInfo"
+                                v-model="exhibSimpleInfo"
                                 label="*간략 설명"
-                                :rules="[rules.required]"
+                                :rules="[rules.required, rules.simpleInfo]"
                                 outlined auto-grow counter></v-textarea>
                             </v-col>
                         </v-row>
                         <v-row class="justify-center">
                             <v-col md="8">
                                 <v-textarea
-                                v-model="exhibDetail"
+                                v-model="exhibDetailInfo"
                                 label="*상세 설명"
-                                :rules="[rules.required]"
+                                :rules="[rules.required, rules.detailInfo]"
                                 outlined auto-grow counter></v-textarea>
                             </v-col>
                         </v-row>
@@ -217,7 +217,7 @@
                         </v-col>
                     </v-row>
                     <v-row class="justify-center">
-                        <v-col md="8">
+                        <v-col md="8" class="d-flex justify-center align-center">
                             <v-img v-if="posterUrl!=null" :src="posterUrl" max-height="300px" max-width="300px" contain></v-img>
                         </v-col>
                     </v-row>
@@ -235,9 +235,11 @@
                             ></v-file-input>
                         </v-col>
                     </v-row>
-                    <v-row >
-                        <v-col class="d-flex child-flex" cols="4" v-for="(item, i) in innerUrl" v-bind:key="i">
-                            <v-img :src="item" max-height="300px" max-width="300px" contain aspect-ratio="1"></v-img>
+                    <v-row cense>
+                        <v-col class="d-flex child-flex justify-center align-center" cols="4" v-for="(item, i) in innerUrl" v-bind:key="i">
+                            <v-card>
+                                <v-img :src="item" max-height="250px" max-width="250px" contain aspect-ratio="1"></v-img>
+                            </v-card>
                         </v-col>
                     </v-row>
                     <v-row class="justify-center">
@@ -285,13 +287,19 @@ export default {
     exhibTitle:null,
     exhibLocation:null,
     exhibUri:null,
-    exhibInfo:null,
-    exhibDetail:null,
+    exhibSimpleInfo:null,
+    exhibDetailInfo:null,
     exhibKind:null,
     exhibGoodsAllow:false,
     // Input 검증 용 Rules
     rules: {
         required: value => !!value || '필수.',
+        title: value => value.length<1000 || '제목은 1000자 이내여야 합니다.',
+        simpleInfo: value => value.length < 100 || '간략 설명은 100자 이내여야 합니다.',
+        detailInfo: value => value.length < 10000 || '상세 설명은 10000자 이내여야 합니다.',
+        uri: value => {
+            return (value.length < 500 && this.isURL(value)) || '올바르지 않은 URL 입니다.'
+        }
     },
   }),
   methods:{
@@ -341,6 +349,23 @@ export default {
         } else{
             this.innerUrl = []
         }
+    },
+    // URL 판별용 Method
+    isURL(str) {
+      let url;
+
+      try {
+        url = new URL(str);
+      } catch (_) {
+        return false;
+      }
+
+      return url.protocol === "http:" || url.protocol === "https:";
+    },
+    mounted() {
+        let Script = document.createElement("script");
+        Script.setAttribute("src", "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js");
+        document.head.appendChild(Script);
     }
   }
 }
