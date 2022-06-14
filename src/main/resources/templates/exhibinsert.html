@@ -4,10 +4,9 @@
   <meta charset="UTF-8">
   <title>Title</title>
   <script>
-
         function exhibRegister(){
             document.exhibRegiform.method = "POST";
-            document.exhibRegiform.action = "/exhibRegister.do";
+            document.exhibRegiform.action = "/exhib/register";
             document.exhibRegiform.submit();
         }
     </script>
@@ -15,20 +14,6 @@
 <body>
 
 <form id = "exhibRegiform" name="exhibRegiform" enctype="multipart/form-data">
-
-  <!--
-  <input name = "exhibTitle"> 제목 </input> <br>
-  <input name = "exhibKind"> 전시종류 </input> <br>
-  <input name = "exhibTheme"> 전시테마 </input> <br>
-  <input name = "exhibSimpleExp"> 간략설명 </input> <br>
-  <input name = "exhibDetailExp"> 자세한 설명 </input> <br>
-  <input name = "exhibStartDate"> 시작일 </input> <br>
-  <input name = "exhibEndDate"> 종료일 </input> <br>
-  <input name = "exhibLocation"> 전시 위치 </input> <br>
-  <input name = "exhibUri"> 전시 Uri </input> <br>
-  <input name = "goodsAllow"> 굿즈 여부(int) </input> <br>
-  -->
-
 
   전시회 이름: <input type="text" name="exhibTitle">
   <br>
@@ -57,8 +42,6 @@
   <br>
   전시 사진:
   <input type="file" name="uploadFile" multiple="multiple">
-
-
   <br>
   <button onclick="exhibRegister();">exhibRegister</button>
 </form>

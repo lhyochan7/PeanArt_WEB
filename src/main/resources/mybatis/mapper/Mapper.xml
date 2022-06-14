@@ -19,6 +19,55 @@
         ORDER BY exhib_cret_date DESC
         LIMIT 5
     </select>
+
+    <select id="getSearchList" resultType="ExhibitRegisterVO">
+        SELECT
+        *
+        FROM tb_exhibit
+        WHERE 1=1
+
+        <!-- 전시회 종류 (0: 전체, 1: 대학, 2: 개인, 3: 기타) -->
+        <if test="kind != null or kind != 0">
+            AND exhib_kind = ${kind}
+        </if>
+
+        <!-- 검색 종류 (0: 전체, 1: 제목, 2: 내용, 3: 장소) -->
+        <if test="searchOpt != null">
+            <choose>
+                <!-- 제목 -->
+                <when test="searchOpt == 1">
+                    AND exhib_title LIKE CONCAT('%', #{searchTxt}, '%')
+                </when>
+                <!-- 내용 -->
+                <when test="searchOpt == 2">
+                    AND exhib_detail_exp LIKE CONCAT('%', #{searchTxt}, '%')
+                </when>
+                <!-- 장소 -->
+                <when test="searchOpt == 3">
+                    AND exhib_location LIKE CONCAT('%', #{searchTxt}, '%')
+                </when>
+                <!-- 전체 -->
+                <otherwise>
+                    AND exhib_title LIKE CONCAT('%', #{searchTxt}, '%')
+                    OR exhib_detail_exp LIKE CONCAT('%', #{searchTxt}, '%')
+                    OR exhib_location LIKE CONCAT('%', #{searchTxt}, '%')
+                </otherwise>
+            </choose>
+        </if>
+    </select>
+
+    <select id="getMyPageVisitedExhib" resultType="VisitedExhibVO">
+        SELECT DISTINCT tmp.usr_seq, tmp.exhib_seq, tmp.exhib_title, tmp.file_dir_name, tmp.file_name
+        FROM (SELECT C.usr_seq, A.exhib_seq, A.exhib_title, A.file_dir_name, A.file_name
+        FROM tb_exhibit A
+        LEFT JOIN tb_review B
+        ON A.exhib_seq = B.exhib_seq
+        LEFT JOIN tb_user C
+        ON B.usr_seq = C.usr_seq
+        WHERE C.usr_seq = #{usrSeq}
+        ORDER BY B.rev_cret_date) AS tmp
+    </select>
+
 </mapper>
 
 
