@@ -17,7 +17,7 @@
         (
         #{exhibTitle}, #{exhibKind}, #{exhibTheme}, #{exhibSimpleExp}, #{exhibDetailExp},
         #{exhibStartDate}, #{exhibEndDate}, #{exhibLocation}, #{exhibUri}, #{usrSeq},
-        SYSDATE(), SYSDATE(), #{exhibPosterFileDirName},#{exhibPosterFileName}, #{goodsAllow}
+        SYSDATE(), SYSDATE(), #{fileDirName},#{fileName}, #{goodsAllow}
         )
     </insert>
 
@@ -32,9 +32,11 @@
         )
         values
         (
-        #{exhibSeq}, #{fileDirName}, #{uuid}, #{fileName}, SYSDATE()
+        #{exhibSeq}, #{fileDirName}, #{fileUuid}, #{fileName}, SYSDATE()
         )
     </insert>
+    
+
 </mapper>
 
 

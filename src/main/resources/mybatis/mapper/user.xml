@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.peanart.member.dao.UserMapper">
+<!--
+
+    <resultMap id="memberVO" type="MemberVO">
+        <result property="id" column="user_id" />
+        <result property="active" column="active" />
+        <result property="usrId" column="login_id" />
+        <result property="usrName" column="user_name" />
+        <result property="usrPw" column="password" />
+    </resultMap>
+-->
+
+    <select id="findUserByLoginId" resultType="MemberVO">
+        SELECT
+        usr_seq, usr_id, usr_pw, usr_phone, usr_nickname, usr_name, usr_adrs, active
+        FROM
+        tb_user
+        <where>
+            <if test=" usrId != null and usrId != '' ">
+                AND usr_id = #{usrId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="setUserInfo" useGeneratedKeys="true" keyProperty="usrSeq">
+        INSERT INTO tb_user
+        (
+        usr_seq, usr_id, usr_pw, usr_phone, usr_nickname, usr_name, usr_adrs, usr_cret_date, usr_mod_date
+        )
+        VALUES
+        (
+        #{usrSeq}, #{usrId}, #{usrPw}, #{usrPhone}, #{usrNickname}, #{usrName}, #{usrAdrs}, SYSDATE(), SYSDATE()
+        )
+    </insert>
+
+</mapper>

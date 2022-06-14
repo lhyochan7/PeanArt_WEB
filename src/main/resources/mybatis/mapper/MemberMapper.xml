@@ -29,15 +29,6 @@
     <select id="nicknameCheck" resultType="MemberVO">
         select * from tb_user where usr_nickname = #{usrNickname}
     </select>
+
+
 </mapper>
-
-
-        <!--
-        <mapper namespace="com.example.demo.model.aws.dao.TestMapper">
-
-            <select id="getAllDataList" resultType="com.example.demo.model.aws.dto.portfolio">
-                SELECT * FROM portfolio;
-            </select>
-
-        </mapper>
-        -->

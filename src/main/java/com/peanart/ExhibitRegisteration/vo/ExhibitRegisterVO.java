@@ -15,9 +15,44 @@ public class ExhibitRegisterVO {
     String exhibLocation;
     String exhibUri;
     int usrSeq;
-    String exhibPosterFileDirName;
-    String exhibPosterFileName;
+    String exhibCretDate;
+    String exhibModDate;
+    String fileDirName;
+    String fileName;
     int goodsAllow;
+
+    public String getExhibCretDate() {
+        return exhibCretDate;
+    }
+
+    public void setExhibCretDate(String exhibCretDate) {
+        this.exhibCretDate = exhibCretDate;
+    }
+
+    public String getExhibModDate() {
+        return exhibModDate;
+    }
+
+    public void setExhibModDate(String exhibModDate) {
+        this.exhibModDate = exhibModDate;
+    }
+    public String getFileDirName() {
+        return fileDirName;
+    }
+
+    public void setFileDirName(String fileDirName) {
+        this.fileDirName = fileDirName;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+
     //file area
 
     public int getExhibKind() {
@@ -104,21 +139,6 @@ public class ExhibitRegisterVO {
     }
 
 
-    public String getExhibPosterFileDirName() {
-        return exhibPosterFileDirName;
-    }
-
-    public void setExhibPosterFileDirName(String exhibPosterFileDirName) {
-        this.exhibPosterFileDirName = exhibPosterFileDirName;
-    }
-
-    public String getExhibPosterFileName() {
-        return exhibPosterFileName;
-    }
-
-    public void setExhibPosterFileName(String exhibPosterFileName) {
-        this.exhibPosterFileName = exhibPosterFileName;
-    }
 
     public int getGoodsAllow() {
         return goodsAllow;
