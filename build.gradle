@@ -61,4 +61,4 @@ task npmBuild(type: NpmTask, dependsOn: ['deleteVueArtifact', 'frontNpmInstall']
     args = ['run', 'build']
 }
 
-//processResources.dependsOn 'npmBuild'
+processResources.dependsOn 'npmBuild'
