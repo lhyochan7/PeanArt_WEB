@@ -37,12 +37,12 @@ public class ExhibitRegisterController {
     public ResponseEntity reg(@RequestParam MultipartFile[] uploadFile, @RequestParam MultipartFile posterFile, HttpServletRequest req, HttpSession session, ExhibitRegisterVO exhibitRegisterVO) throws IOException {
         Map<String, Object> rtn = new HashMap<>();
         System.out.println("입구에용");
-        session.setAttribute("usrSeq",2);
+        int usrSeq = Integer.parseInt(session.getAttribute("usrSeq").toString());
         try {
-            if(session.getAttribute("usrSeq") != null){
+            if(usrSeq != 0){
                 //int usrSeq = (int)session.getAttribute("usrSeq");
                 //연결할때 주석 풀어서 usrSeq 값 부여 ^^
-                exhibitRegisterVO.setUsrSeq(2);
+                exhibitRegisterVO.setUsrSeq(usrSeq);
                 exhibitRegisterVO.setGoodsAllow((int)exhibitRegisterVO.getGoodsAllow());
                 exhibitRegisterVO.setExhibKind((int)exhibitRegisterVO.getExhibKind());
 

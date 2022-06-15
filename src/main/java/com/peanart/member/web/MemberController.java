@@ -45,6 +45,7 @@ public class MemberController {
             // session에 Id, Seq, name 넘겨주기
             session.setAttribute("usrId", user.getUsrId());
             session.setAttribute("usrSeq", user.getUsrSeq());
+            session.setAttribute("usrNickname", user.getUsrNickname());
             session.setAttribute("usrName", user.getUsrName());
             session.setAttribute("role", user.getRoleId());
 

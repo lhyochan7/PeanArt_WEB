@@ -6,7 +6,7 @@
 
 <mapper namespace="com.peanart.member.dao.MemberDAO">
     <select id="loginCheck" resultType="MemberVO">
-        select usr_seq, usr_id, usr_pw, usr_nickname, usr_name, usr_adrs, role_id
+        select usr_seq, usr_id, usr_pw, usr_phone, usr_nickname, usr_name, usr_adrs, role_id
         from tb_user
         where usr_id = #{usrId} and usr_pw = #{usrPw}
     </select>
