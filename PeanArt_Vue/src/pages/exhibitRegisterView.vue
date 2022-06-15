@@ -44,6 +44,15 @@
                             </v-col>
                         </v-row>
                         <v-row class="justify-center">
+                            <v-col md="8">
+                                <v-text-field
+                                v-model="exhibTheme"
+                                :rules="[rules.required, rules.theme]"
+                                label="전시회 주제"
+                                outlined></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row class="justify-center">
                             <v-col md="6">
                                 <v-text-field
                                 v-model="exhibLocation"
@@ -267,7 +276,7 @@
                             <v-btn block outlined @click="panelVar=0">뒤로 가기</v-btn>
                         </v-col>
                         <v-col md="4">
-                            <v-btn block outlined>등록</v-btn>
+                            <v-btn block outlined @click="registerRequest">등록</v-btn>
                         </v-col>
                     </v-row>
                 </v-expansion-panel-content>
@@ -280,6 +289,7 @@
 
 <script>
 import nav_bar from '@/components/nav_bar.vue'
+import axios from 'axios';
 export default {
   name: 'exhibitRegisterView',
   components: {
@@ -312,12 +322,14 @@ export default {
     exhibDetailInfo:'',
     exhibKind:'',
     exhibGoodsAllow:'',
+    exhibTheme:'',
     // Input 검증 용 Rules
     rules: {
         required: value => !!value || '필수.',
         title: value => value.length<1000 || '제목은 1000자 이내여야 합니다.',
         simpleInfo: value => value.length < 100 || '간략 설명은 100자 이내여야 합니다.',
         detailInfo: value => value.length < 10000 || '상세 설명은 10000자 이내여야 합니다.',
+        theme: value=> value.length < 50 || '전시회 주제는 50자 이내여야 합니다.',
     },
   }),
   methods:{
@@ -403,6 +415,34 @@ export default {
         if(this.$refs.firstForm.validate()){
            this.panelVar=1
         }
+      },
+      registerRequest: function() {
+        const frm = new FormData();
+        frm.append('startDate', this.startDate)
+        frm.append('endDate', this.endDate)
+        frm.append('posterImage', this.posterImage)
+        frm.append('innerImage', this.innerImage)
+        frm.append('exhibTitle', this.exhibTitle)
+        frm.append('exhibLocation',this.exhibLocation)
+        frm.append('exhibUri',this.exhibUri)
+        frm.append('exhibSimpleInfo',this.exhibSimpleInfo)
+        frm.append('exhibDetailInfo',this.exhibDetailInfo)
+        frm.append('exhibKind',this.exhibKind)
+        frm.append('exhibGoodsAllow',this.exhibGoodsAllow)
+        frm.append('exhibTheme',this.exhibTheme)
+        axios.post("http://localhost:8080/registration", frm,{ headers: {
+            "Content-Type": `multipart/form-data`,
+            'Allow-Control-Allow-Origin': '*'
+          },}).then(response => {
+              console.log(response);
+              if(response.status === 201){
+                  // 응답이 Created(201) 이면 login 페이지로 이동
+                  alert('회원가입에 성공했습니다!')
+                  this.$router.push('/login');
+              } else {
+                  alert('회원가입에 실패했습니다. 다시 시도해주세요');
+              }
+          })
       }
   },
     mounted() {

@@ -22,7 +22,7 @@
                      label="비밀번호"
                      outlined></v-text-field>
                     <v-btn outlined rounded block class="mb-6" @click="loginRequest">들어가기</v-btn>
-                    <p class="caption">계정이 아직 없으신가요? <router-link to="/register.do" style="text-decoration:none; color:black;" class="font-weight-bold">회원가입 하러 가기!</router-link></p>
+                    <p class="caption">계정이 아직 없으신가요? <router-link to="/register" style="text-decoration:none; color:black;" class="font-weight-bold">회원가입 하러 가기!</router-link></p>
                 </v-col>
             </v-row>
         </v-container>
@@ -49,16 +49,22 @@ export default {
   }),
    methods: {
       loginRequest: function() {
-          axios.post('http://localhost:8080/login', {
+          axios.post('/login', {
               usrId: this.email,
               usrPw: this.password
           }, { headers: {
             "Content-Type": `application/json; charset = utf-8`,
           },}).then(function(response){
               console.log(response);
+              if(response.status === 200){
+                  // 응답이 OK(200) 이면 main 페이지로 이동
+                  alert('로그인에 성공했습니다!')
+                  this.$router.push('/main');
+                  sessionStorage.setItem('usrId', this.email);
+              } else {
+                  alert('로그인에 실패했습니다. 다시 시도해주세요');
+              }
           })
-        sessionStorage.setItem('usrId', this.email);
-        this.$router.push('/main');
       },
   }
 };

@@ -174,8 +174,8 @@ export default {
             "Content-Type": `application/json`,
           },}).then(response => {
               console.log(response);
-              if(response.status === 200){
-                  // 응답이 OK(200) 이면 login 페이지로 이동
+              if(response.status === 201){
+                  // 응답이 Created(201) 이면 login 페이지로 이동
                   alert('회원가입에 성공했습니다!')
                   this.$router.push('/login');
               } else {
