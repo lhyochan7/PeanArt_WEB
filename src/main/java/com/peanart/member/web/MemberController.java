@@ -1,7 +1,6 @@
 package com.peanart.member.web;
 
 import com.peanart.member.service.impl.MemberServiceImpl;
-import com.peanart.member.vo.LoginForm;
 import com.peanart.member.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
