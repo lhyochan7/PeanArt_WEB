@@ -87,7 +87,12 @@ export default {
         }
     },
     mounted(){
-        axios.get('http://localhost:8080/BoardList').then(response =>{
+        var param = {
+            params:{
+                kind: this.$route.query.kind
+            }
+        }
+        axios.get('http://localhost:8080/search', param).then(response =>{
             console.log(response)
             this.list = response.data
         })
