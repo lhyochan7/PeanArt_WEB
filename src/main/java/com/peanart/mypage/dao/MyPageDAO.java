@@ -1,5 +1,6 @@
 package com.peanart.mypage.dao;
 
+import com.peanart.mypage.vo.MyPageExhibForm;
 import com.peanart.mypage.vo.MyPageFileVO;
 import com.peanart.mypage.vo.MyPageFollowForm;
 import com.peanart.mypage.vo.MyPageVO;
@@ -22,4 +23,6 @@ public interface MyPageDAO {
     MyPageFileVO getProfileImg(int usrSeq);
 
     List<MyPageFollowForm> getFollowList(int usrSeq);
+
+    List<MyPageExhibForm> getExhibList(int usrSeq);
 }

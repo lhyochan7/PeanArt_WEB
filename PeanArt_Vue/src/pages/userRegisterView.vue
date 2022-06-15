@@ -175,7 +175,11 @@ export default {
           },}).then(response => {
               console.log(response);
               if(response.status === 201){
+<<<<<<< HEAD
                   // 응답이 Created(201) 이면 login 페이지로 이동
+=======
+                  // 응답이 OK(201) 이면 login 페이지로 이동
+>>>>>>> 595be204760e5bcea9422322a69656c74bb46f79
                   alert('회원가입에 성공했습니다!')
                   this.$router.push('/login');
               } else {

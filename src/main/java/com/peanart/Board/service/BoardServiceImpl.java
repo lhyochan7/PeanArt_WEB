@@ -45,4 +45,8 @@ public class BoardServiceImpl implements BoardService{
     public void regReview(ReviewVO reviewVO) {
         boardDAO.regReview(reviewVO);
     }
+    @Override
+    public void deleteExhib(int exhibseq) {
+        boardDAO.deleteExhib(exhibseq);
+    }
 }

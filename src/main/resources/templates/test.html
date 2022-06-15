@@ -3,13 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script>
+        function test(){
+            document.loginForm.method = "POST";
+            document.loginForm.action = "/loginCheck";
+            document.loginForm.submit();
+        }
+        function join(){
+            document.loginForm2.method = "POST";
+            document.loginForm2.action = "/join";
+            document.loginForm2.submit();
+        }
+    </script>
 </head>
 <body>
-    <form id = "loginForm" name="memberVO" method="post" action="/login">
+    <form id = "loginForm" name="loginForm">
         <input name = "usrId">
         <input name = "usrPw">
-        <button type="submit">test</button>
+        <button onclick="test();">test</button>
     </form>
-
+    <form id = "loginForm2" name="loginForm2">
+        <input name = "usrId">
+        <input name = "usrPw">
+        <input name = "usrPhone">
+        <input name = "usrNickname">
+        <input name = "usrName">
+        <input name = "usrAdrs">
+        <button onclick="join();">join</button>
+    </form>
 </body>
 </html>

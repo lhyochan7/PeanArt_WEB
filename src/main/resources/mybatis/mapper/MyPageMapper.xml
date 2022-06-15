@@ -13,7 +13,7 @@
         WHERE A.usr_seq = #{usrSeq}
     </select>
 
-    <insert id="setProfileImg">
+    <insert id="setProfileImg" useGeneratedKeys="true" keyProperty="fileUsrSeq">
         INSERT INTO tb_file_user
         (
             usr_seq, file_dir_name, file_name, file_usr_cret_date
@@ -55,6 +55,19 @@
         WHERE A.usr_seq = #{usrSeq}) AS tmp
         LEFT JOIN tb_user D
         ON tmp.followed_usr_seq = D.usr_seq
+    </select>
+
+    <select id="getExhibList" resultType="MyPageExhibForm">
+        SELECT DISTINCT tmp.usr_seq, tmp.exhib_seq, tmp.exhib_title, tmp.file_dir_name, tmp.file_name
+        FROM
+        (SELECT C.usr_seq, A.exhib_seq, A.exhib_title, A.file_dir_name, A.file_name
+        FROM tb_exhibit A
+        LEFT JOIN tb_review B
+        ON A.exhib_seq = B.exhib_seq
+        LEFT JOIN tb_user C
+        ON B.usr_seq = C.usr_seq
+        WHERE C.usr_seq = #{usrSeq}
+        ORDER BY B.rev_cret_date) AS tmp
     </select>
 
 </mapper>

@@ -15,8 +15,27 @@ public class ExhibitRegisterVO {
     String exhibLocation;
     String exhibUri;
     int usrSeq;
+    String exhibCretDate;
+    String exhibModDate;
     String fileDirName;
+    String fileName;
+    int goodsAllow;
 
+    public String getExhibCretDate() {
+        return exhibCretDate;
+    }
+
+    public void setExhibCretDate(String exhibCretDate) {
+        this.exhibCretDate = exhibCretDate;
+    }
+
+    public String getExhibModDate() {
+        return exhibModDate;
+    }
+
+    public void setExhibModDate(String exhibModDate) {
+        this.exhibModDate = exhibModDate;
+    }
     public String getFileDirName() {
         return fileDirName;
     }
@@ -33,8 +52,7 @@ public class ExhibitRegisterVO {
         this.fileName = fileName;
     }
 
-    String fileName;
-    int goodsAllow;
+
     //file area
 
     public int getExhibKind() {
