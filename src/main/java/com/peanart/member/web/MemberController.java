@@ -33,7 +33,7 @@ public class MemberController {
 
     //Login 체크하기 / 로그인 성공 : HttpStatus = ok, 실패 : HttpStatus = bad request, 그 외 : not found
     @PostMapping("/loginCheck")
-    public ResponseEntity<MemberVO> checkLogin(HttpServletRequest req, HttpSession session, @RequestBody MemberVO memberVO){
+    public ResponseEntity<MemberVO> checkLogin(HttpServletRequest req, HttpSession session, MemberVO memberVO){
         try {
             System.out.println(memberVO);
             MemberVO user = memberService.loginCheck(memberVO);
