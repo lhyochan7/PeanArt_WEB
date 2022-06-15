@@ -42,6 +42,10 @@ public class MyPageController {
     public String goUpload(HttpSession session){
         return "upload";
     }
+    @GetMapping("/imgtest")
+    public String imgtest(HttpSession session){
+        return "imgtest";
+    }
 
     // mypage 상단 user info
     @GetMapping("/my-page")
