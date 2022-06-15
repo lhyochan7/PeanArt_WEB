@@ -28,7 +28,7 @@
 <script>
 import exhib_card from '../components/exhib_card.vue'
 import nav_bar from '../components/nav_bar.vue'
-import Axios from 'axios'
+import axios from 'axios'
 export default {
     name: 'exhibitListView',
     components: { nav_bar, exhib_card },
@@ -76,37 +76,22 @@ export default {
                 params:{
                     kind: this.$route.query.kind,
                     item: this.searchSeletedItem,
-                    input: this.searchInput
+                    searchTxt: this.searchInput
                 }
             }
             console.log(param);
-            Axios.get("http://localhost:8080/exhibit", param).then(response =>{
+            axios.get("http://localhost:8080/search", param).then(response =>{
                 console.log(response);
+                this.list = response.data;
             })
-            this.list = [{
-            seq:'1',
-            title: '경북대 전시회',
-            startDate: '2022-06-01',
-            endDate: '2022-07-15',
-            location:'대구시',
-            imgSrc: '../assets/',
-        },{
-            seq:'2',
-            title: '경북대 전시회',
-            startDate: '2022-06-01',
-            endDate: '2022-07-15',
-            location:'대구시',
-            imgSrc: '../assets/',
-        },{
-            seq:'3',
-            title: '경북대 전시회',
-            startDate: '2022-06-01',
-            endDate: '2022-07-15',
-            location:'대구시',
-            imgSrc: '../assets/',
-        },]
         }
     },
+    mounted(){
+        axios.get('http://localhost:8080/BoardList').then(response =>{
+            console.log(response)
+            this.list = response.data
+        })
+    }
 }
 </script>
 
