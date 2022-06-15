@@ -320,7 +320,7 @@ export default {
     exhibUri:'',
     exhibSimpleInfo:'',
     exhibDetailInfo:'',
-    exhibKind:'',
+    exhibKind:0,
     exhibGoodsAllow:'',
     exhibTheme:'',
     // Input 검증 용 Rules
@@ -420,25 +420,27 @@ export default {
         const frm = new FormData();
         frm.append('startDate', this.startDate)
         frm.append('endDate', this.endDate)
-        frm.append('posterImage', this.posterImage)
-        frm.append('innerImage', this.innerImage)
+        frm.append('posterFile', this.posterImage)
+        for(const file in this.innerImage){
+            frm.append('uploadFile',file);
+        }
         frm.append('exhibTitle', this.exhibTitle)
         frm.append('exhibLocation',this.exhibLocation)
         frm.append('exhibUri',this.exhibUri)
-        frm.append('exhibSimpleInfo',this.exhibSimpleInfo)
-        frm.append('exhibDetailInfo',this.exhibDetailInfo)
+        frm.append('exhibSimpleExp',this.exhibSimpleInfo)
+        frm.append('exhibDetailExp',this.exhibDetailInfo)
         frm.append('exhibKind',this.exhibKind)
         frm.append('exhibGoodsAllow',this.exhibGoodsAllow)
         frm.append('exhibTheme',this.exhibTheme)
-        axios.post("http://localhost:8080/registration", frm,{ headers: {
+        axios.post("http://localhost:8080/exhib/register", frm,{ headers: {
             "Content-Type": `multipart/form-data`,
             'Allow-Control-Allow-Origin': '*'
           },}).then(response => {
               console.log(response);
-              if(response.status === 201){
-                  // 응답이 Created(201) 이면 login 페이지로 이동
-                  alert('회원가입에 성공했습니다!')
-                  this.$router.push('/login');
+              if(response.status === 200){
+                  // 응답이 Ok(200) 이면 login 페이지로 이동
+                  alert('등록에 성공했습니다!')
+                  this.$router.push('/main');
               } else {
                   alert('회원가입에 실패했습니다. 다시 시도해주세요');
               }

@@ -49,7 +49,6 @@ export default {
   }),
    methods: {
       loginRequest: function() {
-<<<<<<< HEAD
           axios.post('/login', {
               usrId: this.email,
               usrPw: this.password
@@ -66,18 +65,6 @@ export default {
                   alert('로그인에 실패했습니다. 다시 시도해주세요');
               }
           })
-=======
-           axios.post('http://localhost:8080/loginCheck', {
-               usrId: this.email,
-               usrPw: this.password
-           }, { headers: {
-             "Content-Type": `application/json`,
-           },}).then(function(response){
-               console.log(response);
-           })
-        sessionStorage.setItem('usrId', this.email);
-        this.$router.push('/main');
->>>>>>> 595be204760e5bcea9422322a69656c74bb46f79
       },
   }
 };
