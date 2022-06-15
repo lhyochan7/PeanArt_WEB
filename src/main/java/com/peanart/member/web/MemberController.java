@@ -31,26 +31,12 @@ public class MemberController {
         return "result";
     }
 
-    //Login 페이지 이동
-    @GetMapping("/login2")
-    public ResponseEntity goLogin(HttpServletRequest req, HttpSession session, ModelMap model){
-        try {
-            return ResponseEntity.ok().build();
-        }catch (Exception e){
-            e.printStackTrace();
-            return ResponseEntity.notFound().build();
-        }
-    }
-
 
     //Login 체크하기 / 로그인 성공 : HttpStatus = ok, 실패 : HttpStatus = bad request, 그 외 : not found
     @PostMapping("/loginCheck")
-    public ResponseEntity<MemberVO> checkLogin(HttpServletRequest req, HttpSession session, LoginForm loginForm){
-        System.out.println("loginForm" + loginForm);
+    public ResponseEntity<MemberVO> checkLogin(HttpServletRequest req, HttpSession session, @RequestBody MemberVO memberVO){
         try {
-            MemberVO memberVO = new MemberVO();
-            memberVO.setUsrId(loginForm.getUsrId());
-            memberVO.setUsrPw(loginForm.getUsrPw());
+            System.out.println(memberVO);
             MemberVO user = memberService.loginCheck(memberVO);
             System.out.println("user" + user);
             if(user==null){
@@ -75,9 +61,9 @@ public class MemberController {
 
     // 회원가입 / 성공 : HttpStatus = created, 실패 : HttpStatus = bad request
     @PostMapping("/join")
-    public ResponseEntity join(HttpServletRequest req, HttpSession session, ModelMap model, MemberVO memberVO){
-
+    public ResponseEntity join(HttpServletRequest req, HttpSession session, ModelMap model, @RequestBody MemberVO memberVO){
         try {
+            System.out.println("join###################" + memberVO.getUsrPw());
             memberService.join(memberVO);
             // 회원가입 후 처리할 URI 넣기기
             return ResponseEntity.created(URI.create("/login")).build();
