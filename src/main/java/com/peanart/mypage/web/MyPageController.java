@@ -2,10 +2,7 @@ package com.peanart.mypage.web;
 
 import com.peanart.main.vo.FileVO;
 import com.peanart.mypage.service.MyPageService;
-import com.peanart.mypage.vo.MyPageExhibForm;
-import com.peanart.mypage.vo.MyPageFileVO;
-import com.peanart.mypage.vo.MyPageFollowForm;
-import com.peanart.mypage.vo.MyPageVO;
+import com.peanart.mypage.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -16,7 +13,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,10 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class MyPageController {
@@ -57,7 +50,7 @@ public class MyPageController {
             int usrSeq = 0;
             usrSeq = Integer.parseInt(session.getAttribute("usrSeq").toString());
 
-            //MyPage User Info
+            //MyPage User Info / profileImg Url(localhost:8080/imagePath 포함)
             if(usrSeq != 0){
                 MyPageVO user = myPageService.getUserInfo(usrSeq);
                 rtn.put("userInfo", user);
@@ -68,12 +61,30 @@ public class MyPageController {
                 String profileImg = "http://localhost:8080/imagePath/" + folderName + "/" + fileName;
 
                 rtn.put("profileImg", profileImg);
-                // 다녀온 전시회 list / 타이틀, 포스터 폴더 이름, 파일 이름
-                List<MyPageExhibForm> exhibList = myPageService.getExhibList(usrSeq);
-                rtn.put("exhibList", exhibList);
-                // follow list 폴더 이름, 파일 이름, 팔로우당한 사람 아이디, 닉네임
-                List<MyPageFollowForm> followList = myPageService.getFollowList(usrSeq);
-                rtn.put("followList", followList);
+
+                // 다녀온 전시회 list / 타이틀, 포스터 Url(localhost:8080/imagePath 포함)
+                List<MyPageExhibVO> exhibList = myPageService.getExhibList(usrSeq);
+                List<MyPageExhibForm> exhibFormList = new ArrayList<>();
+                for(MyPageExhibVO exhibVO : exhibList){
+                    MyPageExhibForm exhibForm = new MyPageExhibForm();
+                    exhibForm.setExhibTitle(exhibVO.getExhibTitle());
+                    exhibForm.setEhixbPosterUrl("http://localhost:8080/imagePath/" + exhibVO.getFileDirName() + "/" + exhibVO.getFileName());
+                    System.out.println(exhibForm);
+                    exhibFormList.add(exhibForm);
+                }
+                rtn.put("exhibList", exhibFormList);
+
+                // follow list 폴더 이름, 파일 이름, 팔로우당한 사람 아이디, 닉네임 / 팔로우 당한사람 닉네임, 사진(localhost:8080/imagePath 포함)
+                List<MyPageFollowVO> followList = myPageService.getFollowList(usrSeq);
+                List<MyPageFollowForm> followFormList = new ArrayList<>();
+                for(MyPageFollowVO followed : followList){
+                    MyPageFollowForm followForm = new MyPageFollowForm();
+                    followForm.setUsrNickname(followed.getUsrNickname());
+                    followForm.setFollowedImgUrl("http://localhost:8080/imagePath/" + followed.getFileDirName() + "/" + followed.getFileName());
+                    System.out.println(followForm);
+                    followFormList.add(followForm);
+                }
+                rtn.put("followList", followFormList);
 
                 // rtn에 profile Img 호출 URI, Follo List 담겨있음
                 return ResponseEntity.ok()
@@ -98,7 +109,7 @@ public class MyPageController {
 
                 // 고유 폴더 이름 만들기 ( UUID_userId )
                 String dirUuid = UUID.randomUUID().toString();
-                String folderName = dirUuid + "_" + session.getAttribute("usrNickname").toString();
+                String folderName = dirUuid + "_" + session.getAttribute("usrId").toString();
                 System.out.println(folderName);
 
                 File directory = new File(path + "/" + folderName);
@@ -107,14 +118,14 @@ public class MyPageController {
                 }
 
                 FileVO fvo = new FileVO(UUID.randomUUID().toString(), profileImg.getOriginalFilename(), profileImg.getContentType());
-                File newFileName = new File(path + "/" +folderName + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
+                File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + fvo.getFileName());
                 profileImg.transferTo(newFileName);
 
                 model.addAttribute("profileImg", profileImg);
 
                 MyPageFileVO myPageFileVO = new MyPageFileVO();
                 myPageFileVO.setFileDirName(folderName);
-                myPageFileVO.setFileName(fvo.getfile_Uuid() + "_" + fvo.getFileName());
+                myPageFileVO.setFileName(fvo.getFileUuid() + "_" + fvo.getFileName());
 
                 // 나중에 session에서 user 분류값 넣기
                 myPageFileVO.setUsrSeq(usrSeq);
@@ -141,16 +152,13 @@ public class MyPageController {
                 }
 
                 FileVO fvo = new FileVO(UUID.randomUUID().toString(), profileImg.getOriginalFilename(), profileImg.getContentType());
-                File newFileName = new File(path + "/" +folderName + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
+                File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + fvo.getFileName());
                 profileImg.transferTo(newFileName);
-
-                model.addAttribute("profileImg", profileImg);
 
                 MyPageFileVO myPageFileVO = new MyPageFileVO();
                 myPageFileVO.setFileDirName(folderName);
-                myPageFileVO.setFileName(fvo.getfile_Uuid() + "_" + fvo.getFileName());
+                myPageFileVO.setFileName(fvo.getFileUuid() + "_" + fvo.getFileName());
 
-                // 나중에 session에서 user 분류값 넣기
                 myPageFileVO.setUsrSeq(usrSeq);
 
                 myPageService.updateProfileImg(myPageFileVO);

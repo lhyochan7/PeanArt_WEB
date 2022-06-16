@@ -1,4 +1,4 @@
-package com.peanart;
+package com.peanart.main.web;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +22,10 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/imagePath/**")
                 .addResourceLocations("file:///" + path + "/");
+    }
+    public void addResourceHandlers(ResourceHandlerRegistry registry, String folderName) {
+        registry.addResourceHandler("/imagePath/**")
+                .addResourceLocations("file:///" + path + "/" + folderName + "/");
     }
 
 }

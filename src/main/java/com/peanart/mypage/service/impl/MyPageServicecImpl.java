@@ -1,11 +1,10 @@
 package com.peanart.mypage.service.impl;
 
-import com.peanart.member.vo.MemberVO;
 import com.peanart.mypage.dao.MyPageDAO;
 import com.peanart.mypage.service.MyPageService;
-import com.peanart.mypage.vo.MyPageExhibForm;
+import com.peanart.mypage.vo.MyPageExhibVO;
 import com.peanart.mypage.vo.MyPageFileVO;
-import com.peanart.mypage.vo.MyPageFollowForm;
+import com.peanart.mypage.vo.MyPageFollowVO;
 import com.peanart.mypage.vo.MyPageVO;
 import org.springframework.stereotype.Service;
 
@@ -44,12 +43,12 @@ public class MyPageServicecImpl implements MyPageService {
     }
 
     @Override
-    public List<MyPageFollowForm> getFollowList(int usrSeq) {
+    public List<MyPageFollowVO> getFollowList(int usrSeq) {
         return myPageDAO.getFollowList(usrSeq);
     }
 
     @Override
-    public List<MyPageExhibForm> getExhibList(int usrSeq) {
+    public List<MyPageExhibVO> getExhibList(int usrSeq) {
         return myPageDAO.getExhibList(usrSeq);
     }
 }

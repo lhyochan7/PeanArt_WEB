@@ -80,7 +80,7 @@ public class ExhibitRegisterController {
                         FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
                         files.add(fvo);
 
-                        File newFileName = new File(path + "/" +folderName + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
+                        File newFileName = new File(path + "/" +folderName + "/" + fvo.getfileUuid() + "_" + fvo.getFileName());
 
                         fvo.setFileDirName(folderName);
                         fvo.setExhibSeq(exhibSeq);

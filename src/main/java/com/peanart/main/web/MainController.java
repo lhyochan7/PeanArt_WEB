@@ -81,7 +81,7 @@ public class MainController {
                 FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
                 files.add(fvo);
 
-                File newFileName = new File(path + "/" +folderName + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
+                File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + fvo.getFileName());
 
                 file.transferTo(newFileName);
             }
@@ -104,7 +104,7 @@ public class MainController {
     public ResponseEntity<Resource> download(@ModelAttribute FileVO fvo) throws IOException {
         System.out.println(fvo.getFileName());
 
-        Path path = Paths.get(filePath + '/' + fvo.getfile_Uuid()+ '_' + fvo.getFileName());
+        Path path = Paths.get(filePath + '/' + fvo.getFileUuid()+ '_' + fvo.getFileName());
 
         System.out.println(path.toString());
         //Path path = Paths.get(fileDirName + fileName);
@@ -185,7 +185,7 @@ public class MainController {
                     FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
                     modFileList.add(fvo);
 
-                    File newFileName = new File(path + "/" +originFileList.get(0).getFileDirName() + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
+                    File newFileName = new File(path + "/" +originFileList.get(0).getFileDirName() + "/" + fvo.getFileUuid() + "_" + fvo.getFileName());
 
                     fvo.setFileDirName(originFileList.get(0).getFileDirName());
                     fvo.setExhibSeq(originFileList.get(0).getExhibSeq());
@@ -195,7 +195,7 @@ public class MainController {
 
             for(FileVO mod : modFileList){
                 for(FileVO  origin : originFileList){
-                    if(mod.getfile_Uuid() == origin.getfile_Uuid()){
+                    if(mod.getFileUuid() == origin.getFileUuid()){
                         originFileList.remove(origin);
                         modFileList.remove(mod);
                     }
