@@ -17,6 +17,4 @@ public interface MemberDAO {
     MemberVO idCheck(String usrId);
 
     MemberVO nicknameCheck(String usrNickname);
-
-
 }

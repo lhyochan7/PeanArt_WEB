@@ -2,6 +2,7 @@ package com.peanart.mypage.web;
 
 import com.peanart.main.vo.FileVO;
 import com.peanart.mypage.service.MyPageService;
+import com.peanart.mypage.vo.MyPageExhibForm;
 import com.peanart.mypage.vo.MyPageFileVO;
 import com.peanart.mypage.vo.MyPageFollowForm;
 import com.peanart.mypage.vo.MyPageVO;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@RestController
+@Controller
 public class MyPageController {
 
     @Value("${spring.servlet.multipart.location}")
@@ -35,6 +37,15 @@ public class MyPageController {
 
     @Autowired
     MyPageService myPageService;
+
+    @GetMapping("/upload")
+    public String goUpload(HttpSession session){
+        return "upload";
+    }
+    @GetMapping("/imgtest")
+    public String imgtest(HttpSession session){
+        return "imgtest";
+    }
 
     // mypage 상단 user info
     @GetMapping("/my-page")
@@ -57,7 +68,9 @@ public class MyPageController {
                 String profileImg = "http://localhost:8080/imagePath/" + folderName + "/" + fileName;
 
                 rtn.put("profileImg", profileImg);
-
+                // 다녀온 전시회 list / 타이틀, 포스터 폴더 이름, 파일 이름
+                List<MyPageExhibForm> exhibList = myPageService.getExhibList(usrSeq);
+                rtn.put("exhibList", exhibList);
                 // follow list 폴더 이름, 파일 이름, 팔로우당한 사람 아이디, 닉네임
                 List<MyPageFollowForm> followList = myPageService.getFollowList(usrSeq);
                 rtn.put("followList", followList);
@@ -75,17 +88,17 @@ public class MyPageController {
 
     // mypage profile 사진 등록 / 변경
     @PostMapping("/profile-img")
-    public ResponseEntity<MultipartFile> profileImg(@RequestParam MultipartFile profileImg, @RequestParam String usrId, Model model) throws IllegalStateException, IOException {
+    public ResponseEntity<MultipartFile> profileImg(@RequestParam MultipartFile profileImg, HttpSession session, Model model) throws IllegalStateException, IOException {
         try {
             // 세션에서 아이디 받는 걸로 바꿔줘잉
-            int usrSeq = 0;
+            int usrSeq = Integer.parseInt(session.getAttribute("usrSeq").toString());
             int isExist = myPageService.isThereImg(usrSeq);
             System.out.println(isExist);
             if(isExist == 0){
 
                 // 고유 폴더 이름 만들기 ( UUID_userId )
                 String dirUuid = UUID.randomUUID().toString();
-                String folderName = dirUuid + "_" + usrId;
+                String folderName = dirUuid + "_" + session.getAttribute("usrNickname").toString();
                 System.out.println(folderName);
 
                 File directory = new File(path + "/" + folderName);
@@ -115,7 +128,13 @@ public class MyPageController {
                 MyPageFileVO userProfile = myPageService.getProfileImg(usrSeq);
 
                 String folderName = userProfile.getFileDirName();
+                String filename = userProfile.getFileName();
+                File profile = new File(path + "/" + folderName +"/" +  filename);
 
+                if(profile.exists()){
+                    profile.delete();
+                    System.out.println("file deleted");
+                }
                 File directory = new File(path + "/" + folderName);
                 if (!directory.exists()) {
                     directory.mkdir();

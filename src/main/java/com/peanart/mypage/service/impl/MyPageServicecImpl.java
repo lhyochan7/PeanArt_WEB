@@ -3,6 +3,7 @@ package com.peanart.mypage.service.impl;
 import com.peanart.member.vo.MemberVO;
 import com.peanart.mypage.dao.MyPageDAO;
 import com.peanart.mypage.service.MyPageService;
+import com.peanart.mypage.vo.MyPageExhibForm;
 import com.peanart.mypage.vo.MyPageFileVO;
 import com.peanart.mypage.vo.MyPageFollowForm;
 import com.peanart.mypage.vo.MyPageVO;
@@ -45,5 +46,10 @@ public class MyPageServicecImpl implements MyPageService {
     @Override
     public List<MyPageFollowForm> getFollowList(int usrSeq) {
         return myPageDAO.getFollowList(usrSeq);
+    }
+
+    @Override
+    public List<MyPageExhibForm> getExhibList(int usrSeq) {
+        return myPageDAO.getExhibList(usrSeq);
     }
 }

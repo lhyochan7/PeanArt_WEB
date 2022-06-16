@@ -5,11 +5,10 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter@Setter@ToString
-public class MyPageFileVO {
-
-    private int fileUsrSeq;
+public class MyPageExhibForm {
     private int usrSeq;
+    private int exhibSeq;
+    private String exhibTitle;
     private String fileDirName;
     private String fileName;
-
 }
