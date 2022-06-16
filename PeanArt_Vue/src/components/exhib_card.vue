@@ -6,7 +6,7 @@
             outlined
           >
               <v-img
-              :src="`${exhibData.fileDirName}/${exhibData.fileName}/ai_1.png`"
+              :src="imgsrc"
               height="200px"
               >
               </v-img>
@@ -30,7 +30,11 @@ export default {
   },
   data: () => ({
     //
+    imgsrc:'',
   }),
+  mounted(){
+      this.imgsrc = require('@/assets/'+ this.exhibData.fileName)
+  }
 };
 </script>
 

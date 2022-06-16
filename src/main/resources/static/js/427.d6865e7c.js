@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkpean_art"]=self["webpackChunkpean_art"]||[]).push([[427],{6427:function(e,l,n){n.r(l);var u,a,t=n(1001),p={},r=(0,t.Z)(p,u,a,!1,null,null,null);l["default"]=r.exports}}]);
+//# sourceMappingURL=427.d6865e7c.js.map

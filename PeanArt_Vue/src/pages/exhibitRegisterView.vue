@@ -203,7 +203,7 @@
                                 ></v-checkbox>
                             </v-col>
                             <v-col md="6">
-                                <v-btn block outlined rounded @click="panelVar=1">완료</v-btn>
+                                <v-btn block outlined rounded @click="nextStep()">완료</v-btn>
                             </v-col>
                         </v-row>
                     </v-form>
@@ -219,58 +219,62 @@
                     </v-row>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                    <v-row class="justify-center">
-                        <v-col md="8">
-                                <v-file-input
-                                accept="image/png"
-                                placeholder="전시회 포스터 이미지를 첨부해주세요."
-                                prepend-inner-icon="mdi-image"
-                                label="전시회 포스터 이미지"
-                                outlined
-                                @change="previewPosterImage"
-                                v-model="posterImage"
-                            ></v-file-input>
-                        </v-col>
-                    </v-row>
-                    <v-row class="justify-center">
-                        <v-col md="8" class="d-flex justify-center align-center">
-                            <v-img v-if="posterUrl!=null" :src="posterUrl" max-height="300px" max-width="300px" contain></v-img>
-                        </v-col>
-                    </v-row>
-                    <v-row class="justify-center">
-                        <v-col md="8">
-                                <v-file-input
-                                accept="image/png"
-                                placeholder="전시회 이미지를 첨부해주세요."
-                                prepend-inner-icon="mdi-image-multiple"
-                                label="전시회 이미지"
-                                outlined
-                                @change="previewInnerImage"
-                                v-model="innerImage2"
-                                multiple
-                                :clearable="false"
-                            >
-                                <template v-slot:selection="{ index, text }">
-                                    <v-chip
-                                        small
-                                        label
-                                        color="primary"
-                                        close
-                                        @click:close="deleteFile(index, text)"
-                                    >
-                                        {{ text }}
-                                    </v-chip>
-                                </template>
-                            </v-file-input>
-                        </v-col>
-                    </v-row>
-                    <v-row cense>
-                        <v-col class="d-flex child-flex justify-center align-center" cols="4" v-for="(item, i) in innerUrl" v-bind:key="i">
-                            <v-card>
-                                <v-img :src="item" max-height="250px" max-width="250px" contain aspect-ratio="1"></v-img>
-                            </v-card>
-                        </v-col>
-                    </v-row>
+                    <v-form ref="secondForm">
+                        <v-row class="justify-center">
+                            <v-col md="8">
+                                    <v-file-input
+                                    accept="image/png"
+                                    placeholder="전시회 포스터 이미지를 첨부해주세요."
+                                    prepend-inner-icon="mdi-image"
+                                    label="전시회 포스터 이미지"
+                                    outlined
+                                    @change="previewPosterImage"
+                                    v-model="posterImage"
+                                    :rules="[rules.required]"
+                                ></v-file-input>
+                            </v-col>
+                        </v-row>
+                        <v-row class="justify-center">
+                            <v-col md="8" class="d-flex justify-center align-center">
+                                <v-img v-if="posterUrl!=null" :src="posterUrl" max-height="300px" max-width="300px" contain></v-img>
+                            </v-col>
+                        </v-row>
+                        <v-row class="justify-center">
+                            <v-col md="8">
+                                    <v-file-input
+                                    accept="image/png"
+                                    placeholder="전시회 이미지를 첨부해주세요."
+                                    prepend-inner-icon="mdi-image-multiple"
+                                    label="전시회 이미지"
+                                    outlined
+                                    @change="previewInnerImage"
+                                    v-model="innerImage2"
+                                    multiple
+                                    :clearable="false"
+                                    :rules="[rules.required]"
+                                >
+                                    <template v-slot:selection="{ index, text }">
+                                        <v-chip
+                                            small
+                                            label
+                                            color="primary"
+                                            close
+                                            @click:close="deleteFile(index, text)"
+                                        >
+                                            {{ text }}
+                                        </v-chip>
+                                    </template>
+                                </v-file-input>
+                            </v-col>
+                        </v-row>
+                        <v-row cense>
+                            <v-col class="d-flex child-flex justify-center align-center" cols="4" v-for="(item, i) in innerUrl" v-bind:key="i">
+                                <v-card>
+                                    <v-img :src="item" max-height="250px" max-width="250px" contain aspect-ratio="1"></v-img>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                    </v-form>
                     <v-row class="justify-center">
                         <v-col md="4">
                             <v-btn block outlined @click="panelVar=0">뒤로 가기</v-btn>
@@ -417,49 +421,43 @@ export default {
         }
       },
       registerRequest: function() {
-        const frm = new FormData();
-        this.innerImage.forEach(element =>{
-            console.log(element)
-            frm.append('uploadFile',element)
-            })
-        frm.append('posterFile', this.posterImage)
-        this.exhibGoodsAllow = this.exhibGoodsAllow ? 1 : 0
-        const data = {
-                'exhibTitle':this.exhibTitle,
-                'exhibKind':this.exhibKind,
-                'exhibTheme':this.exhibTheme,
-                'exhibSimpleExp':this.exhibSimpleInfo,
-                'exhibDetailExp':this.exhibDetailInfo,
-                'exhibStartDate':this.startDate,
-                'exhibEndDate':this.endDate,
-                'exhibLocation':this.exhibLocation,
-                'exhibUri':this.exhibUri,
-                'goodsAllow':this.exhibGoodsAllow
+        if(this.$refs.secondForm.validate()){
+            const frm = new FormData();
+            this.innerImage.forEach(element =>{
+                console.log(element)
+                frm.append('uploadFile',element)
+                })
+            frm.append('posterFile', this.posterImage)
+            this.exhibGoodsAllow = this.exhibGoodsAllow ? 1 : 0
+            const data = {
+                    'exhibTitle':this.exhibTitle,
+                    'exhibKind':this.exhibKind,
+                    'exhibTheme':this.exhibTheme,
+                    'exhibSimpleExp':this.exhibSimpleInfo,
+                    'exhibDetailExp':this.exhibDetailInfo,
+                    'exhibStartDate':this.startDate,
+                    'exhibEndDate':this.endDate,
+                    'exhibLocation':this.exhibLocation,
+                    'exhibUri':this.exhibUri,
+                    'goodsAllow':this.exhibGoodsAllow
+            }
+            frm.append('exhibData', new Blob([JSON.stringify(data)], {type: "application/json"}))
+            axios.post("http://localhost:8080/exhib/register", frm,{ headers: {
+                "Content-Type": undefined,
+                'Allow-Control-Allow-Origin': '*'
+            },}).then(response => {
+                console.log(response);
+                if(response.status === 200){
+                    // 응답이 Ok(200) 이면 전시회 목록 페이지로 이동
+                    alert('등록에 성공했습니다!')
+                    this.$router.push('/exhib/list?kind=0');
+                } else {
+                    alert('등록에 실패했습니다. 다시 시도해주세요');
+                }
+            })   
+        } else{
+            alert('전시회 이미지는 필수로 첨부 되어야 합니다.');  
         }
-        frm.append('exhibData', new Blob([JSON.stringify(data)], {type: "application/json"}))
-        // frm.append('startDate', this.startDate)
-        // frm.append('endDate', this.endDate)
-        // frm.append('exhibTitle', this.exhibTitle)
-        // frm.append('exhibLocation',this.exhibLocation)
-        // frm.append('exhibUri',this.exhibUri)
-        // frm.append('exhibSimpleExp',this.exhibSimpleInfo)
-        // frm.append('exhibDetailExp',this.exhibDetailInfo)
-        // frm.append('exhibKind',this.exhibKind)
-        // frm.append('exhibGoodsAllow',this.exhibGoodsAllow)
-        // frm.append('exhibTheme',this.exhibTheme)
-        axios.post("http://localhost:8080/exhib/register", frm,{ headers: {
-            "Content-Type": undefined,
-            'Allow-Control-Allow-Origin': '*'
-          },}).then(response => {
-              console.log(response);
-              if(response.status === 200){
-                  // 응답이 Ok(200) 이면 login 페이지로 이동
-                  alert('등록에 성공했습니다!')
-                  this.$router.push('/exhib/list?kind=0');
-              } else {
-                  alert('회원가입에 실패했습니다. 다시 시도해주세요');
-              }
-          })
       }
   },
     mounted() {
