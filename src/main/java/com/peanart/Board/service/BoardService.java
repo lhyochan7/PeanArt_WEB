@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface BoardService {
     List<BoardVO> getBoardList();
-    ExhibitRegisterVO getExhibInfo(int ExhibSeq);
+    ExhibitRegisterVO getExhibInfo(int exhibSeq);
 
     MyPageVO getUserInfo (int usrSeq);
     List<FileVO> getFile(int exhibSeq);
@@ -20,6 +20,7 @@ public interface BoardService {
     void regReview(ReviewVO reviewVO);
 
     void deleteExhib(int exhibseq);
-
+    void deleteFiles(FileVO fileVO);
+    void modExhib(ExhibitRegisterVO exhibitRegisterVO);
 
 }

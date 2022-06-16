@@ -13,10 +13,12 @@ import java.util.List;
 @Repository
 public interface BoardDAO {
     List<BoardVO> getBoardList();
-    ExhibitRegisterVO getExhibInfo(int ExhibSeq);
+    ExhibitRegisterVO getExhibInfo(int exhibSeq);
     MyPageVO getUserInfo (int usrSeq);
     List<FileVO> getFile(int exhibSeq);
     List<ReviewVO> getReview(int exhibSeq);
     void regReview(ReviewVO reviewVO);
     void deleteExhib(int exhibseq);
+    void deleteFiles(FileVO fileVO);
+    void modExhib(ExhibitRegisterVO exhibitRegisterVO);
 }
