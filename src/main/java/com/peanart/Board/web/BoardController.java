@@ -123,7 +123,7 @@ public class BoardController {
                 FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
                 modFileList.add(fvo);
 
-                File newFileName = new File(path + "/" +originFileList.get(0).getFileDirName() + "/" + fvo.getfile_Uuid() + "_" + fvo.getFileName());
+                File newFileName = new File(path + "/" +originFileList.get(0).getFileDirName() + "/" + fvo.getFileUuid() + "_" + fvo.getFileName());
 
                 fvo.setFileDirName(originFileList.get(0).getFileDirName());
                 fvo.setExhibSeq(originFileList.get(0).getExhibSeq());
@@ -133,7 +133,7 @@ public class BoardController {
 
         for(FileVO mod : modFileList){
             for(FileVO  origin : originFileList){
-                if(mod.getfile_Uuid() == origin.getfile_Uuid()){
+                if(mod.getFileUuid() == origin.getFileUuid()){
                     originFileList.remove(origin);
                     modFileList.remove(mod);
                 }
