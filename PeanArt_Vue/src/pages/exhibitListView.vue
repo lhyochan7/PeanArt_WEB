@@ -37,7 +37,7 @@ export default {
             {name:'전체', value:0}, 
             {name:'제목', value:1}, 
             {name:'내용', value:2}, 
-            {name:'장소', value:3}],
+            {name:'장소', value:3},],
         searchSeletedItem: '', // 검색할 값의 분류
         searchInput:'', // 검색 입력값
         list: [{
@@ -76,11 +76,20 @@ export default {
     }),
     methods:{
         searchByInput: function() {
-            var param = {
-                params:{
-                    kind: this.$route.query.kind,
-                    item: this.searchSeletedItem,
-                    searchTxt: this.searchInput
+            var param;
+            if (this.searchSeletedItem != '' && this.searchInput != ''){
+                param = {
+                    params:{
+                        kind: this.$route.query.kind,
+                        item: this.searchSeletedItem,
+                        searchTxt: this.searchInput
+                    }
+                }
+            } else{
+                param = {
+                    params:{
+                        kind: this.$route.query.kind,
+                    }
                 }
             }
             console.log(param);
@@ -101,6 +110,11 @@ export default {
             this.list = response.data
         })
     }*/
+    mounted() {
+        this.searchSeletedItem = this.$route.query.item!=undefined ? this.$route.query.item : ''
+        this.searchInput = this.$route.query.searchTxt!=undefined ? this.$route.query.searchTxt : ''
+        this.searchByInput()
+    }
 }
 </script>
 

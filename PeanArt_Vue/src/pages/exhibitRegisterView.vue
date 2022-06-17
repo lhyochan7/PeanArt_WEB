@@ -45,11 +45,35 @@
                         </v-row>
                         <v-row class="justify-center">
                             <v-col md="8">
-                                <v-text-field
+                                <!-- <v-text-field
                                 v-model="exhibTheme"
                                 :rules="[rules.required, rules.theme]"
                                 label="전시회 주제"
-                                outlined></v-text-field>
+                                outlined></v-text-field> -->
+                                <template>
+                                <v-combobox
+                                    v-model="exhibTheme"
+                                    :items="items"
+                                    chips
+                                    clearable
+                                    label="전시회 테마"
+                                    multiple
+                                    solo
+                                    :rules="[themeSelect]"
+                                >
+                                    <template v-slot:selection="{ attrs, item, select, selected }">
+                                    <v-chip
+                                        v-bind="attrs"
+                                        :input-value="selected"
+                                        close
+                                        @click="select"
+                                        @click:close="remove(item)"
+                                    >
+                                        <strong>{{ item }}</strong>&nbsp;
+                                    </v-chip>
+                                    </template>
+                                </v-combobox>
+                                </template>
                             </v-col>
                         </v-row>
                         <v-row class="justify-center">
@@ -305,6 +329,9 @@ export default {
     menuStart:false, // 시작일 토글용.
     endDate:'',
     menuEnd:false, // 마감일 토글용.
+    // theme 선택 selectbox 용 variable
+    exhibTheme: [],
+    items: ['디자인', '서양화', '사진', '현대미술', '미디어아트', '풍경화', '모던한', '유화', '심플', '세련된', '변화의', '비판적', '멀티컬러', '밝은', '어두운', '추상화'],
     // 이미지 첨부 및 preview용 variable.
     posterUrl: null,
     posterImage: null,
@@ -326,7 +353,6 @@ export default {
     exhibDetailInfo:'',
     exhibKind:0,
     exhibGoodsAllow:'',
-    exhibTheme:'',
     // Input 검증 용 Rules
     rules: {
         required: value => !!value || '필수.',
@@ -366,6 +392,11 @@ export default {
         const date = dateSplit[0] + '.' + parseInt(dateSplit[1])
         return date
     },
+    // theme 선택 selectbox용 variable
+    remove (item) {
+        this.chips.splice(this.chips.indexOf(item), 1)
+        this.chips = [...this.chips]
+      },
     // 첨부사진 preview용 method
     previewPosterImage() {
         if(this.posterImage!=null){
@@ -432,7 +463,7 @@ export default {
             const data = {
                     'exhibTitle':this.exhibTitle,
                     'exhibKind':this.exhibKind,
-                    'exhibTheme':this.exhibTheme,
+                    'exhibTheme':this.exhibTheme.join(','),
                     'exhibSimpleExp':this.exhibSimpleInfo,
                     'exhibDetailExp':this.exhibDetailInfo,
                     'exhibStartDate':this.startDate,
@@ -458,6 +489,9 @@ export default {
         } else{
             alert('전시회 이미지는 필수로 첨부 되어야 합니다.');  
         }
+      },
+      themeSelect() {
+        return (this.exhibTheme.length < 6 && this.exhibTheme.length > 0 ) || '주제는 1개 이상 선택 해야하며, 5개 이하로 선택 가능합니다.';
       }
   },
     mounted() {

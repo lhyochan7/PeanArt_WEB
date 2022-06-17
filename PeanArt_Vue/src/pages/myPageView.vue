@@ -43,6 +43,9 @@
                                 {{usrAddress}}
                             </v-col>
                         </v-row>
+                        <v-row justify="end">
+                            <v-btn color="green">회원정보 수정</v-btn>
+                        </v-row>
                     </v-col>
                 </v-row>
                 <v-row>
@@ -55,7 +58,7 @@
                     <v-sheet
                         class="mx-auto"
                         elevation="1"
-                        max-width="800"
+                        max-width="1000"
                     >
                         <v-slide-group
                         class="pa-4"
@@ -65,14 +68,16 @@
                                 v-for="(item, i) in visitedExhib"
                                 :key="i"
                             >
-                                <v-card
-                                class="ma-4"
-                                height="300"
-                                width="200"
-                                >
-                                <v-img :src="getImgUrl(item.imgSrc)" height="200px" contain></v-img>
-                                <v-card-text>{{item.name}}</v-card-text>
-                                </v-card>
+                                <router-link style="text-decoration:none; color:black;" :to="`/exhib/${item.exhibSeq}/detail`">
+                                    <v-card
+                                    class="ma-4"
+                                    height="300"
+                                    width="200"
+                                    >
+                                        <v-img :src="getImgUrl(item.imgSrc)" height="200px" contain></v-img>
+                                        <v-card-text>{{item.name}}</v-card-text>
+                                    </v-card>
+                                </router-link>
                             </v-slide-item>
                         </v-slide-group>
                     </v-sheet>
@@ -87,7 +92,7 @@
                     <v-sheet
                         class="mx-auto"
                         elevation="1"
-                        max-width="800"
+                        max-width="1000"
                     >
                         <v-slide-group
                         class="pa-4"
@@ -99,13 +104,16 @@
                             >
                                 <v-card
                                 class="ma-4"
-                                height="300"
+                                height="200"
                                 width="200"
                                 elevation="0"
                                 outlined
+                                align="center"
                                 >
-                                <v-img :src="getImgUrl(item.imgSrc)" max-height="200px" max-width="200px" contain></v-img>
-                                <v-card-text>{{item.name}}</v-card-text>
+                                    <v-container>
+                                        <v-avatar size="100px"><v-img :src="getImgUrl(item.imgSrc)" max-height="200px" max-width="200px"></v-img></v-avatar>
+                                        <v-card-text>{{item.name}}</v-card-text>
+                                    </v-container>
                                 </v-card>
                             </v-slide-item>
                         </v-slide-group>
@@ -133,21 +141,27 @@ export default {
         // 방문한 전시회 목록용 list
         visitedExhib: [
             {
+                exhibSeq: 1,
                 name: '청주대학교 예술대학 시각디자인 전공 제 41회 졸업 전시회',
                 imgSrc: 'exhib (1).png',
             },{
+                exhibSeq: 1,
                 name: '2021 국민대학교 공업디자인학과 졸업 전시회',
                 imgSrc: 'exhib (2).png',
             },{
+                exhibSeq: 1,
                 name: '2020 계명대학교 시각디자인과 졸업 전시',
                 imgSrc: 'exhib (3).png',
             },{
+                exhibSeq: 1,
                 name: '2020 계명대학교 시각디자인과 졸업 전시',
                 imgSrc: 'exhib (1).png',
             },{
+                exhibSeq: 1,
                 name: '2020 계명대학교 시각디자인과 졸업 전시',
                 imgSrc: 'exhib (1).png',
             },{
+                exhibSeq: 1,
                 name: '2020 계명대학교 시각디자인과 졸업 전시',
                 imgSrc: 'exhib (1).png',
             }
