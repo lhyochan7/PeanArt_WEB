@@ -27,11 +27,7 @@
         WHERE 1=1
 
         <!-- 전시회 종류 (0: 전체, 1: 대학, 2: 개인, 3: 기타) -->
-<<<<<<< HEAD
-        <if test='kind != null and kind != 0'>
-=======
         <if test="kind != null and kind != 0">
->>>>>>> 5725ae0eaddae6cb1f83933a35544e8324a1fc03
             AND exhib_kind = ${kind}
         </if>
 
