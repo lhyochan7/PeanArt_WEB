@@ -5,12 +5,15 @@ import com.peanart.ExhibitRegisteration.vo.ExhibitRegisterVO;
 import com.peanart.main.vo.FileVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +40,8 @@ public class ExhibitRegisterController {
     public ResponseEntity reg(@RequestParam MultipartFile[] uploadFile, @RequestParam MultipartFile posterFile, HttpServletRequest req, HttpSession session, ExhibitRegisterVO exhibitRegisterVO) throws IOException {
         Map<String, Object> rtn = new HashMap<>();
         System.out.println("입구에용");
-        int usrSeq = Integer.parseInt(session.getAttribute("usrSeq").toString());
+        int usrSeq = 2;
+        //int usrSeq = Integer.parseInt(session.getAttribute("usrSeq").toString());
         try {
             if(usrSeq != 0){
                 //int usrSeq = (int)session.getAttribute("usrSeq");
@@ -91,6 +95,12 @@ public class ExhibitRegisterController {
                         rtn.put("fileIndex" + fileIndex, file);
                     }
                 }
+
+                // AI 모델 업데이트 실행 (flask 서버)
+                String uri = "http://localhost:5000/updateModel";
+                RestTemplate rt = new RestTemplate();
+                rt.getForObject(uri, String.class);
+
                 return ResponseEntity.ok().body(rtn);
             }
             return ResponseEntity.badRequest().build(); //400 400 400 400 400 400 0400 400

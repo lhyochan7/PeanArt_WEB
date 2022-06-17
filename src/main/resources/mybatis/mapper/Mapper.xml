@@ -48,9 +48,9 @@
                 </when>
                 <!-- 전체 -->
                 <otherwise>
-                    AND exhib_title LIKE CONCAT('%', #{searchTxt}, '%')
+                    AND (exhib_title LIKE CONCAT('%', #{searchTxt}, '%')
                     OR exhib_detail_exp LIKE CONCAT('%', #{searchTxt}, '%')
-                    OR exhib_location LIKE CONCAT('%', #{searchTxt}, '%')
+                    OR exhib_location LIKE CONCAT('%', #{searchTxt}, '%'))
                 </otherwise>
             </choose>
         </if>
@@ -71,12 +71,12 @@
 </mapper>
 
 
-<!--
-<mapper namespace="com.example.demo.model.aws.dao.TestMapper">
+        <!--
+        <mapper namespace="com.example.demo.model.aws.dao.TestMapper">
 
-    <select id="getAllDataList" resultType="com.example.demo.model.aws.dto.portfolio">
-        SELECT * FROM portfolio;
-    </select>
+            <select id="getAllDataList" resultType="com.example.demo.model.aws.dto.portfolio">
+                SELECT * FROM portfolio;
+            </select>
 
-</mapper>
--->
+        </mapper>
+        -->

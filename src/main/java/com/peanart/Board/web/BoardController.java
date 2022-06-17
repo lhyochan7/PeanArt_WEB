@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -104,7 +105,13 @@ public class BoardController {
         deleteFilesRecursively(file);
 
         boardService.deleteExhib(exhibSeq);
-        return ResponseEntity.status(HttpStatus.OK).body("fuck you");
+
+        // AI 모델 업데이트 실행 (flask 서버)
+        String uri = "http://localhost:5000/updateModel";
+        RestTemplate rt = new RestTemplate();
+        rt.getForObject(uri, String.class);
+
+        return ResponseEntity.status(HttpStatus.OK).body("ok");
     }
 
     void modFiles(MultipartFile[] uploadFile, List<FileVO> originFileList, ExhibitRegisterVO exhibitRegisterVO, MultipartFile posterFile)throws IOException{
