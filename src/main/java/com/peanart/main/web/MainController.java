@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -31,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-@Controller
+@RestController
 public class MainController {
     @Autowired
     private MainService mainService;
@@ -212,6 +213,17 @@ public class MainController {
             e.printStackTrace();
         }
     }
+
+
+    @GetMapping("/test11")
+    public String test11() {
+        String uri = "http://localhost:5000/updateModel";
+        RestTemplate rt = new RestTemplate();
+        rt.getForObject(uri, String.class);
+
+        return "SUCCESS";
+    }
+
 
     @GetMapping("/search")
     public ResponseEntity<List<ExhibitRegisterVO>> searchExhib (@RequestParam (value = "kind", required = false) Integer kind,
