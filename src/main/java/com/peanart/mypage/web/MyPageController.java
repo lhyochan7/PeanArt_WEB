@@ -31,6 +31,8 @@ public class MyPageController {
     @Autowired
     MyPageService myPageService;
 
+
+    // 테스트 페이지 이동용
     @GetMapping("/upload")
     public String goUpload(HttpSession session){
         return "upload";
@@ -40,9 +42,9 @@ public class MyPageController {
         return "imgtest";
     }
 
-    // mypage 상단 user info
+    // mypage 상단 user info / 불러오기 성공 : ok 실패 : badRequest 그외 오류 notFound
     @GetMapping("/my-page")
-    public ResponseEntity <Map<String, Object>> getUserInfo(HttpServletRequest req, HttpSession session, ModelMap model){
+    public ResponseEntity <Map> getUserInfo(HttpServletRequest req, HttpSession session){
         Map<String, Object> rtn = new HashMap<>();
 
         try {
@@ -86,7 +88,7 @@ public class MyPageController {
                 }
                 rtn.put("followList", followFormList);
 
-                // rtn에 profile Img 호출 URI, Follo List 담겨있음
+                // rtn에 profile Img 호출 URI, Follow List 담겨있음
                 return ResponseEntity.ok()
                         .body(rtn);
             }
@@ -97,14 +99,14 @@ public class MyPageController {
         }
     }
 
-    // mypage profile 사진 등록 / 변경
+    // mypage profile 사진 등록 / 변경 성공 : created(URI : /my-page) 실패 : badRequest 그 외 : notFound
     @PostMapping("/profile-img")
-    public ResponseEntity<MultipartFile> profileImg(@RequestParam MultipartFile profileImg, HttpSession session, Model model) throws IllegalStateException, IOException {
+    public ResponseEntity profileImg(@RequestParam MultipartFile profileImg, HttpSession session) throws IllegalStateException, IOException {
         try {
             // 세션에서 아이디 받는 걸로 바꿔줘잉
             int usrSeq = Integer.parseInt(session.getAttribute("usrSeq").toString());
             int isExist = myPageService.isThereImg(usrSeq);
-            System.out.println(isExist);
+
             if(isExist == 0){
 
                 // 고유 폴더 이름 만들기 ( UUID_userId )
@@ -121,36 +123,37 @@ public class MyPageController {
                 File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + fvo.getFileName());
                 profileImg.transferTo(newFileName);
 
-                model.addAttribute("profileImg", profileImg);
-
                 MyPageFileVO myPageFileVO = new MyPageFileVO();
                 myPageFileVO.setFileDirName(folderName);
                 myPageFileVO.setFileName(fvo.getFileUuid() + "_" + fvo.getFileName());
 
-                // 나중에 session에서 user 분류값 넣기
                 myPageFileVO.setUsrSeq(usrSeq);
 
+                //DB INSERT
                 myPageService.setProfileImg(myPageFileVO);
-
-                // 프로필 사진 생성 후 URI / body에는 profileImg multipart 타입
-                return ResponseEntity.created(URI.create("프로필 사진 등록 후 URI")).body(profileImg);
+                return ResponseEntity.created(URI.create("/my-page")).build();
             }
-            else{
+            else if(isExist != 0){
+                // DB에서 프로필 이미지 디렉토리, 파일이름 받아서
                 MyPageFileVO userProfile = myPageService.getProfileImg(usrSeq);
 
                 String folderName = userProfile.getFileDirName();
                 String filename = userProfile.getFileName();
                 File profile = new File(path + "/" + folderName +"/" +  filename);
 
+                // 존재하면 지웁니다
                 if(profile.exists()){
                     profile.delete();
                     System.out.println("file deleted");
                 }
+
+                // 폴더가 없으면 만들구요
                 File directory = new File(path + "/" + folderName);
                 if (!directory.exists()) {
                     directory.mkdir();
                 }
 
+                // 프로필 이미지 새로 만듭니다
                 FileVO fvo = new FileVO(UUID.randomUUID().toString(), profileImg.getOriginalFilename(), profileImg.getContentType());
                 File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + fvo.getFileName());
                 profileImg.transferTo(newFileName);
@@ -161,12 +164,14 @@ public class MyPageController {
 
                 myPageFileVO.setUsrSeq(usrSeq);
 
+                //DB 값 변경
                 myPageService.updateProfileImg(myPageFileVO);
+                return ResponseEntity.created(URI.create("/my-page")).build();
             }
-            return new ResponseEntity<>(HttpStatus.OK);
+            return ResponseEntity.badRequest().build();
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
     }
 }
