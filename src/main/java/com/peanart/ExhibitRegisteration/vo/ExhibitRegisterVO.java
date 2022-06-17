@@ -138,7 +138,26 @@ public class ExhibitRegisterVO {
         this.exhibUri = exhibUri;
     }
 
-
+    @Override
+    public String toString() {
+        return "ExhibitRegisterVO{" +
+                "exhibTitle='" + exhibTitle + '\'' +
+                ", exhibKind=" + exhibKind +
+                ", exhibTheme='" + exhibTheme + '\'' +
+                ", exhibSimpleExp='" + exhibSimpleExp + '\'' +
+                ", exhibDetailExp='" + exhibDetailExp + '\'' +
+                ", exhibStartDate='" + exhibStartDate + '\'' +
+                ", exhibEndDate='" + exhibEndDate + '\'' +
+                ", exhibLocation='" + exhibLocation + '\'' +
+                ", exhibUri='" + exhibUri + '\'' +
+                ", usrSeq=" + usrSeq +
+                ", exhibCretDate='" + exhibCretDate + '\'' +
+                ", exhibModDate='" + exhibModDate + '\'' +
+                ", fileDirName='" + fileDirName + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", goodsAllow=" + goodsAllow +
+                '}';
+    }
 
     public int getGoodsAllow() {
         return goodsAllow;

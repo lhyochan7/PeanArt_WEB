@@ -43,7 +43,7 @@
     </select>
 
 
-    <select id="getFollowList" resultType="MyPageFollowForm">
+    <select id="getFollowList" resultType="MyPageFollowVO">
         SELECT tmp.file_dir_name, tmp.file_name, D.usr_id, D.usr_nickname
         FROM
         (SELECT A.usr_seq, A.usr_id, B.followed_usr_seq, C.file_dir_name, C.file_name
@@ -57,7 +57,7 @@
         ON tmp.followed_usr_seq = D.usr_seq
     </select>
 
-    <select id="getExhibList" resultType="MyPageExhibForm">
+    <select id="getExhibList" resultType="MyPageExhibVO">
         SELECT DISTINCT tmp.usr_seq, tmp.exhib_seq, tmp.exhib_title, tmp.file_dir_name, tmp.file_name
         FROM
         (SELECT C.usr_seq, A.exhib_seq, A.exhib_title, A.file_dir_name, A.file_name

@@ -36,7 +36,7 @@ public class FileVO {
                 '}';
     }
 
-    public String getfile_Uuid() {
+    public String getFileUuid() {
         return fileUuid;
     }
 

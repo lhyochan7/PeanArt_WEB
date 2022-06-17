@@ -1,9 +1,8 @@
 package com.peanart.mypage.service;
 
-import com.peanart.member.vo.MemberVO;
-import com.peanart.mypage.vo.MyPageExhibForm;
+import com.peanart.mypage.vo.MyPageExhibVO;
 import com.peanart.mypage.vo.MyPageFileVO;
-import com.peanart.mypage.vo.MyPageFollowForm;
+import com.peanart.mypage.vo.MyPageFollowVO;
 import com.peanart.mypage.vo.MyPageVO;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public interface MyPageService {
 
     MyPageFileVO getProfileImg(int usrSeq);
 
-    List<MyPageFollowForm> getFollowList(int usrSeq);
+    List<MyPageFollowVO> getFollowList(int usrSeq);
 
-    List<MyPageExhibForm> getExhibList(int usrSeq);
+    List<MyPageExhibVO> getExhibList(int usrSeq);
 }

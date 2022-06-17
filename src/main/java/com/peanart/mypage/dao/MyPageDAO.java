@@ -1,8 +1,8 @@
 package com.peanart.mypage.dao;
 
-import com.peanart.mypage.vo.MyPageExhibForm;
+import com.peanart.mypage.vo.MyPageExhibVO;
 import com.peanart.mypage.vo.MyPageFileVO;
-import com.peanart.mypage.vo.MyPageFollowForm;
+import com.peanart.mypage.vo.MyPageFollowVO;
 import com.peanart.mypage.vo.MyPageVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -22,7 +22,7 @@ public interface MyPageDAO {
 
     MyPageFileVO getProfileImg(int usrSeq);
 
-    List<MyPageFollowForm> getFollowList(int usrSeq);
+    List<MyPageFollowVO> getFollowList(int usrSeq);
 
-    List<MyPageExhibForm> getExhibList(int usrSeq);
+    List<MyPageExhibVO> getExhibList(int usrSeq);
 }

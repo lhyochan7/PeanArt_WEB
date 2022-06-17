@@ -49,4 +49,13 @@ public class BoardServiceImpl implements BoardService{
     public void deleteExhib(int exhibseq) {
         boardDAO.deleteExhib(exhibseq);
     }
+    @Override
+    public void deleteFiles(FileVO fileVO) {
+        boardDAO.deleteFiles(fileVO);
+    }
+
+    @Override
+    public void modExhib(ExhibitRegisterVO exhibitRegisterVO) {
+        boardDAO.modExhib(exhibitRegisterVO);
+    }
 }
