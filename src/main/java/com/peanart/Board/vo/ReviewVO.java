@@ -7,6 +7,9 @@ public class ReviewVO {
     String revContent;
     String revCretDate;
     String revModDate;
+    String usrNickname;
+    String fileDirName;
+    String fileName;
 
     public int getUsrSeq() {
         return usrSeq;
@@ -54,5 +57,29 @@ public class ReviewVO {
 
     public void setRevModDate(String revModDate) {
         this.revModDate = revModDate;
+    }
+
+    public String getFileDirName() {
+        return fileDirName;
+    }
+
+    public void setFileDirName(String fileDirName) {
+        this.fileDirName = fileDirName;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getUsrNickname() {
+        return usrNickname;
+    }
+
+    public void setUsrNickname(String usrNickname) {
+        this.usrNickname = usrNickname;
     }
 }

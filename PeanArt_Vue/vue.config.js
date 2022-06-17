@@ -24,5 +24,4 @@ module.exports = defineConfig({
     // 기존 경로: assetsRoot: path.resolve(__dirname, '../dist'),
     //  SpringBoot Static Folder
   outputDir: '../src/main/resources/static',
-  // publicPath: '/',
 })

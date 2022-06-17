@@ -110,6 +110,14 @@ export default {
             this.list = response.data
         })
     }*/
+    created() {
+        this.$watch(
+        () => this.$route.query,
+        () => {
+            this.searchByInput()
+        }
+    )
+    },
     mounted() {
         this.searchSeletedItem = this.$route.query.item!=undefined ? this.$route.query.item : ''
         this.searchInput = this.$route.query.searchTxt!=undefined ? this.$route.query.searchTxt : ''

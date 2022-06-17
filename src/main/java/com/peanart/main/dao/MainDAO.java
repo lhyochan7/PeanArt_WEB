@@ -20,7 +20,7 @@ public interface MainDAO {
 
     List<BoardVO> getFiveExhib();
 
-    List<ExhibitRegisterVO> getSearchList(HashMap<String, String> map);
+    List<BoardVO> getSearchList(HashMap<String, String> map);
 
     List<VisitedExhibVO> getMyPageVisitedExhib(Integer userSeq);
 }

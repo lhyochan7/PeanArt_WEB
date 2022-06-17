@@ -226,7 +226,7 @@ public class MainController {
 
 
     @GetMapping("/search")
-    public ResponseEntity<List<ExhibitRegisterVO>> searchExhib (@RequestParam (value = "kind", required = false) Integer kind,
+    public ResponseEntity<List<BoardVO>> searchExhib (@RequestParam (value = "kind", required = false) Integer kind,
                                                                 @RequestParam (value="searchTxt", required = false) String searchTxt,
                                                                 @RequestParam (value="item", required = false) Integer searchOpt)
     {
@@ -247,12 +247,12 @@ public class MainController {
         }
 
         System.out.println(map.get("searchTxt"));
-        List<ExhibitRegisterVO> searchList = mainService.getSearchList(map);
+        List<BoardVO> searchList = mainService.getSearchList(map);
 
         System.out.println(searchList);
 
 
-        return new ResponseEntity<List<ExhibitRegisterVO>>(searchList, HttpStatus.OK);
+        return new ResponseEntity<List<BoardVO>>(searchList, HttpStatus.OK);
     }
 
 

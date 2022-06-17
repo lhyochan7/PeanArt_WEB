@@ -9,7 +9,7 @@
                         <v-container>
                             <v-row>
                                 <v-col md="6" class="d-flex align-center" align="center">
-                                    <v-img :src="getImgUrl(this.exhib.fileDirName + this.exhib.fileName)" width="800" :aspect-ratio="1/1" contain></v-img>
+                                    <v-img :src="getImgUrl(this.exhib.fileDirName +'/'+ this.exhib.fileName)" width="800" :aspect-ratio="1/1" contain></v-img>
                                 </v-col>
                                 <v-col md="6" class="d-flex align-center">
                                     <v-card
@@ -49,13 +49,13 @@
                 <v-col md="10">
                     <v-row>                    
                         <v-col md="2" v-for="(item, index) in fileList" v-bind:key="index" align-self="center">
-                            <v-img :src="getImgUrl(item.fileDirName + item.fileName)" max-height="200px" max-width="200px" contain></v-img>
+                            <v-img :src="getImgUrl(item.fileDirName +'/'+ item.fileName)" max-height="200px" max-width="200px" contain></v-img>
                         </v-col>
                         <v-col md="4">
                             <v-card outlined>
                                 <v-container>
                                     <v-avatar size="100px">
-                                        <v-img :src="getImgUrl(this.userInfo.fileDirName + this.userInfo.fileName)" max-width="100px"></v-img>
+                                        <v-img :src="getImgUrl(this.userInfo.fileDirName +'/'+ this.userInfo.fileName)" max-width="100px"></v-img>
                                     </v-avatar>
                                     <v-card-title>{{this.userInfo.usrNickname}}</v-card-title>
                                     <v-card-actions class="justify-space-around">
@@ -86,7 +86,7 @@
                             <v-row>
                                 <v-col md="2" align="end">
                                     <v-avatar size="100px">
-                                        <v-img :src="getImgUrl(this.userInfo.fileDirName + this.fileName)"></v-img>
+                                        <v-img :src="getImgUrl(this.userInfo.fileDirName +'/'+ this.userInfo.fileName)"></v-img>
                                     </v-avatar>
                                 </v-col>
                                 <v-col md="2">
@@ -150,12 +150,12 @@ export default {
             exhibUri:'http://homepage.com',
             exhibStartDate:'2022. 08. 18',
             exhibEndDate:'2022. 08. 30',
-            "usrSeq": 1,
-            "exhibCretDate": "2022-06-16 05:15:47",
-            "exhibModDate": "2022-06-16 05:15:47",
-            "fileDirName": "f6d798bc-945e-405a-8e31-e61d14670166_dankook",
-            "fileName": "f6d798bc-945e-405a-8e31-e61d14670166_poster.PNG",
-            "goodsAllow": 1
+            usrSeq: 1,
+            exhibCretDate: "2022-06-16 05:15:47",
+            exhibModDate: "2022-06-16 05:15:47",
+            fileDirName: "f6d798bc-945e-405a-8e31-e61d14670166_dankook",
+            fileName: "f6d798bc-945e-405a-8e31-e61d14670166_poster.PNG",
+            goodsAllow: 1
         },
         // 불러온 전시회를 등록한 사용자
         exhibUserInfo: {
@@ -176,7 +176,10 @@ export default {
                 exhibSeq: 1,
                 revContent: "cool exhibition review",
                 revCretDate: "2022-06-16 14:39:45",
-                revModDate: "2022-06-16 14:39:45"
+                revModDate: "2022-06-16 14:39:45",
+                usrNickname: "admin",
+                fileDirName: "99497c6d-75a7-4fec-b29f-9d1b16bab6c7_admin@admin.com",
+                fileName: "c24f7dc2-5410-40fe-89bc-65af51901205_money.png"
             }
         ],
         // 불러온 전시회 사진 목록
@@ -224,7 +227,8 @@ export default {
     }),
     methods: {
         getImgUrl(img){
-            return require(img)
+            console.log(new URL('C:/img/'+img))
+            return new URL('C:/img/'+img.replace("PNG", "png")).href
         },
         deleteExhib() {
             var param = { params:{
@@ -248,6 +252,18 @@ export default {
             console.log(response);
             if(response.status==200){
                 this.userInfo = response.data.userInfo;
+            }
+        })
+        var param = {params:{
+            exhibSeq: this.$route.params.id
+        }}
+        axios.get('http://localhost:8080/detailA',param).then(response=>{
+            console.log(response);
+            if(response.status==200){
+                this.userInfo = response.data.userInfo;
+                this.reviewList = response.data.reviewList;
+                this.exhib = response.data.exhib;
+                this.fileList = response.data.fileList;
             }
         })
     }
