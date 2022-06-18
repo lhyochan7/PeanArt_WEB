@@ -4,11 +4,11 @@
                 <v-row>
                     <v-col md="2">
                         <v-avatar size="100px">
-                            <v-img :src="getImgUrl(reviewData.fileDirName + reviewData.fileName)"></v-img>
+                            <v-img :src="getImgUrl(reviewData.fileDirName +'/'+ reviewData.fileName)"></v-img>
                         </v-avatar>
                     </v-col>
                     <v-col md="2">
-                        <v-card-text class="pb-n4">{{reviewData.usrNickname}}</v-card-text>
+                        <v-card-title class="pb-n4">{{reviewData.usrNickname}}</v-card-title>
                         <v-card-text>{{reviewData.revCretDate}}</v-card-text>
                     </v-col>
                     <v-col md="6">
@@ -32,8 +32,9 @@ export default {
         reviewData: Object,
     },
     methods:{
-        getImgUrl(img){
-            return require(img);
+       getImgUrl(img){
+            console.log('C:/img/'+img.replace("PNG", "png"))
+            return require('C:/img/'+img.replace("PNG", "png"))
         }
     }
 }

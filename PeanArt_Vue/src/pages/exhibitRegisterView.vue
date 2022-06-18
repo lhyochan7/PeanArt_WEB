@@ -394,8 +394,8 @@ export default {
     },
     // theme 선택 selectbox용 variable
     remove (item) {
-        this.chips.splice(this.chips.indexOf(item), 1)
-        this.chips = [...this.chips]
+        this.exhibTheme.splice(this.exhibTheme.indexOf(item), 1)
+        this.exhibTheme = [...this.exhibTheme]
       },
     // 첨부사진 preview용 method
     previewPosterImage() {
@@ -498,6 +498,12 @@ export default {
         let Script = document.createElement("script");
         Script.setAttribute("src", "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js");
         document.head.appendChild(Script);
+        if(this.exhibData!=null){
+            console.log()
+        }
+    },
+    props : {
+        exhibData: Object,
     }
 }
 </script>
