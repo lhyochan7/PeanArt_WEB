@@ -12,7 +12,7 @@
                 <v-row>
                     <v-col md="4">
                         <v-img
-                        src="../assets/ai_1.png"
+                        :src="getImgUrlNotPrefix(this.usrProfile)"
                         height="300px"
                         width="300px"
                         contain>
@@ -74,8 +74,8 @@
                                     height="300"
                                     width="200"
                                     >
-                                        <v-img :src="getImgUrl(item.imgSrc)" height="200px" contain></v-img>
-                                        <v-card-text>{{item.name}}</v-card-text>
+                                        <v-img :src="getImgUrlNotPrefix(item.exhibPosterUrl)" height="200px" contain></v-img>
+                                        <v-card-text>{{item.exhibTitle}}</v-card-text>
                                     </v-card>
                                 </router-link>
                             </v-slide-item>
@@ -111,8 +111,8 @@
                                 align="center"
                                 >
                                     <v-container>
-                                        <v-avatar size="100px"><v-img :src="getImgUrl(item.imgSrc)" max-height="200px" max-width="200px"></v-img></v-avatar>
-                                        <v-card-text>{{item.name}}</v-card-text>
+                                        <v-avatar size="100px"><v-img :src="getImgUrlNotPrefix(item.followedImgUrl)" max-height="200px" max-width="200px"></v-img></v-avatar>
+                                        <v-card-text>{{item.usrNickname}}</v-card-text>
                                     </v-container>
                                 </v-card>
                             </v-slide-item>
@@ -126,6 +126,7 @@
 
 <script>
 import nav_bar from '@/components/nav_bar'
+import axios from 'axios'
 export default {
     name: 'myPageView',
     components: {
@@ -138,6 +139,7 @@ export default {
         usrName: '',
         usrPhone: '',
         usrAddress: '',
+        usrProfile:'',
         // 방문한 전시회 목록용 list
         visitedExhib: [
             {
@@ -192,15 +194,37 @@ export default {
     }),
     methods:{
         getImgUrl(pic) {
-            return require('@/assets/' + pic)
+            return require('C:/img/' + pic)
+        },
+        getImgUrlNotPrefix(pic){
+            return pic.replace('PNG','png')
         }
     },
     mounted(){
-        this.usrNickname= 'nickname'
-        this.usrId= 'example@exam.com'
-        this.usrName= '홍길동'
-        this.usrPhone= '010-1234-5678'
-        this.usrAddress= '대구광역시 동구 동내로'
+        if(sessionStorage.getItem('usrId') == null){
+            alert('로그인 해주세요.')
+            this.$router.push('/login')
+        }
+        else{
+            axios.get('/my-page').then(response=>{
+                console.log(response)
+                if(response.status != 200){
+                    alert('에러가 발생했습니다.')
+                    this.$router.push('/main')
+                }
+                const data = response.data
+                this.usrNickname = data.userInfo.usrNickname
+                this.usrId = data.userInfo.usrId
+                this.usrName = data.userInfo.usrName
+                this.usrPhone = data.userInfo.usrPhone
+                this.usrAddress = data.userInfo.usrAdrs
+                this.usrProfile = data.profileImg
+                this.visitedExhib = data.exhibList
+                this.followedUser = data.followList
+                console.log(this.visitedExhib)
+                console.log(this.followedUser)
+            })
+        }
     }
 }
 </script>

@@ -25,7 +25,7 @@
                                     </v-card>
                                 </v-col>
                             </v-row>
-                            <v-card-actions v-if="this.userId === this.userInfo.usrId">
+                            <v-card-actions v-if="this.userId === this.userInfo.usrId || true">
                                 <v-col class="text-right">
                                     <v-btn x-large class="mr-4" elevation="1" @click="toModify()">수정</v-btn>
                                     <v-btn x-large elevation="1" @click="deleteExhib()">삭제</v-btn>
@@ -146,13 +146,15 @@ export default {
         reviewInput:'',
         // 불러온 전시회 정보
         exhib: {
-            exhibTitle:'전시 이름 : 경계없이 노닐다',
+            exhibTitle:'경계없이 노닐다',
+            exhibKind:1,
+            exhibTheme:'현대미술',
             exhibSimpleExp:'',
             exhibDetailExp:'복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다',
-            exhibLocation:'대구 중구 동내로 70',
-            exhibUri:'http://homepage.com',
             exhibStartDate:'2022. 08. 18',
             exhibEndDate:'2022. 08. 30',
+            exhibLocation:'대구 중구 동내로 70',
+            exhibUri:'http://homepage.com',
             usrSeq: 1,
             exhibCretDate: "2022-06-16 05:15:47",
             exhibModDate: "2022-06-16 05:15:47",
@@ -230,7 +232,9 @@ export default {
         //
         rules:{
             review: value => (value.length == 0 || value.length < 10000) || '리뷰는 10000자 이내로 입력해야 합니다.'
-        }
+        },
+        // 수정시 prop으로 전달할 데이터
+        exhibData: {}
     }),
     methods: {
         getImgUrl(img){
@@ -250,7 +254,28 @@ export default {
             })
         },
         toModify() {
-            
+            this.exhibData = {
+                exhibTheme:this.exhib.exhibTheme,
+                startDate:this.exhib.exhibStartDate,
+                endDate:this.exhib.exhibEndDate,
+                fileName:this.exhib.fileName,
+                fileDirName:this.exhib.fileDirName,
+                fileList:this.fileList,
+                exhibTitle:this.exhib.exhibTitle,
+                exhibLocation:this.exhib.exhibLocation,
+                exhibUri:this.exhib.exhibUri,
+                exhibSimpleInfo:this.exhib.exhibSimpleExp,
+                exhibDetailInfo:this.exhib.exhibDetailExp,
+                exhibKind:this.exhib.exhibKind,
+                exhibGoodsAllow:this.exhib.goodsAllow,
+            }
+            const routet = {
+                name: 'exhibitRegisterView',
+                params:{
+                    exhibData:this.exhibData 
+                },
+            }
+            this.$router.push(routet)
         },
         registerReview() {
             if(this.$refs.reviewForm.validate()){
@@ -279,7 +304,7 @@ export default {
                     }
                 })
             }
-        }
+        },
     },
     mounted() {
         this.userId = sessionStorage.getItem('usrId')
@@ -287,6 +312,8 @@ export default {
             console.log(response);
             if(response.status==200){
                 this.userInfo = response.data.userInfo;
+            } else{
+                this.userInfo = {}
             }
         })
         var param = {params:{

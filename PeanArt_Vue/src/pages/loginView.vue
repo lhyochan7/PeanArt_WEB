@@ -49,18 +49,18 @@ export default {
   }),
    methods: {
       loginRequest: function() {
-          axios.post('/login', {
+          axios.post('/loginCheck', {
               usrId: this.email,
               usrPw: this.password
           }, { headers: {
             "Content-Type": `application/json; charset = utf-8`,
-          },}).then(function(response){
+          },}).then(response=>{
               console.log(response);
               if(response.status === 200){
                   // 응답이 OK(200) 이면 main 페이지로 이동
                   alert('로그인에 성공했습니다!')
-                  this.$router.push('/main');
                   sessionStorage.setItem('usrId', this.email);
+                  this.$router.push('/main');
               } else {
                   alert('로그인에 실패했습니다. 다시 시도해주세요');
               }

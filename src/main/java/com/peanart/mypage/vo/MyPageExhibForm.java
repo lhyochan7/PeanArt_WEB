@@ -6,6 +6,8 @@ import lombok.ToString;
 
 @Getter@Setter@ToString
 public class MyPageExhibForm {
+    private int usrSeq;
+    private int exhibSeq;
     private String exhibTitle;
-    private String ehixbPosterUrl;
+    private String exhibPosterUrl;
 }

@@ -45,13 +45,8 @@
                         </v-row>
                         <v-row class="justify-center">
                             <v-col md="8">
-                                <!-- <v-text-field
-                                v-model="exhibTheme"
-                                :rules="[rules.required, rules.theme]"
-                                label="전시회 주제"
-                                outlined></v-text-field> -->
                                 <template>
-                                <v-combobox
+                                <v-select
                                     v-model="exhibTheme"
                                     :items="items"
                                     chips
@@ -72,7 +67,7 @@
                                         <strong>{{ item }}</strong>&nbsp;
                                     </v-chip>
                                     </template>
-                                </v-combobox>
+                                </v-select>
                                 </template>
                             </v-col>
                         </v-row>
@@ -81,7 +76,7 @@
                                 <v-text-field
                                 v-model="exhibLocation"
                                 label="*전시회 장소" 
-                                :rules="[rules.required]" 
+                                :rules="[rules.required, rules.location]" 
                                 outlined></v-text-field>
                             </v-col>
                             <v-col md="2">
@@ -92,7 +87,7 @@
                             <v-col md="8">
                                 <v-text-field
                                 v-model="exhibUri"
-                                :rules="[isURL]"
+                                :rules="[isURL, rules.uri]"
                                 label="전시회 홈페이지 주소"
                                 outlined></v-text-field>
                             </v-col>
@@ -275,25 +270,27 @@
                                     v-model="innerImage2"
                                     multiple
                                     :clearable="false"
-                                    :rules="[rules.required]"
+                                    :rules="[innerFileRule]"
                                 >
-                                    <template v-slot:selection="{ index, text }">
+                                </v-file-input>
+                                <v-row>
+                                    <v-col cols="4" v-for="(item, index) in innerImage" v-bind:key="index">
                                         <v-chip
                                             small
                                             label
                                             color="primary"
                                             close
-                                            @click:close="deleteFile(index, text)"
+                                            @click:close="deleteFile(index, item.name)"
                                         >
-                                            {{ text }}
+                                            {{ item.name }}
                                         </v-chip>
-                                    </template>
-                                </v-file-input>
+                                    </v-col>  
+                                </v-row>                             
                             </v-col>
                         </v-row>
-                        <v-row cense>
+                        <v-row>
                             <v-col class="d-flex child-flex justify-center align-center" cols="4" v-for="(item, i) in innerUrl" v-bind:key="i">
-                                <v-card>
+                                <v-card class="justify-center" align="center">
                                     <v-img :src="item" max-height="250px" max-width="250px" contain aspect-ratio="1"></v-img>
                                 </v-card>
                             </v-col>
@@ -304,7 +301,12 @@
                             <v-btn block outlined @click="panelVar=0">뒤로 가기</v-btn>
                         </v-col>
                         <v-col md="4">
-                            <v-btn block outlined @click="registerRequest">등록</v-btn>
+                            <div v-if="this.exhibData == null">
+                                <v-btn block outlined @click="registerRequest()">등록</v-btn>
+                            </div>
+                            <div v-else>
+                                <v-btn block outlined @click="requestModify()">수정</v-btn>
+                            </div>
                         </v-col>
                     </v-row>
                 </v-expansion-panel-content>
@@ -359,7 +361,8 @@ export default {
         title: value => value.length<1000 || '제목은 1000자 이내여야 합니다.',
         simpleInfo: value => value.length < 100 || '간략 설명은 100자 이내여야 합니다.',
         detailInfo: value => value.length < 10000 || '상세 설명은 10000자 이내여야 합니다.',
-        theme: value=> value.length < 50 || '전시회 주제는 50자 이내여야 합니다.',
+        location: value => value.length < 1000 || '장소 위치는 1000자 이내여야 합니다.',
+        uri: value => value.length < 500 || 'URI는 500자 이내여야 합니다.',
     },
   }),
   methods:{
@@ -400,16 +403,18 @@ export default {
     // 첨부사진 preview용 method
     previewPosterImage() {
         if(this.posterImage!=null){
+            console.log(this.posterImage)
             this.posterUrl = URL.createObjectURL(this.posterImage);
+            console.log(this.posterUrl)
         } else{
             this.posterUrl = null
         }
     },
     previewInnerImage() {
         for (var file of this.innerImage2){
+            console.log(file)
             if(this.innerImage.find(image => image.name == file.name) == undefined){
                 this.innerImage.push(file)
-                this.innerUrl.push({'src':URL.createObjectURL(file)})
             }
         }
         this.innerUrl = []
@@ -417,13 +422,18 @@ export default {
         this.innerImage.forEach(element =>{
             this.innerUrl.push({'src':URL.createObjectURL(element)})
         })
-        this.innerImage2 == [];
+        this.innerImage2 = [];
     },
     deleteFile(index, text){
         console.log(text)
         this.innerImage.splice(index, 1)
         this.innerUrl.splice(index, 1)
         this.previewInnerImage()
+    },
+    // 이미지 Validate용
+    innerFileRule() {
+        console.log(this.innerImage.length)
+        return ( this.innerImage.length > 0 && this.innerImage.length < 5 ) || '이미지는 1장 이상, 4장 이내로 첨부 가능합니다.'
     },
     // URL 판별용 Method
     isURL(value) {
@@ -446,11 +456,13 @@ export default {
               }
           }).open();
       },
+      // 1번째 폼 ( 기본정보 ) 검증 함수
       nextStep: function() {
         if(this.$refs.firstForm.validate()){
            this.panelVar=1
         }
       },
+      // 전시회 등록 요청 함수
       registerRequest: function() {
         if(this.$refs.secondForm.validate()){
             const frm = new FormData();
@@ -490,16 +502,97 @@ export default {
             alert('전시회 이미지는 필수로 첨부 되어야 합니다.');  
         }
       },
+      requestModify: function(){
+        if(this.$refs.secondForm.validate()){
+            const frm = new FormData();
+            this.innerImage.forEach(element =>{
+                console.log(element)
+                frm.append('uploadFile',element)
+                })
+            frm.append('posterFile', this.posterImage)
+            this.exhibGoodsAllow = this.exhibGoodsAllow ? 1 : 0
+            const data = {
+                    'exhibTitle':this.exhibTitle,
+                    'exhibKind':this.exhibKind,
+                    'exhibTheme':this.exhibTheme.join(','),
+                    'exhibSimpleExp':this.exhibSimpleInfo,
+                    'exhibDetailExp':this.exhibDetailInfo,
+                    'exhibStartDate':this.startDate,
+                    'exhibEndDate':this.endDate,
+                    'exhibLocation':this.exhibLocation,
+                    'exhibUri':this.exhibUri,
+                    'goodsAllow':this.exhibGoodsAllow
+            }
+            frm.append('exhibData', new Blob([JSON.stringify(data)], {type: "application/json"}))
+            axios.post("http://localhost:8080/exhib/detailModifiy", frm,{ headers: {
+                "Content-Type": undefined,
+                'Allow-Control-Allow-Origin': '*'
+            },}).then(response => {
+                console.log(response);
+                if(response.status === 200){
+                    // 응답이 Ok(200) 이면 전시회 목록 페이지로 이동
+                    alert('수정에 성공했습니다!')
+                    this.$router.push('/exhib/list?kind=0');
+                } else {
+                    alert('수정에 실패했습니다. 다시 시도해주세요');
+                }
+            })   
+        } else{
+            alert('전시회 이미지는 필수로 첨부 되어야 합니다.');  
+        }
+      },
+      // 테마 validation 용 함수
       themeSelect() {
         return (this.exhibTheme.length < 6 && this.exhibTheme.length > 0 ) || '주제는 1개 이상 선택 해야하며, 5개 이하로 선택 가능합니다.';
+      },
+      // url을 파일로 바꿔주는 함수
+      convertURLtoFile: async function(url) {
+        console.log(url)
+        const response = await fetch(require('C:/img/'+url));
+        const data = await response.blob();
+        const ext = url.split(".").pop(); // url 구조에 맞게 수정할 것
+        const filename = url.split("/").pop(); // url 구조에 맞게 수정할 것
+        const metadata = { type: `image/${ext}` };
+        if(filename!=null)
+            return new File([data], filename, metadata);
       }
   },
     mounted() {
         let Script = document.createElement("script");
         Script.setAttribute("src", "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js");
         document.head.appendChild(Script);
+        console.log(this.exhibData)
         if(this.exhibData!=null){
-            console.log()
+            console.log(this.exhibData)
+            this.exhibTitle = this.exhibData.exhibTitle;
+            this.exhibLocation = this.exhibData.exhibLocation
+            this.exhibUri = this.exhibData.exhibUri
+            this.exhibSimpleInfo = this.exhibData.exhibSimpleInfo
+            this.exhibDetailInfo = this.exhibData.exhibDetailInfo
+            this.startDate = this.exhibData.startDate,
+            this.endDate = this.exhibData.endDate
+            this.exhibKind = this.exhibData.exhibKind
+            this.exhibGoodsAllow = this.exhibData.exhibGoodsAllow
+
+            this.convertURLtoFile(this.exhibData.fileDirName+'/'+this.exhibData.fileName.replace('PNG', 'png')).then(response=>{
+                console.log(response)
+                this.posterImage = response
+                this.previewPosterImage()
+            })
+            console.log(this.exhibData.fileList)
+            this.exhibData.fileList.forEach(element =>{
+                this.convertURLtoFile(element.fileDirName+'/'+element.fileName.replace('PNG', 'png')).then(response=>{
+                this.innerImage.push(response)
+                this.previewInnerImage()
+                })
+            })
+            console.log(this.exhibData.exhibTheme.split(','))
+            this.exhibTheme = this.exhibData.exhibTheme.split(',')
+        } else{
+            if (String(this.$route.path).match('modify')!=null){
+                alert('비정상적인 접근입니다.')
+                this.$router.push('/main')
+            }
         }
     },
     props : {
