@@ -2,7 +2,16 @@
   <v-app>
     <nav_bar></nav_bar>
     <v-main>
-        <v-container fluid>
+        <v-container fluid v-if="isLoaded == false">
+        <v-skeleton-loader
+            class="mx-auto"
+            type="card"
+            height="100%"
+            width="100%"
+            v-if="isLoaded == false"
+            ></v-skeleton-loader>
+        </v-container>
+        <v-container fluid v-else>
             <v-row justify="center">
                 <v-col md="10" class="mt-8">
                     <v-card class="d-flex mx-auto grey lighten-5">
@@ -236,7 +245,9 @@ export default {
             review: value => (value.length == 0 || value.length < 10000) || '리뷰는 10000자 이내로 입력해야 합니다.'
         },
         // 수정시 prop으로 전달할 데이터
-        exhibData: {}
+        exhibData: {},
+        // 로딩완료 검사
+        isLoaded: false,
     }),
     methods: {
         getImgUrl(img){
@@ -335,6 +346,7 @@ export default {
                 this.exhib = response.data.exhib;
                 this.fileList = response.data.fileList;
                 this.exhibSeq = this.fileList[0].exhibSeq
+                this.isLoaded = true
             }
         })
     }

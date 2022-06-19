@@ -17,11 +17,19 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col class="d-flex child-flex" cols="4" v-for="(item, i) in list" v-bind:key="i">
+            <v-skeleton-loader
+            class="mx-auto"
+            type="card"
+            height="100%"
+            width="100%"
+            v-if="isLoaded == false"
+            ></v-skeleton-loader>
+            <v-col class="d-flex child-flex" cols="4" v-else v-for="(item, i) in list" v-bind:key="i">
                 <exhib_card :exhibData="item"></exhib_card>
             </v-col>
         </v-row>
       </v-container>
+    <Foot_bar/>
   </v-app>
 </template>
 
@@ -29,9 +37,10 @@
 import exhib_card from '../components/exhib_card.vue'
 import nav_bar from '../components/nav_bar.vue'
 import axios from 'axios'
+import Foot_bar from '@/components/foot_bar.vue';
 export default {
     name: 'exhibitListView',
-    components: { nav_bar, exhib_card },
+    components: { nav_bar, exhib_card, Foot_bar },
     data: () => ({
         searchItem: [
             {name:'전체', value:0}, 
@@ -41,6 +50,7 @@ export default {
         searchSeletedItem: '', // 검색할 값의 분류
         searchInput:'', // 검색 입력값
         list: [],
+        isLoaded: false
     }),
     methods:{
         searchByInput: function() {
@@ -64,6 +74,7 @@ export default {
             axios.get("http://localhost:8080/search", param).then(response =>{
                 console.log(response);
                 this.list = response.data;
+                this.isLoaded = true
             })
         },
     },

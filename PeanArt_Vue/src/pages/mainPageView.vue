@@ -44,7 +44,15 @@
             </v-col>
           </v-row>
         </router-link>
-        <v-row>
+        <v-row v-if="isLoaded==false" class="mt-4">
+          <v-skeleton-loader
+          class="mx-auto"
+          type="card"
+          height="100%"
+          width="100%"
+          ></v-skeleton-loader>
+        </v-row>
+        <v-row v-else>
           <v-col class="d-flex child-flex" cols="3" v-for="(item, index) in exhibList" v-bind:key="index">
             <Exhib_card :exhibData="item"/>
           </v-col>
@@ -79,8 +87,9 @@ export default {
         "fileDirName": "63c9e7d8-9507-489c-89d1-a30718cf8cc3_seoul_design",
         "fileName": "63c9e7d8-9507-489c-89d1-a30718cf8cc3_poster.PNG"
     },
-    exhibList:[]
-    //
+    exhibList:[],
+    // 로딩 확인
+    isLoaded: false,
   }),
   methods: {
     getImgURL(pic) {
@@ -89,9 +98,12 @@ export default {
   mounted(){
     axios.get('/mainPoster').then(response=>{
       console.log(response);
-      var data = response.data
-      this.mainExhib = data.shift()
-      this.exhibList = data
+      if(response.status==200){
+        var data = response.data
+        this.mainExhib = data.shift()
+        this.exhibList = data
+        this.isLoaded = true
+      }
     })
   }
 };

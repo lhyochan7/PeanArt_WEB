@@ -312,19 +312,21 @@
                 </v-expansion-panel-content>
             </v-expansion-panel>
         </v-expansion-panels>
-        
     </v-container>
+    <foot_bar/>
   </v-app>
 </template>
 
 <script>
 import nav_bar from '@/components/nav_bar.vue'
 import axios from 'axios';
+import foot_bar from '@/components/foot_bar.vue';
 export default {
   name: 'exhibitRegisterView',
   components: {
     nav_bar,
-  },
+    foot_bar
+},
   data: () => ({
     // DatePicker용 variable.
     startDate:'',
