@@ -7,12 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,8 +34,8 @@ public class ExhibitRegisterController {
         return "exhibinsert";
     }
 
-    @PostMapping("/exhib/register")
-    public ResponseEntity reg(@RequestParam MultipartFile[] uploadFile, @RequestParam MultipartFile posterFile, HttpServletRequest req, HttpSession session, ExhibitRegisterVO exhibitRegisterVO) throws IOException {
+    @PostMapping(value = "/exhib/register", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity reg(@RequestPart("uploadFile") MultipartFile[] uploadFile, @RequestPart("posterFile") MultipartFile posterFile, HttpServletRequest req, HttpSession session, @RequestPart("exhibData") ExhibitRegisterVO exhibitRegisterVO) throws IOException {
         Map<String, Object> rtn = new HashMap<>();
         System.out.println("입구에용");
         int usrSeq = 2;

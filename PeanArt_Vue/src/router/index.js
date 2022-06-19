@@ -21,6 +21,11 @@ export default new VueRouter({
         }, {
             path: '/exhib/:id/detail',
             component: () => import('../pages/exhibitDetailView.vue'),
+        },{
+            path: '/exhib/:id/modify',
+            component: () => import('../pages/exhibitRegisterView.vue'),
+            name:'exhibitRegisterView',
+            props: true,
         }, {
             path: '/exhib/list',
             component: () => import('../pages/exhibitListView.vue'),
@@ -30,6 +35,9 @@ export default new VueRouter({
         }, {
             path: '/myPage',
             component: () => import('../pages/myPageView.vue'),
+        }, {
+            path: '/airecommend',
+            component: () => import('../pages/aiRecommendView.vue')
         }
     ]
 });

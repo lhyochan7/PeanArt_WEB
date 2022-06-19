@@ -69,8 +69,10 @@ public class MyPageController {
                 List<MyPageExhibForm> exhibFormList = new ArrayList<>();
                 for(MyPageExhibVO exhibVO : exhibList){
                     MyPageExhibForm exhibForm = new MyPageExhibForm();
+                    exhibForm.setUsrSeq(exhibVO.getUsrSeq());
+                    exhibForm.setExhibSeq(exhibVO.getExhibSeq());
                     exhibForm.setExhibTitle(exhibVO.getExhibTitle());
-                    exhibForm.setEhixbPosterUrl("http://localhost:8080/imagePath/" + exhibVO.getFileDirName() + "/" + exhibVO.getFileName());
+                    exhibForm.setExhibPosterUrl("http://localhost:8080/imagePath/" + exhibVO.getFileDirName() + "/" + exhibVO.getFileName());
                     System.out.println(exhibForm);
                     exhibFormList.add(exhibForm);
                 }
@@ -81,6 +83,7 @@ public class MyPageController {
                 List<MyPageFollowForm> followFormList = new ArrayList<>();
                 for(MyPageFollowVO followed : followList){
                     MyPageFollowForm followForm = new MyPageFollowForm();
+                    followForm.setUsrId(followed.getUsrId());
                     followForm.setUsrNickname(followed.getUsrNickname());
                     followForm.setFollowedImgUrl("http://localhost:8080/imagePath/" + followed.getFileDirName() + "/" + followed.getFileName());
                     System.out.println(followForm);

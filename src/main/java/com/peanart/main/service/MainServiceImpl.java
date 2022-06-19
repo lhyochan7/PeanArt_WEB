@@ -33,7 +33,7 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public List<ExhibitRegisterVO> getSearchList(HashMap<String, String> map) {
+    public List<BoardVO> getSearchList(HashMap<String, String> map) {
         return mainDAO.getSearchList(map);
     }
 

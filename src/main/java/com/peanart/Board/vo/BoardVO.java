@@ -6,6 +6,7 @@ public class BoardVO {
     String exhibTitle;
     String exhibSimpleExp;
     String exhibStartDate;
+    String exhibEndDate;
     String exhibLocation;
     String fileDirName;
     String fileName;
@@ -66,6 +67,14 @@ public class BoardVO {
         this.fileName = fileName;
     }
 
+    public String getExhibEndDate() {
+        return exhibEndDate;
+    }
+
+    public void setExhibEndDate(String exhibEndDate) {
+        this.exhibEndDate = exhibEndDate;
+    }
+
     @Override
     public String toString() {
         return "BoardVO{" +
@@ -73,6 +82,7 @@ public class BoardVO {
                 ", exhibTitle='" + exhibTitle + '\'' +
                 ", exhibSimpleExp='" + exhibSimpleExp + '\'' +
                 ", exhibStartDate='" + exhibStartDate + '\'' +
+                ", exhibEndDate='" + exhibEndDate + '\'' +
                 ", exhibLocation='" + exhibLocation + '\'' +
                 ", fileDirName='" + fileDirName + '\'' +
                 ", fileName='" + fileName + '\'' +

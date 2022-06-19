@@ -1,5 +1,5 @@
 <template>
-  <v-footer>
+  <v-footer class="mt-16">
     <v-container>
       <v-row justify="center">
         <v-col sm="3">

@@ -28,20 +28,22 @@
             <h2 class="font-weight-light">당신을 위해 준비한 AI 추천!</h2>
           </v-col>
         </v-row>
-        <v-row>
-          <v-col sm="3">
-            <v-img src="../assets/ai_1.png" class="rounded-xl"></v-img>
-          </v-col>
-          <v-col sm="3">
-            <v-img src="../assets/ai_2.png" class="rounded-xl"></v-img>
-          </v-col>
-          <v-col sm="3">
-            <v-img src="../assets/ai_3.png" class="rounded-xl"></v-img>
-          </v-col>
-          <v-col sm="3">
-            <v-img src="../assets/ai_4.png" class="rounded-xl"></v-img>
-          </v-col>
-        </v-row>
+        <router-link style="text-decoration:none; color:black;" to="/airecommend">
+          <v-row>
+            <v-col sm="3">
+              <v-img src="../assets/ai_1.png" class="rounded-xl"></v-img>
+            </v-col>
+            <v-col sm="3">
+              <v-img src="../assets/ai_2.png" class="rounded-xl"></v-img>
+            </v-col>
+            <v-col sm="3">
+              <v-img src="../assets/ai_3.png" class="rounded-xl"></v-img>
+            </v-col>
+            <v-col sm="3">
+              <v-img src="../assets/ai_4.png" class="rounded-xl"></v-img>
+            </v-col>
+          </v-row>
+        </router-link>
         <v-row>
           <Exhib_card/>
           <Exhib_card/>

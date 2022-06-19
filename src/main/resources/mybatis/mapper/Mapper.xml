@@ -20,7 +20,7 @@
         LIMIT 5
     </select>
 
-    <select id="getSearchList" resultType="ExhibitRegisterVO">
+    <select id="getSearchList" resultType="BoardVO">
         SELECT
         *
         FROM tb_exhibit
