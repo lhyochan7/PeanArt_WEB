@@ -6,13 +6,13 @@
         <v-row class="mt-16" justify="center">
           <v-col md="12">
             <v-card>
-              <v-img :src="main_item.cover">
+              <v-img :src="getImgURL(mainExhib.fileDirName + '/' + mainExhib.fileName)" max-height="400">
                 <v-container fill-height>
                   <v-layout>
                     <v-card>
-                      <v-card-title>테스트 전시회</v-card-title>
-                      <v-card-text class="mt-16">2022년 10월 12일, 수요일</v-card-text>
-                      <v-card-text class="mt-8 font-weight-bold">달리 반 피카소</v-card-text>
+                      <v-card-title>{{mainExhib.exhibTitle}}</v-card-title>
+                      <v-card-text class="mt-16">{{mainExhib.exhibStartDate}}</v-card-text>
+                      <v-card-text class="mt-8 font-weight-bold">{{mainExhib.exhibSimpleExp}}</v-card-text>
                     </v-card>
                     <v-spacer/>
                     <v-img src="../assets/new_icon.png" max-width="180" max-height="180"></v-img>
@@ -45,9 +45,9 @@
           </v-row>
         </router-link>
         <v-row>
-          <Exhib_card/>
-          <Exhib_card/>
-          <Exhib_card/>
+          <v-col class="d-flex child-flex" cols="3" v-for="(item, index) in exhibList" v-bind:key="index">
+            <Exhib_card :exhibData="item"/>
+          </v-col>
         </v-row>
       </v-container>
     </v-main>
@@ -58,6 +58,7 @@
 import Exhib_card from '../components/exhib_card.vue';
 import nav_bar from '../components/nav_bar.vue';
 import foot_bar from '../components/foot_bar.vue';
+import axios from 'axios';
 export default {
   name: 'mainPage',
 
@@ -68,13 +69,30 @@ export default {
 },
 
   data: () => ({
-    main_item: {
-      'title':'테스트 전시회',
-      'date':'2022년 10월 12일, 수요일',
-      'artist':'달리 반 피카소',
-      'cover': require('../assets/cover.png'),
-    }
+    mainExhib: {
+        "exhibSeq": 9,
+        "exhibTitle": "seoul_design",
+        "exhibSimpleExp": "seoul_design",
+        "exhibStartDate": "2020-10-10 01:01:01",
+        "exhibEndDate": "2020-10-10 01:01:01",
+        "exhibLocation": "seoul_design",
+        "fileDirName": "63c9e7d8-9507-489c-89d1-a30718cf8cc3_seoul_design",
+        "fileName": "63c9e7d8-9507-489c-89d1-a30718cf8cc3_poster.PNG"
+    },
+    exhibList:[]
     //
   }),
+  methods: {
+    getImgURL(pic) {
+      return 'http://localhost:8080/imagePath/' + pic.replace('PNG', 'png')}
+  },
+  mounted(){
+    axios.get('/mainPoster').then(response=>{
+      console.log(response);
+      var data = response.data
+      this.mainExhib = data.shift()
+      this.exhibList = data
+    })
+  }
 };
 </script>

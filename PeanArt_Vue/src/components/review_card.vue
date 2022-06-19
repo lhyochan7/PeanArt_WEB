@@ -4,7 +4,7 @@
                 <v-row>
                     <v-col md="2">
                         <v-avatar size="100px">
-                            <v-img :src="getImgUrl(reviewData.fileDirName +'/'+ reviewData.fileName)"></v-img>
+                            <v-img :src="getImgUrlNotPrefix(reviewData.fileDirName +'/'+ reviewData.fileName)"></v-img>
                         </v-avatar>
                     </v-col>
                     <v-col md="2">
@@ -35,6 +35,9 @@ export default {
        getImgUrl(img){
             console.log('C:/img/'+img.replace("PNG", "png"))
             return require('C:/img/'+img.replace("PNG", "png"))
+        },
+        getImgUrlNotPrefix(img){
+            return 'http://localhost:8080/imagePath/' + img.replace("PNG","png")
         }
     }
 }

@@ -40,39 +40,7 @@ export default {
             {name:'장소', value:3},],
         searchSeletedItem: '', // 검색할 값의 분류
         searchInput:'', // 검색 입력값
-        list: [{
-            exhibSeq:'1',
-            exhibTitle: '서울대 전시회',
-            exhibStartDate: '2022-06-01',
-            exhibEndDate: '2022-07-15',
-            exhibLocation:'서울시',
-            fileDirName: '@/assets/',
-            fileName:'exhib (1).png',
-        },{
-            exhibSeq:'1',
-            exhibTitle: '서울대 전시회',
-            exhibStartDate: '2022-06-01',
-            exhibEndDate: '2022-07-15',
-            exhibLocation:'서울시',
-            fileDirName: '@/assets/',
-            fileName:'exhib (2).png',
-        },{
-            exhibSeq:'1',
-            exhibTitle: '서울대 전시회',
-            exhibStartDate: '2022-06-01',
-            exhibEndDate: '2022-07-15',
-            exhibLocation:'서울시',
-            fileDirName: '@/assets/',
-            fileName:'exhib (3).png',
-        },{
-            exhibSeq:'1',
-            exhibTitle: '서울대 전시회',
-            exhibStartDate: '2022-06-01',
-            exhibEndDate: '2022-07-15',
-            exhibLocation:'서울시',
-            fileDirName: '@/assets/',
-            fileName:'exhib (1).png',
-        },],
+        list: [],
     }),
     methods:{
         searchByInput: function() {
@@ -97,7 +65,7 @@ export default {
                 console.log(response);
                 this.list = response.data;
             })
-        }
+        },
     },
     /*mounted(){
         var param = {
