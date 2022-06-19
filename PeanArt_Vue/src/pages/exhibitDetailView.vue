@@ -25,7 +25,7 @@
                                     </v-card>
                                 </v-col>
                             </v-row>
-                            <v-card-actions v-if="this.userId === this.userInfo.usrId || true">
+                            <v-card-actions v-if="this.userId === this.userInfo.usrId || this.isAdmin">
                                 <v-col class="text-right">
                                     <v-btn x-large class="mr-4" elevation="1" @click="toModify()">수정</v-btn>
                                     <v-btn x-large elevation="1" @click="deleteExhib()">삭제</v-btn>
@@ -49,7 +49,7 @@
                 <v-col md="10">
                     <v-row>                    
                         <v-col md="2" v-for="(item, index) in fileList" v-bind:key="index" align-self="center">
-                            <v-img :src="getImgUrl(item.fileDirName +'/'+ item.fileName)" max-height="200px" max-width="200px" contain></v-img>
+                            <v-img :src="getImgUrl(item.fileDirName +'/'+ item.fileUuid + '_' +item.fileName)" max-height="200px" max-width="200px" contain></v-img>
                         </v-col>
                         <v-col md="4">
                             <v-card outlined>
@@ -142,8 +142,10 @@ export default {
     data: ()=>({
         // 현재 로그인한 사용자 정보 저장용 Variable
         userId:'',
+        isAdmin:false,
         // 입력받은 리뷰 데이터 저장용 Variable
         reviewInput:'',
+        exhibSeq:'',
         // 불러온 전시회 정보
         exhib: {
             exhibTitle:'경계없이 노닐다',
@@ -239,17 +241,17 @@ export default {
     methods: {
         getImgUrl(img){
             console.log('C:/img/'+img.replace("PNG", "png"))
-            return require('C:/img/'+img.replace("PNG", "png"))
+            return 'http://localhost:8080/imagePath/'+img.replace("PNG", "png")
         },
         deleteExhib() {
-            var param = { params:{
-                exhibSeq:this.exhib.exhibSeq
-            }}
+            const param ={params:{exhibSeq:this.$route.params.id}}
             axios.get('http://localhost:8080/exhibDelete',param).then(response =>{
                 console.log(response);
                 if(response.status==200){
                     alert('삭제에 성공했습니다.')
                     this.$router.push('/exhib/list?kind=0');
+                } else{
+                    alert('삭제에 실패했습니다.')
                 }
             })
         },
@@ -268,6 +270,7 @@ export default {
                 exhibDetailInfo:this.exhib.exhibDetailExp,
                 exhibKind:this.exhib.exhibKind,
                 exhibGoodsAllow:this.exhib.goodsAllow,
+                usrSeq: this.exhibUserInfo.usrSeq
             }
             const routet = {
                 name: 'exhibitRegisterView',
@@ -279,12 +282,9 @@ export default {
         },
         registerReview() {
             if(this.$refs.reviewForm.validate()){
-                var param2 = { params:{
-                    revContent: this.reviewInput
-                }}
-                axios.post('http://localhost:8080/reviewRegister', param2,{ headers: {
-                    "Content-Type": `application/json`,
-                },}).then(response => {
+                const frm = new FormData()
+                frm.append('revContent',this.reviewInput)
+                axios.post('http://localhost:8080/reviewRegister', frm).then(response => {
                     console.log(response)
                     if(response.status==200){
                         var param = {params:{
@@ -304,6 +304,7 @@ export default {
                     }
                 })
             }
+            axios.get
         },
     },
     mounted() {
@@ -312,6 +313,13 @@ export default {
             console.log(response);
             if(response.status==200){
                 this.userInfo = response.data.userInfo;
+                const param = {params:{usrId:this.userInfo.usrId}}
+                axios.get('http://localhost:8080/adminCheck', param).then(response=>{
+                    console.log(response)
+                    if(response.status==200){
+                        this.isAdmin = true;
+                    }
+                })
             } else{
                 this.userInfo = {}
             }
@@ -326,6 +334,7 @@ export default {
                 this.reviewList = response.data.reviewList;
                 this.exhib = response.data.exhib;
                 this.fileList = response.data.fileList;
+                this.exhibSeq = this.fileList[0].exhibSeq
             }
         })
     }

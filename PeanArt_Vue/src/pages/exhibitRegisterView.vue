@@ -282,7 +282,7 @@
                                             close
                                             @click:close="deleteFile(index, item.name)"
                                         >
-                                            {{ item.name }}
+                                            {{ '...'.concat(item.name.slice(item.name.length-20)) }}
                                         </v-chip>
                                     </v-col>  
                                 </v-row>                             
@@ -355,6 +355,12 @@ export default {
     exhibDetailInfo:'',
     exhibKind:0,
     exhibGoodsAllow:'',
+    // 전시회 수정용 Variable
+    exhibCretDate:'',
+    exhibModDate:'',
+    fileDirName:'',
+    fileName:'',
+    usrSeq:'',
     // Input 검증 용 Rules
     rules: {
         required: value => !!value || '필수.',
@@ -521,10 +527,15 @@ export default {
                     'exhibEndDate':this.endDate,
                     'exhibLocation':this.exhibLocation,
                     'exhibUri':this.exhibUri,
-                    'goodsAllow':this.exhibGoodsAllow
+                    'goodsAllow':this.exhibGoodsAllow,
+                    'exhibCretDate':this.exhibCretDate,
+                    'exhibModDate':this.exhibModDate,
+                    'usrSeq':this.usrSeq,
+                    'fileDirName':this.fileDirName,
+                    'fileName':this.fileName,
             }
             frm.append('exhibData', new Blob([JSON.stringify(data)], {type: "application/json"}))
-            axios.post("http://localhost:8080/exhib/detailModifiy", frm,{ headers: {
+            axios.post("/detailModifiy", frm,{ headers: {
                 "Content-Type": undefined,
                 'Allow-Control-Allow-Origin': '*'
             },}).then(response => {
@@ -548,7 +559,7 @@ export default {
       // url을 파일로 바꿔주는 함수
       convertURLtoFile: async function(url) {
         console.log(url)
-        const response = await fetch(require('C:/img/'+url));
+        const response = await fetch('http://localhost:8080/imagePath/'+url);
         const data = await response.blob();
         const ext = url.split(".").pop(); // url 구조에 맞게 수정할 것
         const filename = url.split("/").pop(); // url 구조에 맞게 수정할 것
@@ -573,7 +584,9 @@ export default {
             this.endDate = this.exhibData.endDate
             this.exhibKind = this.exhibData.exhibKind
             this.exhibGoodsAllow = this.exhibData.exhibGoodsAllow
-
+            this.usrSeq = this.exhibData.usrSeq
+            this.fileDirName = this.exhibData.fileDirName
+            this.fileName = this.exhibData.fileName
             this.convertURLtoFile(this.exhibData.fileDirName+'/'+this.exhibData.fileName.replace('PNG', 'png')).then(response=>{
                 console.log(response)
                 this.posterImage = response
@@ -581,7 +594,7 @@ export default {
             })
             console.log(this.exhibData.fileList)
             this.exhibData.fileList.forEach(element =>{
-                this.convertURLtoFile(element.fileDirName+'/'+element.fileName.replace('PNG', 'png')).then(response=>{
+                this.convertURLtoFile(element.fileDirName+'/'+element.fileUuid+'_'+element.fileName.replace('PNG', 'png')).then(response=>{
                 this.innerImage.push(response)
                 this.previewInnerImage()
                 })

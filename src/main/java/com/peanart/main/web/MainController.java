@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -149,16 +150,14 @@ public class MainController {
     }
 
 
-    @PostMapping("/detailModifiy") //게시글 수정
-    public ResponseEntity<String> modDetail(@RequestParam MultipartFile[] uploadFile, @RequestParam MultipartFile posterFile,
-                                            HttpSession session, ExhibitRegisterVO exhibitRegisterVO) throws IOException {
-
-
-        List<FileVO> originFile = boardService.getFile((int) session.getAttribute("exhinseq"));
+    @PostMapping(value="/detailModifiy",consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE}) //게시글 수정
+    public ResponseEntity<String> modDetail(@RequestPart MultipartFile[] uploadFile, @RequestPart MultipartFile posterFile,
+                                            HttpSession session, @RequestPart("exhibData") ExhibitRegisterVO exhibitRegisterVO) throws IOException {
+        System.out.println(exhibitRegisterVO.toString());
+        List<FileVO> originFile = boardService.getFile((int) session.getAttribute("exhibSeq"));
         // session.usrSeq == exhib.usrSeq true 면 sql 실행 아니면 fail 반환 하자
         int sessionUsrSeq = (int) session.getAttribute("usrSeq");
         int currentExhibUsrSeq = exhibitRegisterVO.getUsrSeq();
-
         if (sessionUsrSeq == currentExhibUsrSeq) {
             modFiles(uploadFile,originFile,exhibitRegisterVO,posterFile);
             boardService.modExhib(exhibitRegisterVO);

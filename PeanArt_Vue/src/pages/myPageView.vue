@@ -44,8 +44,63 @@
                             </v-col>
                         </v-row>
                         <v-row justify="end">
-                            <v-btn color="green">회원정보 수정</v-btn>
-                        </v-row>
+                                <v-dialog
+                                v-model="dialog"
+                                persistent
+                                max-width="600px"
+                                >
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                    color="green"
+                                    dark
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    >
+                                    수정하기
+                                    </v-btn>
+                                </template>
+                                <v-card>
+                                    <v-card-title>
+                                    <span class="text-h5">프로필 이미지 변경</span>
+                                    </v-card-title>
+                                    <v-row class="justify-center">
+                                        <v-col md="8">
+                                                <v-file-input
+                                                accept="image/png"
+                                                placeholder="사용자 프로필 이미지를 첨부해주세요."
+                                                prepend-inner-icon="mdi-image"
+                                                label="사용자 프로필 이미지"
+                                                outlined
+                                                @change="previewProfileImage"
+                                                v-model="userProfileImage"
+                                            ></v-file-input>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row class="justify-center">
+                                        <v-col md="8" class="d-flex justify-center align-center">
+                                            <v-img v-if="userProfileUrl!=null" :src="userProfileUrl" max-height="300px" max-width="300px" contain></v-img>
+                                        </v-col>
+                                    </v-row>
+                                    <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                        color="blue darken-1"
+                                        text
+                                        @click="closeDialog()"
+                                    >
+                                        Close
+                                    </v-btn>
+                                    <v-btn
+                                        color="blue darken-1"
+                                        text
+                                        @click="saveImage()"
+                                    >
+                                        Save
+                                    </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                                </v-dialog>
+                            </v-row>
                     </v-col>
                 </v-row>
                 <v-row>
@@ -134,61 +189,65 @@ export default {
     },
     data: () => ({
         // 사용자 정보 표시용 Variable
-        usrNickname: '',
-        usrId: '',
-        usrName: '',
-        usrPhone: '',
-        usrAddress: '',
-        usrProfile:'',
+        usrNickname: 'ㅁ',
+        usrId: 'ㅁㅁ',
+        usrName: 'ㅁㅁㅁ',
+        usrPhone: 'ㅁㅁㅁ',
+        usrAddress: 'ㅁㅁㅁ',
+        usrProfile:'99497c6d-75a7-4fec-b29f-9d1b16bab6c7_admin@admin.com/ed852380-5e7a-4720-b39c-1f30eba49073_ADyj8mGBggubdRbkDHxdYAYP4q.jpg.png',
+        // 프로필 이미지 변경용 Variable
+        dialog:false,
+        userProfileImage:null,
+        userProfileUrl:null,
         // 방문한 전시회 목록용 list
         visitedExhib: [
             {
                 exhibSeq: 1,
                 name: '청주대학교 예술대학 시각디자인 전공 제 41회 졸업 전시회',
-                imgSrc: 'exhib (1).png',
+                exhibPosterUrl: 'exhib (1).png',
             },{
                 exhibSeq: 1,
                 name: '2021 국민대학교 공업디자인학과 졸업 전시회',
-                imgSrc: 'exhib (2).png',
+                exhibPosterUrl: 'exhib (2).png',
             },{
                 exhibSeq: 1,
                 name: '2020 계명대학교 시각디자인과 졸업 전시',
-                imgSrc: 'exhib (3).png',
+                exhibPosterUrl: 'exhib (3).png',
             },{
                 exhibSeq: 1,
                 name: '2020 계명대학교 시각디자인과 졸업 전시',
-                imgSrc: 'exhib (1).png',
+                exhibPosterUrl: 'exhib (1).png',
             },{
                 exhibSeq: 1,
                 name: '2020 계명대학교 시각디자인과 졸업 전시',
-                imgSrc: 'exhib (1).png',
+                exhibPosterUrl: 'exhib (1).png',
             },{
                 exhibSeq: 1,
                 name: '2020 계명대학교 시각디자인과 졸업 전시',
-                imgSrc: 'exhib (1).png',
+                exhibPosterUrl: 'exhib (1).png',
             }
         ],
         // 팔로우한 유저 목록용 list
         followedUser: [
             {
                 name: '2020 계명대학교 시각디자인과 졸업 전시',
-                imgSrc: 'exhib (1).png',
+                followedImgUrl: 'exhib (1).png',
             },
             {
                 name: '2020 계명대학교 시각디자인과 졸업 전시',
-                imgSrc: 'exhib (1).png',
+                followedImgUrl: 'exhib (1).png',
             },
             {
                 name: '2020 계명대학교 시각디자인과 졸업 전시',
-                imgSrc: 'exhib (1).png',
+                followedImgUrl: 'exhib (1).png',
             },
             {
                 name: '2020 계명대학교 시각디자인과 졸업 전시',
-                imgSrc: 'exhib (1).png',
+                followedImgUrl: 'exhib (1).png',
             },
             {
                 name: '2020 계명대학교 시각디자인과 졸업 전시',
-                imgSrc: 'exhib (1).png',
+                followedImgUrl: 'exhib (1).png',
             },
         ]
     }),
@@ -198,7 +257,42 @@ export default {
         },
         getImgUrlNotPrefix(pic){
             return pic.replace('PNG','png')
-        }
+        },
+        //
+        previewProfileImage() {
+            if(this.userProfileImage!=null){
+                console.log(this.userProfileImage)
+                this.userProfileUrl = URL.createObjectURL(this.userProfileImage);
+                console.log(this.userProfileUrl);
+                // this.resizeImage({file:this.userProfileImage, maxSize:100}).then(response=>{
+                //     console.log(response)
+                //     this.userProfileUrl = URL.createObjectURL(response);
+                // })
+            } else{
+                this.userProfileUrl = null
+            }
+        },
+        closeDialog()  {
+            this.dialog = false
+            this.userProfileImage = null
+            this.userProfileUrl = null
+        },
+        saveImage() {
+            if(this.userProfileImage == null){
+                alert('변경할 이미지를 선택해주세요.')
+                return
+            }
+            const frm = new FormData()
+            frm.append('profileImg', this.userProfileImage)
+            axios.post('/profile-img', frm, {headers: {
+                'Content-Type': 'multipart/form-data',
+            },}).then(response=>{
+                if(response.status==201){
+                    alert('프로필 이미지 변경에 성공했습니다.')
+                    this.dialog = false;
+                }
+            })
+        },
     },
     mounted(){
         if(sessionStorage.getItem('usrId') == null){

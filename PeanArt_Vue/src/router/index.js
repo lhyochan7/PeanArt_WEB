@@ -21,6 +21,7 @@ export default new VueRouter({
         }, {
             path: '/exhib/:id/detail',
             component: () => import('../pages/exhibitDetailView.vue'),
+            name: 'exhibitDetailView'
         },{
             path: '/exhib/:id/modify',
             component: () => import('../pages/exhibitRegisterView.vue'),
