@@ -2,8 +2,9 @@
     <v-app>
         <nav_bar></nav_bar>
         <v-container>
-            <v-row justify="center">
-                <v-col md="10">
+            <v-row justify="center" class="mt-16">
+                <v-col md="10" class="text-center">
+                    <v-text>마음에 드는 작품을 골라주세요</v-text>
                     <template>
                         <v-sheet
                             class="mx-auto"
@@ -57,6 +58,7 @@
 
 <script>
 import nav_bar from '@/components/nav_bar.vue'
+import axios from 'axios';
 export default {
     name:'aiRecommend',
     components:{
@@ -64,7 +66,55 @@ export default {
     },
     data: ()=>({
         model:[],
-    })
+    }),
+    methods:{
+    //이미지 리사이징용 함수 ( 사용 안함 )
+    //     resizeImage: ({ file, maxSize }) => {
+    //     const reader = new FileReader();
+    //     const image = new Image();
+    //     const canvas = document.createElement('canvas');
+    //     const resize = () => {
+    //         let { width, height } = image;
+
+    //         const dataURItoBlob = (dataURI) => {
+    //             const bytes = dataURI.split(',')[0].indexOf('base64') >= 0
+    //                 ? atob(dataURI.split(',')[1])
+    //                 : unescape(dataURI.split(',')[1]);
+    //             const mime = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    //             const max = bytes.length;
+    //             const ia = new Uint8Array(max);
+    //             for (let i = 0; i < max; i += 1) ia[i] = bytes.charCodeAt(i);
+    //             return new File([ia],'파일명',{ type: mime });
+    //         }
+    //         height = maxSize;
+    //         width = maxSize;
+
+    //         canvas.width = width;
+    //         canvas.height = height;
+    //         canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+
+    //         const dataUrl = canvas.toDataURL('image/png');
+    //         console.log(this)
+    //         return dataURItoBlob(dataUrl);
+    //     };
+    //     return new Promise((ok, no) => {
+    //         console.log(file)
+    //         if (!file.type.match(/image.*/)) {
+    //         no(new Error('Not an image'));
+    //         return;
+    //         }
+
+    //         reader.onload = (readerEvent) => {
+    //         image.onload = () => ok(resize());
+    //         image.src = readerEvent.target.result;
+    //         };
+
+    //         reader.readAsDataURL(file);
+    // });}
+    },
+    mounted(){
+        axios.get('')
+    }
 }
 </script>
 
