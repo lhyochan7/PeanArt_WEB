@@ -2,7 +2,15 @@
     <v-app>
         <nav_bar></nav_bar>
         <v-main>
-            <v-container>
+            <v-container fluid v-if="isLoaded == false">
+                <v-skeleton-loader
+                class="mx-auto"
+                type="card"
+                height="100%"
+                width="100%"
+                ></v-skeleton-loader>
+            </v-container>
+            <v-container v-else>
                 <v-row>
                     <v-col>
                         <h1>{{usrNickname}} 님 반갑습니다.</h1>
@@ -174,7 +182,8 @@
                         </v-slide-group>
                     </v-sheet>
                 </v-row>
-            </v-container>
+            </v-container>   
+        <foot_bar/>
         </v-main>
     </v-app>
 </template>
@@ -182,11 +191,13 @@
 <script>
 import nav_bar from '@/components/nav_bar'
 import axios from 'axios'
+import foot_bar from '@/components/foot_bar.vue'
 export default {
     name: 'myPageView',
     components: {
-        nav_bar,
-    },
+    nav_bar,
+    foot_bar
+},
     data: () => ({
         // 사용자 정보 표시용 Variable
         usrNickname: 'ㅁ',
@@ -249,7 +260,9 @@ export default {
                 name: '2020 계명대학교 시각디자인과 졸업 전시',
                 followedImgUrl: 'exhib (1).png',
             },
-        ]
+        ],
+        //로딩 확인용
+        isLoaded: false,
     }),
     methods:{
         getImgUrl(pic) {
@@ -315,8 +328,7 @@ export default {
                 this.usrProfile = data.profileImg
                 this.visitedExhib = data.exhibList
                 this.followedUser = data.followList
-                console.log(this.visitedExhib)
-                console.log(this.followedUser)
+                this.isLoaded = true
             })
         }
     }
