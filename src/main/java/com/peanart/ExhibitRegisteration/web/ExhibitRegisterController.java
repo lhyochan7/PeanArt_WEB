@@ -75,7 +75,7 @@ public class ExhibitRegisterController {
 
                 posterFile.transferTo(poster);
 
-                //String path = "http://15.164.142.253:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();
+                //String path = "http://15.164.142.253:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();asdasd
 
                 // rtn에 포스터 값 전달, Multipart type
                 rtn.put("poster", posterFile);
