@@ -312,30 +312,30 @@ export default {
         else{
             axios.get('/sessionCheck').then(response=>{
                 if(response.status==200){
-                    console.log()
+                    if(sessionStorage.getItem("usrId") == response.data){
+                    axios.get('/my-page').then(response=>{
+                        console.log(response)
+                        if(response.status != 200){
+                            alert('정보를 불러오는 중 에러가 발생했습니다.')
+                            this.$router.push('/main')
+                        }
+                        const data = response.data
+                        this.usrNickname = data.userInfo.usrNickname
+                        this.usrId = data.userInfo.usrId
+                        this.usrName = data.userInfo.usrName
+                        this.usrPhone = data.userInfo.usrPhone
+                        this.usrAddress = data.userInfo.usrAdrs
+                        this.usrProfile = data.profileImg
+                        this.visitedExhib = data.exhibList
+                        this.followedUser = data.followList
+                        this.isLoaded = true
+                    })
                 } else{
                     alert('비정상적인 접근입니다. 다시 시도해주세요.');
                     sessionStorage.removeItem("usrId")
                     this.$router.push('/main')
                 }
-            })
-            axios.get('/my-page').then(response=>{
-                console.log(response)
-                if(response.status != 200){
-                    alert('에러가 발생했습니다.')
-                    this.$router.push('/main')
-                }
-                const data = response.data
-                this.usrNickname = data.userInfo.usrNickname
-                this.usrId = data.userInfo.usrId
-                this.usrName = data.userInfo.usrName
-                this.usrPhone = data.userInfo.usrPhone
-                this.usrAddress = data.userInfo.usrAdrs
-                this.usrProfile = data.profileImg
-                this.visitedExhib = data.exhibList
-                this.followedUser = data.followList
-                this.isLoaded = true
-            })
+            }})
         }
     }
 }

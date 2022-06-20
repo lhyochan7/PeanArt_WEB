@@ -133,7 +133,7 @@ export default {
 },
     data: ()=>({
         imageForAI:[],
-        items: ['디자인', '사진', '모더니즘', '바로크', '풍경화', '모던한', '표현주의', '심플', '고전주의', '변화의', '비판적', '입체파', '밝은', '어두운', '형식주의', '이상주의', '작품'],
+        items: ['디자인', '사진', '모더니즘', '바로크', '모던한', '표현주의', '심플', '고전주의', '변화의', '비판적', '입체파', '밝은', '어두운', '형식주의', '이상주의', '작품'],
         selectedPicture:[],
         selectedTheme: [],
         // step 이동용
@@ -179,7 +179,8 @@ export default {
                     keywords: this.selectedTheme.join(',')
                 }
             }
-            axios.get('/AIpage', param, {headers: {'content-Type': "application/json; charset=UTF-8",
+            axios.get('http://15.164.142.253:8080/AIpage', param, {headers: {'content-Type': "application/json; charset=UTF-8",
+                'Allow-Control-Allow-Origin': '*'
             }}).then(response=>{
                 console.log(response)
                 if(response.status==200){

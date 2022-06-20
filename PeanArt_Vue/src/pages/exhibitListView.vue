@@ -22,7 +22,7 @@
             type="card"
             height="100%"
             width="100%"
-            v-if="isLoaded == false"
+            v-if="isLoaded == true"
             ></v-skeleton-loader>
             <v-col class="d-flex child-flex" cols="4" v-else v-for="(item, i) in list" v-bind:key="i">
                 <exhib_card :exhibData="item"></exhib_card>
@@ -49,7 +49,52 @@ export default {
             {name:'장소', value:3},],
         searchSeletedItem: '', // 검색할 값의 분류
         searchInput:'', // 검색 입력값
-        list: [],
+        list: [{
+        "exhibSeq": 9,
+        "exhibTitle": "seoul_design",
+        "exhibSimpleExp": "seoul_design",
+        "exhibStartDate": "2020-10-10 01:01:01",
+        "exhibEndDate": "2020-10-10 01:01:01",
+        "exhibLocation": "seoul_design",
+        "fileDirName": "63c9e7d8-9507-489c-89d1-a30718cf8cc3_seoul_design",
+        "fileName": "63c9e7d8-9507-489c-89d1-a30718cf8cc3_poster.PNG"
+    },{
+        "exhibSeq": 9,
+        "exhibTitle": "seoul_design",
+        "exhibSimpleExp": "seoul_design",
+        "exhibStartDate": "2020-10-10 01:01:01",
+        "exhibEndDate": "2020-10-10 01:01:01",
+        "exhibLocation": "seoul_design",
+        "fileDirName": "63c9e7d8-9507-489c-89d1-a30718cf8cc3_seoul_design",
+        "fileName": "63c9e7d8-9507-489c-89d1-a30718cf8cc3_poster.PNG"
+    },{
+        "exhibSeq": 9,
+        "exhibTitle": "seoul_design",
+        "exhibSimpleExp": "seoul_design",
+        "exhibStartDate": "2020-10-10 01:01:01",
+        "exhibEndDate": "2020-10-10 01:01:01",
+        "exhibLocation": "seoul_design",
+        "fileDirName": "63c9e7d8-9507-489c-89d1-a30718cf8cc3_seoul_design",
+        "fileName": "63c9e7d8-9507-489c-89d1-a30718cf8cc3_poster.PNG"
+    },{
+        "exhibSeq": 9,
+        "exhibTitle": "seoul_design",
+        "exhibSimpleExp": "seoul_design",
+        "exhibStartDate": "2020-10-10 01:01:01",
+        "exhibEndDate": "2020-10-10 01:01:01",
+        "exhibLocation": "seoul_design",
+        "fileDirName": "63c9e7d8-9507-489c-89d1-a30718cf8cc3_seoul_design",
+        "fileName": "63c9e7d8-9507-489c-89d1-a30718cf8cc3_poster.PNG"
+    },{
+        "exhibSeq": 9,
+        "exhibTitle": "seoul_design",
+        "exhibSimpleExp": "seoul_design",
+        "exhibStartDate": "2020-10-10 01:01:01",
+        "exhibEndDate": "2020-10-10 01:01:01",
+        "exhibLocation": "seoul_design",
+        "fileDirName": "63c9e7d8-9507-489c-89d1-a30718cf8cc3_seoul_design",
+        "fileName": "63c9e7d8-9507-489c-89d1-a30718cf8cc3_poster.PNG"
+    },],
         isLoaded: false
     }),
     methods:{
