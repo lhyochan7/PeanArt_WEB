@@ -10,8 +10,8 @@
             document.exhibRegiform.submit();
         }
 
-        function concatURI(a, b, c ){
-            a.concat(b,c);
+        function getFileListView(path, list){
+
             return a;
         }
 
@@ -48,8 +48,27 @@
 
     <input type="file" name="posterFile">
 
+
+    <span id="span">
+
+
+    </span>
+
+
     <br>
     전시 사진:
+
+    <script th:inline="javascript">
+        var img = document.createElement('img');
+        var i;
+        for(i=0; i<[[${fileListLength}]]; i++){
+            img.setAttribute("src",[[${imgPath}]]+[[${map.fileList.fileDirName}]]+"/"+[[${map.fileList.fileName}]]);
+            document.getElementById('span').appendChild(img);
+        }
+
+    </script>
+
+
     <input type="file" name="uploadFile" multiple="multiple">
 
     <br>

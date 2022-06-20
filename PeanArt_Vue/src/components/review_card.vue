@@ -33,7 +33,7 @@ export default {
     },
     methods:{
         getImgUrlNotPrefix(img){
-            return 'http://localhost:8080/imagePath/' + img.replace("PNG","png")
+            return 'http://15.164.142.253:8080/imagePath/' + img.replace("PNG","png")
         }
     }
 }

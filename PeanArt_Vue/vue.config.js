@@ -7,7 +7,7 @@ module.exports = defineConfig({
   // devServer: {
   //   proxy: {
   //       '/':{
-  //           "target":'http://localhost:8080', // Spring boot의 주소 및 포트
+  //           "target":'http://15.164.142.253:8080', // Spring boot의 주소 및 포트
   //           "pathRewrite":{'^/':''},
   //           "changeOrigin":true,
   //           logLevel: 'debug', // 터미널에 proxy 로그가 찍힌다.

@@ -107,7 +107,7 @@ public class BoardController {
         boardService.deleteExhib(exhibSeq);
 
         // AI 모델 업데이트 실행 (flask 서버)
-        String uri = "http://localhost:5000/updateModel";
+        String uri = "http://15.164.142.253:5000/updateModel";
         RestTemplate rt = new RestTemplate();
         rt.getForObject(uri, String.class);
 

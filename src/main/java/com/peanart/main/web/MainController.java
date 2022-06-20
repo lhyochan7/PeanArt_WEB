@@ -90,7 +90,7 @@ public class MainController {
         }
 
 
-        //String path = "http://localhost:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();
+        //String path = "http://15.164.142.253:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();
         model.addAttribute("files", files);
         //model.addAttribute("path", path);
 
@@ -124,7 +124,7 @@ public class MainController {
 
 
 
-    @GetMapping("/detail")
+    @GetMapping("/detail_test")
     public String getExhibInfo (HttpSession session, @RequestParam("exhibSeq") Integer exhibSeq, Model model) {
 
         HashMap<String, Object> map = new HashMap<>();
@@ -139,7 +139,7 @@ public class MainController {
         map.put("userInfo", myPageVO);
         map.put("reviewList", reviewVO);
 
-        String imgPath = "http://localhost:8080/imagePath/";
+        String imgPath = "http://15.164.142.253:8080/imagePath/";
 
         model.addAttribute("imgPath",imgPath);
         model.addAttribute("map",map);
@@ -150,7 +150,7 @@ public class MainController {
     }
 
 
-    @PostMapping(value="/detailModifiy",consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE}) //게시글 수정
+    @PostMapping(value="/detailModifiy_test",consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE}) //게시글 수정
     public ResponseEntity<String> modDetail(@RequestPart MultipartFile[] uploadFile, @RequestPart MultipartFile posterFile,
                                             HttpSession session, @RequestPart("exhibData") ExhibitRegisterVO exhibitRegisterVO) throws IOException {
         System.out.println(exhibitRegisterVO.toString());
@@ -216,7 +216,7 @@ public class MainController {
 
     @GetMapping("/test11")
     public String test11() {
-        String uri = "http://localhost:5000/updateModel";
+        String uri = "http://15.164.142.253:5000/updateModel";
         RestTemplate rt = new RestTemplate();
         rt.getForObject(uri, String.class);
 

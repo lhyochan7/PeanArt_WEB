@@ -35,7 +35,11 @@ public class ExhibitRegisterController {
     }
 
     @PostMapping(value = "/exhib/register", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity reg(@RequestPart("uploadFile") MultipartFile[] uploadFile, @RequestPart("posterFile") MultipartFile posterFile, HttpServletRequest req, HttpSession session, @RequestPart("exhibData") ExhibitRegisterVO exhibitRegisterVO) throws IOException {
+    public ResponseEntity reg(@RequestPart("uploadFile") MultipartFile[] uploadFile,
+                              @RequestPart("posterFile") MultipartFile posterFile,
+                              HttpServletRequest req,
+                              HttpSession session,
+                              @RequestPart("exhibData") ExhibitRegisterVO exhibitRegisterVO) throws IOException {
         Map<String, Object> rtn = new HashMap<>();
         System.out.println("입구에용");
         int usrSeq = 2;
@@ -45,8 +49,8 @@ public class ExhibitRegisterController {
                 //int usrSeq = (int)session.getAttribute("usrSeq");
                 //연결할때 주석 풀어서 usrSeq 값 부여 ^^
                 exhibitRegisterVO.setUsrSeq(usrSeq);
-                exhibitRegisterVO.setGoodsAllow((int)exhibitRegisterVO.getGoodsAllow());
-                exhibitRegisterVO.setExhibKind((int)exhibitRegisterVO.getExhibKind());
+                exhibitRegisterVO.setGoodsAllow(exhibitRegisterVO.getGoodsAllow());
+                exhibitRegisterVO.setExhibKind(exhibitRegisterVO.getExhibKind());
 
 
                 // 업로드 이미지들
@@ -57,17 +61,21 @@ public class ExhibitRegisterController {
                 String folderName = dirUuid + "_" + exhibitRegisterVO.getExhibTitle();
 
                 exhibitRegisterVO.setFileDirName(folderName);
-                exhibitRegisterVO.setFileName(dirUuid + "_" + posterFile.getOriginalFilename());
+                String posterFileName = "poster" + "." + exhibitRegisterVO.getFileName().split("\\.")[1].toLowerCase();
+
+
+                exhibitRegisterVO.setFileName(dirUuid + "_" + posterFileName);
 
                 File directory = new File(path + "/" + folderName);
                 if (!directory.exists()) {
                     directory.mkdir();
                 }
 
-                File poster = new File(path + "/" +folderName + "/" + dirUuid + "_" + posterFile.getOriginalFilename());
+                File poster= new File(path + "/" +folderName + "/" + dirUuid + "_" + posterFileName );
+
                 posterFile.transferTo(poster);
 
-                //String path = "http://localhost:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();
+                //String path = "http://15.164.142.253:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();asdasd
 
                 // rtn에 포스터 값 전달, Multipart type
                 rtn.put("poster", posterFile);
@@ -81,8 +89,9 @@ public class ExhibitRegisterController {
                         int fileIndex = 1;
                         FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
                         files.add(fvo);
+                        String uploadFileName = fvo.getFileName().split("\\.")[0] + "." + fvo.getFileName().split("\\.")[1].toLowerCase();
 
-                        File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + fvo.getFileName());
+                        File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + uploadFileName);
 
                         fvo.setFileDirName(folderName);
                         fvo.setExhibSeq(exhibSeq);
@@ -95,7 +104,7 @@ public class ExhibitRegisterController {
                 }
 
                 // AI 모델 업데이트 실행 (flask 서버)
-                String uri = "http://localhost:5000/updateModel";
+                String uri = "http://15.164.142.253:5000/updateModel";
                 RestTemplate rt = new RestTemplate();
                 rt.getForObject(uri, String.class);
 

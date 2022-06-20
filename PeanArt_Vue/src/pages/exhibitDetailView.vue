@@ -251,11 +251,11 @@ export default {
     }),
     methods: {
         getImgUrl(img){
-            return 'http://localhost:8080/imagePath/'+img.replace("PNG", "png")
+            return 'http://15.164.142.253:8080/imagePath/'+img.replace("PNG", "png")
         },
         deleteExhib() {
             const param ={params:{exhibSeq:this.$route.params.id}}
-            axios.get('http://localhost:8080/exhibDelete',param).then(response =>{
+            axios.get('http://15.164.142.253:8080/exhibDelete',param).then(response =>{
                 console.log(response);
                 if(response.status==200){
                     alert('삭제에 성공했습니다.')
@@ -294,13 +294,13 @@ export default {
             if(this.$refs.reviewForm.validate()){
                 const frm = new FormData()
                 frm.append('revContent',this.reviewInput)
-                axios.post('http://localhost:8080/reviewRegister', frm).then(response => {
+                axios.post('http://15.164.142.253:8080/reviewRegister', frm).then(response => {
                     console.log(response)
                     if(response.status==200){
                         var param = {params:{
                             exhibSeq: this.$route.params.id
                         }}
-                        axios.get('http://localhost:8080/detailA',param).then(response=>{
+                        axios.get('http://15.164.142.253:8080/detailA',param).then(response=>{
                             console.log(response);
                             if(response.status==200){
                                 this.userInfo = response.data.userInfo;
@@ -319,12 +319,12 @@ export default {
     },
     mounted() {
         this.userId = sessionStorage.getItem('usrId')
-        axios.get('http://localhost:8080/my-page').then(response=>{
+        axios.get('http://15.164.142.253:8080/my-page').then(response=>{
             console.log(response);
             if(response.status==200){
                 this.userInfo = response.data.userInfo;
                 const param = {params:{usrId:this.userInfo.usrId}}
-                axios.get('http://localhost:8080/adminCheck', param).then(response=>{
+                axios.get('http://15.164.142.253:8080/adminCheck', param).then(response=>{
                     console.log(response)
                     if(response.status==200){
                         this.isAdmin = true;
@@ -337,7 +337,7 @@ export default {
         var param = {params:{
             exhibSeq: this.$route.params.id
         }}
-        axios.get('http://localhost:8080/detailA',param).then(response=>{
+        axios.get('http://15.164.142.253:8080/detailA',param).then(response=>{
             console.log(response);
             if(response.status==200){
                 this.userInfo = response.data.userInfo;
