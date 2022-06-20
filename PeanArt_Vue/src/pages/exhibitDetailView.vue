@@ -258,6 +258,7 @@ export default {
             axios.get(this.$Url+'exhibDelete',param).then(response =>{
                 console.log(response);
                 if(response.status==200){
+                    axios.get("http://15.164.142.253:5000/updateModel").then(response=>{console.log(response)})
                     alert('삭제에 성공했습니다.')
                     this.$router.push('/exhib/list?kind=0');
                 } else{
@@ -318,25 +319,44 @@ export default {
         },
     },
     mounted() {
-        this.userId = sessionStorage.getItem('usrId')
-        axios.get(this.$Url+'my-page').then(response=>{
-            console.log(response);
+        axios.get('/sessionCheck').then(response=>{
             if(response.status==200){
-                this.userInfo = response.data.userInfo;
-                const param = {params:{usrId:this.userInfo.usrId}}
-                axios.get(this.$Url+'adminCheck', param).then(response=>{
-                    console.log(response)
-                    if(response.status==200){
-                        this.isAdmin = true;
-                    }
-                })
-            } else{
-                this.userInfo = {}
+                if(sessionStorage.getItem("usdId") != response.data){
+                    // 세션 로그인한 상태 + [세션스토리지 아이디 = 서버 세션 아이디] 인 상황
+                    console.log()
+                } else{
+                    alert('비정상적인 로그인 상태입니다.')
+                    sessionStorage.removeItem("usrId")
+                    this.$router.push('/main')
+                }
+            }else{
+                alert('비정상적인 로그인 상태입니다.')
+                sessionStorage.removeItem("usrId")
+                this.$router.push('/main')
             }
         })
-        var param = {params:{
-            exhibSeq: this.$route.params.id
-        }}
+        this.userInfo = {}
+        if(this.userId != null){
+            axios.get(this.$Url+'my-page').then(response=>{
+                console.log(response);
+                if(response.status==200){
+                    this.userInfo = response.data.userInfo;
+                    const param = {params:{usrId:this.userInfo.usrId}}
+                    axios.get(this.$Url+'adminCheck', param).then(response=>{
+                        console.log(response)
+                        if(response.status==200){
+                            this.isAdmin = true;
+                        }
+                    })
+                } else{
+                    this.userInfo = {}
+                }
+            })
+            var param = {params:{
+                exhibSeq: this.$route.params.id
+            }}
+        }
+        
         axios.get(this.$Url+'detail',param).then(response=>{
             console.log(response);
             if(response.status==200){

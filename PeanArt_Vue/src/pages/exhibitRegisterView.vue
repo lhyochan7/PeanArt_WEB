@@ -335,7 +335,7 @@ export default {
     menuEnd:false, // 마감일 토글용.
     // theme 선택 selectbox 용 variable
     exhibTheme: [],
-    items: ['디자인', '서양화', '사진', '모더니즘', '바로크', '풍경화', '모던한', '표현주의', '심플', '고전주의', '변화의', '비판적', '입체파', '밝은', '어두운', '추상화', '바로크'],
+    items: ['낭만주의', '르네상스', '리얼리즘', '미니멀리즘', '인상주의', '추상화', '그림', '서양화', '미술', '중세', '현대성', '개념주의', '초현실주의'],
     // 이미지 첨부 및 preview용 variable.
     posterUrl: null,
     posterImage: null,
@@ -544,6 +544,7 @@ export default {
                 console.log(response);
                 if(response.status === 200){
                     // 응답이 Ok(200) 이면 전시회 목록 페이지로 이동
+                    axios.get("http://15.164.142.253:5000/updateModel").then(response=>{console.log(response)})
                     alert('수정에 성공했습니다!')
                     this.$router.push('/exhib/list?kind=0');
                 } else {
@@ -574,7 +575,22 @@ export default {
         let Script = document.createElement("script");
         Script.setAttribute("src", "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js");
         document.head.appendChild(Script);
-        console.log(this.exhibData)
+        axios.get("/sessionCheck").then(response=>{
+            if(response.status==200){
+                if(sessionStorage.getItem("usdId") != response.data){
+                    // 세션 로그인한 상태 + [세션스토리지 아이디 = 서버 세션 아이디] 인 상황
+                    console.log()
+                } else{
+                    alert('비정상적인 로그인 상태입니다.')
+                    sessionStorage.removeItem("usrId")
+                    this.$router.push('/main')
+                }
+            }else{
+                alert('비정상적인 로그인 상태입니다.')
+                sessionStorage.removeItem("usrId")
+                this.$router.push('/main')
+            }
+        })
         if(this.exhibData!=null){
             console.log(this.exhibData)
             this.exhibTitle = this.exhibData.exhibTitle;
