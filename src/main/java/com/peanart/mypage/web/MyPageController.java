@@ -120,12 +120,17 @@ public class MyPageController {
                 }
 
                 FileVO fvo = new FileVO(UUID.randomUUID().toString(), profileImg.getOriginalFilename(), profileImg.getContentType());
-                File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + fvo.getFileName());
+
+                // 확장자  소문자로
+                String fileName = fvo.getFileName().split("\\.")[0] + "." + fvo.getFileName().split("\\.")[1].toLowerCase();
+                System.out.println("lowerCase : " + fileName);
+                File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + fileName);
+
                 profileImg.transferTo(newFileName);
 
                 MyPageFileVO myPageFileVO = new MyPageFileVO();
                 myPageFileVO.setFileDirName(folderName);
-                myPageFileVO.setFileName(fvo.getFileUuid() + "_" + fvo.getFileName());
+                myPageFileVO.setFileName(fvo.getFileUuid() + "_" + fileName);
 
                 myPageFileVO.setUsrSeq(usrSeq);
 
@@ -155,12 +160,17 @@ public class MyPageController {
 
                 // 프로필 이미지 새로 만듭니다
                 FileVO fvo = new FileVO(UUID.randomUUID().toString(), profileImg.getOriginalFilename(), profileImg.getContentType());
-                File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + fvo.getFileName());
+
+                // 확장자  소문자로
+                String fileName = fvo.getFileName().split("\\.")[0] + "." + fvo.getFileName().split("\\.")[1].toLowerCase();
+                System.out.println("lowerCase : " + fileName);
+                File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + fileName);
+
                 profileImg.transferTo(newFileName);
 
                 MyPageFileVO myPageFileVO = new MyPageFileVO();
                 myPageFileVO.setFileDirName(folderName);
-                myPageFileVO.setFileName(fvo.getFileUuid() + "_" + fvo.getFileName());
+                myPageFileVO.setFileName(fvo.getFileUuid() + "_" + fileName);
 
                 myPageFileVO.setUsrSeq(usrSeq);
 
