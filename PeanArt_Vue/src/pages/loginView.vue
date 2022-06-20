@@ -1,40 +1,46 @@
 <template>
     <v-app>
         <nav_bar></nav_bar>
-        <v-container height="100%">
-            <v-row>
-                <v-col md="6">
-                    <v-img src="../assets/cover.png" height="200%"></v-img>
-                </v-col>
-                <v-col md="6">
-                    <v-text-field
-                     v-model="email"
-                     :rules="[rules.required, rules.email]"
-                     label="이메일"
-                     outlined
-                    ></v-text-field>
-                    <v-text-field
-                     v-model="password"
-                     :append-icon="show_pwd ? 'mdi-eye' : 'mdi-eye-off'"
-                     :type="show_pwd ? 'text' : 'password'"
-                     :rules="[rules.required]"
-                     @click:append="show_pwd = !show_pwd"
-                     label="비밀번호"
-                     outlined></v-text-field>
-                    <v-btn outlined rounded block class="mb-6" @click="loginRequest">들어가기</v-btn>
-                    <p class="caption">계정이 아직 없으신가요? <router-link to="/register" style="text-decoration:none; color:black;" class="font-weight-bold">회원가입 하러 가기!</router-link></p>
-                </v-col>
-            </v-row>
+        <v-container fill-height>
+            <v-card height="110%" class="rounded-lg">
+                <v-container class="px-4 py-4">
+                    <v-row>
+                        <v-col md="6">
+                            <v-img src="../assets/cover.png" height="200%" max-height="556"></v-img>
+                        </v-col>
+                        <v-col md="6">
+                            <v-text-field
+                            v-model="email"
+                            :rules="[rules.required, rules.email]"
+                            label="이메일"
+                            outlined
+                            ></v-text-field>
+                            <v-text-field
+                            v-model="password"
+                            :append-icon="show_pwd ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="show_pwd ? 'text' : 'password'"
+                            :rules="[rules.required]"
+                            @click:append="show_pwd = !show_pwd"
+                            label="비밀번호"
+                            outlined></v-text-field>
+                            <v-btn outlined rounded block class="mb-6" @click="loginRequest">들어가기</v-btn>
+                            <p class="caption">계정이 아직 없으신가요? <router-link to="/register" style="text-decoration:none; color:black;" class="font-weight-bold">회원가입 하러 가기!</router-link></p>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-card>
         </v-container>
+        <foot_bar></foot_bar>
     </v-app>
 </template>
 
 <script>
 import nav_bar from '../components/nav_bar.vue'
 import axios from 'axios'
+import foot_bar from '@/components/foot_bar.vue';
 export default {
     name: 'loginPage',
-    components: { nav_bar },
+    components: { nav_bar, foot_bar },
     data: () => ({
         show_pwd:false,
         email:'',

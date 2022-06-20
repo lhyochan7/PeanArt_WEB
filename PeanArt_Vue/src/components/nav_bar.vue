@@ -4,9 +4,9 @@
         <router-link style="text-decoration:none; color:black;" to="/"><h2>PeanArt</h2></router-link>
         <v-spacer></v-spacer>
         <v-btn text x-large>상품 제작</v-btn>
-        <v-menu>
+        <v-menu offset-y>
           <template v-slot:activator="{on, attrs}">
-            <v-btn text x-large v-bind="attrs" v-on="on">목록<v-icon>mdi-menu-down</v-icon></v-btn>
+            <v-btn text x-large v-bind="attrs" v-on="on" class="pr-8">목록<v-icon>mdi-menu-down</v-icon></v-btn>
           </template>
           <v-list>
             <router-link style="text-decoration:none; color:black;" to="/exhib/list?kind=0">

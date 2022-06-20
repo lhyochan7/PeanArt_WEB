@@ -13,7 +13,7 @@
                     <template>
                         <v-sheet
                             class="mx-auto"
-                            elevation="8"
+                            elevation="2"
                             max-width="1000"
                         >
                             <v-window v-model="step">
@@ -107,14 +107,18 @@
                         </template>
                 </v-col>
             </v-row>
-            <v-row justify="center" class="mt-16">
+            <v-row justify="center" class="mt-16" v-if="exhibList.length!=0">
                 <v-col md="10">
-                    당신의 취향에 맞는 전시회는...
-                    <v-card>
-                        <Exhib_card :exhibData="mainExhib"></Exhib_card>
-                        <Exhib_card :exhibData="mainExhib"></Exhib_card>
-                        <Exhib_card :exhibData="mainExhib"></Exhib_card>
-                    </v-card>
+                    <v-row justify="center" class="mb-16">
+                        <div class="text-h5">당신의 취향에 맞는 전시회는...</div>
+                    </v-row>
+                    <v-row justify="center">
+                        <v-col cols="4" v-for="(item, index) in exhibList" v-bind:key="index">
+                            <router-link style="text-decoration:none; color:black;" :to="{name: 'exhibitDetailView', params: {id: item.fileList[0].exhibSeq}}">
+                                <Exhib_card :exhibData="item.exhib"></Exhib_card>
+                            </router-link>
+                        </v-col>
+                    </v-row>
                 </v-col>
             </v-row>
         </v-container>
@@ -163,7 +167,7 @@ export default {
       themeSelect() {
         return (this.selectedTheme.length < 6 && this.selectedTheme.length > 0 ) || '주제는 1개 이상 선택 해야하며, 5개 이하로 선택 가능합니다.';
       },
-      nextStep(){
+      async nextStep(){
         if(this.step==1){
             if(this.$refs.firstForm.validate()){
                 this.step = 2
@@ -181,12 +185,23 @@ export default {
             }
             axios.get('http://15.164.142.253:8080/AIpage', param, {headers: {'content-Type': "application/json; charset=UTF-8",
                 'Allow-Control-Allow-Origin': '*'
-            }}).then(response=>{
+            }}).then(async(response)=>{
                 console.log(response)
                 if(response.status==200){
-                    response.data
+                    const data = response.data
+                    console.log(data)
                     // exhibList에 서버로 부터 받은 array 중복제거 후 할당
                     // 이후 그 안의 값 하나씩? 해서 exhib정보 불러오기
+                    const set = new Set(data)
+                    const uniqueArr = [...set]
+                    console.log(uniqueArr)
+                    for(const para of uniqueArr)
+                    {
+                        const response = await axios.get(this.$Url+'detail', {params:{exhibSeq:para}})
+                        console.log(response)
+                        this.exhibList.push(response.data)
+                        console.log(this.exhibList)
+                    }
                 }
             })
         }
