@@ -544,6 +544,7 @@ export default {
                 console.log(response);
                 if(response.status === 200){
                     // 응답이 Ok(200) 이면 전시회 목록 페이지로 이동
+                    axios.get("http://15.164.142.253:5000/updateModel").then(response=>{console.log(response)})
                     alert('수정에 성공했습니다!')
                     this.$router.push('/exhib/list?kind=0');
                 } else {
@@ -574,7 +575,22 @@ export default {
         let Script = document.createElement("script");
         Script.setAttribute("src", "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js");
         document.head.appendChild(Script);
-        console.log(this.exhibData)
+        axios.get("/sessionCheck").then(response=>{
+            if(response.status==200){
+                if(sessionStorage.getItem("usdId") != response.data){
+                    // 세션 로그인한 상태 + [세션스토리지 아이디 = 서버 세션 아이디] 인 상황
+                    console.log()
+                } else{
+                    alert('비정상적인 로그인 상태입니다.')
+                    sessionStorage.removeItem("usrId")
+                    this.$router.push('/main')
+                }
+            }else{
+                alert('비정상적인 로그인 상태입니다.')
+                sessionStorage.removeItem("usrId")
+                this.$router.push('/main')
+            }
+        })
         if(this.exhibData!=null){
             console.log(this.exhibData)
             this.exhibTitle = this.exhibData.exhibTitle;
