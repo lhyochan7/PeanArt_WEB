@@ -118,4 +118,12 @@ public class MemberController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/sessionCheck")
+    public ResponseEntity <String> sessionCheck (HttpSession session){
+        if(session.getAttribute("usrId") != null || session.getAttribute("usrId") != ""){
+            return ResponseEntity.ok().body(session.getAttribute("usrId").toString());
+        }
+        return ResponseEntity.notFound().build();
+    }
 }

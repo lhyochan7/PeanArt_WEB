@@ -300,7 +300,7 @@ export default {
                         var param = {params:{
                             exhibSeq: this.$route.params.id
                         }}
-                        axios.get(this.$Url+'detailA',param).then(response=>{
+                        axios.get(this.$Url+'detail',param).then(response=>{
                             console.log(response);
                             if(response.status==200){
                                 this.userInfo = response.data.userInfo;

@@ -310,6 +310,15 @@ export default {
             this.$router.push('/login')
         }
         else{
+            axios.get('/sessionCheck').then(response=>{
+                if(response.status==200){
+                    
+                } else{
+                    alert('비정상적인 접근입니다. 다시 시도해주세요.');
+                    sessionStorage.removeItem("usrId")
+                    this.$router.push('/main')
+                }
+            })
             axios.get('/my-page').then(response=>{
                 console.log(response)
                 if(response.status != 200){
