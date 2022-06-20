@@ -2,84 +2,90 @@
     <v-app>
         <nav_bar></nav_bar>
         <v-container height="100%">
-            <v-row>
-                <v-col md="6">
-                    <v-img src="../assets/cover.png" height="100%"></v-img>
-                </v-col>
-                <v-col md="6">
-                    <v-form ref="form">
-                        <div class="d-flex">
-                            <v-text-field
-                            v-model="usr_email"
-                            :rules="usr_emailChecked ? [] : [rules.required, rules.email, emailValid]"
-                            label="이메일"
-                            outlined
-                            :disabled="usr_emailChecked"
-                            ></v-text-field>
-                            <v-btn class="ml-2" x-large outlined @click="usr_emailChecked ? clearEmail() : emailCheckRequest()">{{usr_emailChecked? '중복확인 취소': '중복확인'}}</v-btn>
-                        </div>
-                        <v-alert type="error" :value="emailAlert" transition="slide-y-transition" class="mt-n7">중복된 이메일이 존재합니다. 다시 시도해주세요.</v-alert>
-                        <div class="d-flex">
-                            <v-text-field
-                            v-model="usr_nickname"
-                            :rules="usr_nicknameChecked ? [] : [rules.required, nicknameValid]"
-                            label="닉네임"
-                            outlined
-                            :disabled="usr_nicknameChecked"
-                            ></v-text-field>
-                            <v-btn class="ml-2" x-large outlined @click="usr_nicknameChecked ? clearNickname() : nicknameCheckRequest()">{{usr_nicknameChecked? '중복확인 취소': '중복확인'}}</v-btn>
-                        </div>
-                        <v-alert type="error" :value="nicknameAlert" transition="slide-y-transition" class="mt-n7">중복된 닉네임이 존재합니다. 다시 시도해주세요.</v-alert>
-                        <v-text-field
-                        v-model="password"
-                        :append-icon="show_pwd ? 'mdi-eye' : 'mdi-eye-off'"
-                        :type="show_pwd ? 'text' : 'password'"
-                        :rules="[rules.required, rules.password_rule]"
-                        @click:append="show_pwd = !show_pwd"
-                        label="비밀번호"
-                        outlined></v-text-field>
-                        <v-text-field
-                        v-model="passwordCheck"
-                        :append-icon="show_pwd ? 'mdi-eye' : 'mdi-eye-off'"
-                        :type="show_pwd ? 'text' : 'password'"
-                        :rules="[rules.required, matchPassword, rules.password_rule]"
-                        @click:append="show_pwd = !show_pwd"
-                        label="비밀번호 확인"
-                        outlined></v-text-field>
-                        <v-text-field
-                        v-model="usr_name"
-                        :rules="[rules.required, rules.name]"
-                        label="이름"
-                        outlined
-                        ></v-text-field>
-                        <v-text-field
-                        v-model="usr_phone"
-                        label="휴대폰 번호 (선택사항)"
-                        :rules="[rules.phoneNumber]"
-                        outlined
-                        @input="acceptNumber"
-                        ></v-text-field>
-                        <v-text-field
-                        v-model="usr_addr"
-                        label="주소 (선택사항)"
-                        outlined
-                        @click="loadAddress"
-                        readonly
-                        ></v-text-field>
-                    </v-form>
-                    <v-btn outlined rounded block @click="registerRequest">회원가입</v-btn>
-                </v-col>
-            </v-row>
+            <v-card class="px-4 py-4">
+                <v-container>
+                    <v-row>
+                        <v-col md="6">
+                            <v-img src="../assets/cover.png" height="100%"></v-img>
+                        </v-col>
+                        <v-col md="6">
+                            <v-form ref="form">
+                                <div class="d-flex">
+                                    <v-text-field
+                                    v-model="usr_email"
+                                    :rules="usr_emailChecked ? [] : [rules.required, rules.email, emailValid]"
+                                    label="이메일"
+                                    outlined
+                                    :disabled="usr_emailChecked"
+                                    ></v-text-field>
+                                    <v-btn class="ml-2" x-large outlined @click="usr_emailChecked ? clearEmail() : emailCheckRequest()">{{usr_emailChecked? '중복확인 취소': '중복확인'}}</v-btn>
+                                </div>
+                                <v-alert type="error" :value="emailAlert" transition="slide-y-transition" class="mt-n7">중복된 이메일이 존재합니다. 다시 시도해주세요.</v-alert>
+                                <div class="d-flex">
+                                    <v-text-field
+                                    v-model="usr_nickname"
+                                    :rules="usr_nicknameChecked ? [] : [rules.required, nicknameValid]"
+                                    label="닉네임"
+                                    outlined
+                                    :disabled="usr_nicknameChecked"
+                                    ></v-text-field>
+                                    <v-btn class="ml-2" x-large outlined @click="usr_nicknameChecked ? clearNickname() : nicknameCheckRequest()">{{usr_nicknameChecked? '중복확인 취소': '중복확인'}}</v-btn>
+                                </div>
+                                <v-alert type="error" :value="nicknameAlert" transition="slide-y-transition" class="mt-n7">중복된 닉네임이 존재합니다. 다시 시도해주세요.</v-alert>
+                                <v-text-field
+                                v-model="password"
+                                :append-icon="show_pwd ? 'mdi-eye' : 'mdi-eye-off'"
+                                :type="show_pwd ? 'text' : 'password'"
+                                :rules="[rules.required, rules.password_rule]"
+                                @click:append="show_pwd = !show_pwd"
+                                label="비밀번호"
+                                outlined></v-text-field>
+                                <v-text-field
+                                v-model="passwordCheck"
+                                :append-icon="show_pwd ? 'mdi-eye' : 'mdi-eye-off'"
+                                :type="show_pwd ? 'text' : 'password'"
+                                :rules="[rules.required, matchPassword, rules.password_rule]"
+                                @click:append="show_pwd = !show_pwd"
+                                label="비밀번호 확인"
+                                outlined></v-text-field>
+                                <v-text-field
+                                v-model="usr_name"
+                                :rules="[rules.required, rules.name]"
+                                label="이름"
+                                outlined
+                                ></v-text-field>
+                                <v-text-field
+                                v-model="usr_phone"
+                                label="휴대폰 번호 (선택사항)"
+                                :rules="[rules.phoneNumber]"
+                                outlined
+                                @input="acceptNumber"
+                                ></v-text-field>
+                                <v-text-field
+                                v-model="usr_addr"
+                                label="주소 (선택사항)"
+                                outlined
+                                @click="loadAddress"
+                                readonly
+                                ></v-text-field>
+                            </v-form>
+                            <v-btn outlined rounded block @click="registerRequest">회원가입</v-btn>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-card>
         </v-container>
+        <Foot_bar></Foot_bar>
     </v-app>
 </template>
 
 <script>
 import nav_bar from '../components/nav_bar.vue'
 import axios from 'axios'
+import Foot_bar from '@/components/foot_bar.vue'
 export default {
     name: 'userRegisterPage',
-    components: { nav_bar },
+    components: { nav_bar, Foot_bar },
     data: () => ({
         show_pwd:false,
         usr_email:'',

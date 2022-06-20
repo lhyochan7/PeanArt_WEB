@@ -18,19 +18,20 @@
                         <v-container>
                             <v-row>
                                 <v-col md="6" class="d-flex align-center" align="center">
-                                    <v-img :src="getImgUrl(this.exhib.fileDirName +'/'+ this.exhib.fileName)" width="800" :aspect-ratio="1/1" contain></v-img>
+                                    <v-img :src="getImgUrl(this.exhib.fileDirName +'/'+ this.exhib.fileName)" width="800" :aspect-ratio="1/1"></v-img>
                                 </v-col>
                                 <v-col md="6" class="d-flex align-center">
                                     <v-card
                                     class="overflow-y-auto mx-auto"
-                                    max-height="800">
-                                        <v-card-title>{{this.exhib.exhibTitle}}</v-card-title>
-                                        <v-card-text class="text-subtitle-2">{{this.exhib.exhibSimpleExp}}</v-card-text>
+                                    max-height="568"
+                                    height="100%">
+                                        <v-card-title class="text-h4">{{this.exhib.exhibTitle}}</v-card-title>
+                                        <v-card-text class="text-h6">{{this.exhib.exhibSimpleExp}}</v-card-text>
                                         <v-card-text class="text-subtitle-1">{{this.exhib.exhibDetailExp}}</v-card-text>
                                         <v-divider></v-divider>
-                                        <v-card-text>전시 장소: {{this.exhib.exhibLocation}}</v-card-text>
-                                        <v-card-text>전시회 홈페이지 : <a :href="this.exhib.exhibUri" style="text-decoration:none;color:black;">{{this.exhib.exhibUri}}</a></v-card-text>
-                                        <v-card-text>전시 기간 : {{this.exhib.exhibStartDate}} ~ {{this.exhib.exhibEndDate}}</v-card-text>
+                                        <v-card-text class="text-subtitle-1">전시 장소: {{this.exhib.exhibLocation}}</v-card-text>
+                                        <v-card-text class="text-subtitle-1">전시회 홈페이지 : <a :href="this.exhib.exhibUri" style="text-decoration:none;color:black;">{{this.exhib.exhibUri}}</a></v-card-text>
+                                        <v-card-text class="text-subtitle-1">전시 기간 : {{this.exhib.exhibStartDate}} ~ {{this.exhib.exhibEndDate}}</v-card-text>
                                     </v-card>
                                 </v-col>
                             </v-row>
@@ -60,7 +61,8 @@
                         <v-col md="2" v-for="(item, index) in fileList" v-bind:key="index" align-self="center">
                             <v-img :src="getImgUrl(item.fileDirName +'/'+ item.fileUuid)" max-height="200px" max-width="200px" contain></v-img>
                         </v-col>
-                        <v-col md="4">
+                        <v-spacer></v-spacer>
+                        <v-col md="2">
                             <v-card outlined>
                                 <v-container>
                                     <v-avatar size="100px">
@@ -157,21 +159,21 @@ export default {
         exhibSeq:'',
         // 불러온 전시회 정보
         exhib: {
-            exhibTitle:'경계없이 노닐다',
-            exhibKind:1,
-            exhibTheme:'현대미술',
-            exhibSimpleExp:'',
-            exhibDetailExp:'복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다. 그런 차이가 세상을 풍성하게, 좀 더 발전하게 만든다.복잡한 현대 사회 만큼 사람들의 개성은 다양하고 입체적이다. 그래서 같은 의미를 두고도 사람들은 각자 다른 해석을 하기도 한다',
-            exhibStartDate:'2022. 08. 18',
-            exhibEndDate:'2022. 08. 30',
-            exhibLocation:'대구 중구 동내로 70',
-            exhibUri:'http://homepage.com',
-            usrSeq: 1,
-            exhibCretDate: "2022-06-16 05:15:47",
-            exhibModDate: "2022-06-16 05:15:47",
-            fileDirName: "f6d798bc-945e-405a-8e31-e61d14670166_dankook",
-            fileName: "f6d798bc-945e-405a-8e31-e61d14670166_poster.png",
-            goodsAllow: 1
+            "exhibTitle": "KUCD Graduation Exhibition",
+            "exhibKind": "1",
+            "exhibTheme": "낭만주의,인상주의",
+            "exhibSimpleExp": "건국대학교 예술디자인대학 커뮤니케이션디자인학과는 디자인분야를 바탕으로 인문사회 및 인접 분야와의 활발한 교류를 유도할 수 있는 학제간의 융합",
+            "exhibDetailExp": "건국대학교 예술디자인대학 커뮤니케이션디자인학과는 디자인분야를 바탕으로 인문사회 및 인접 분야와의 활발한 교류를 유도할 수 있는 학제간의 융합을 통하여 사고와 정보를 통합하는 공감각적 창조성을 배양하고, 나아가 새로운 콘텐츠 개발 및 개별 영역들의 한계를 뛰어 넘어 커뮤니케이션을 할 수 있는 국제적 경쟁력을 지닌 커뮤니케이션디자인 전문가 양성을 궁극적인 목표로 삼고 있다. 이를 위해 인∙문화∙기술을 포함하는 다양한 분야의 폭넓은 이해와 함께, 미래의 사회∙문화적 흐름과 요구 등 환경변화에 적극적으로 대처할 수 있도록 각종 미디어를 이용한 통합적 커뮤니케이션디자인의 이론 교육과 실습을 수행한다. 이를 통해 창조적인 사고능력과 혁신적 문제해결 능력을 기반으로 하는 창의적 전문성을 갖춘 유능한 커뮤니케이션디자이너를 양성하기 위한 교육과정을 제공하고 있다",
+            "exhibStartDate": "2022-06-21 00:00:00",
+            "exhibEndDate": "2022-06-23 00:00:00",
+            "exhibLocation": "경기 가평군 가평읍 석봉로 50",
+            "exhibUri": "http://kucd.net/graduate/2017/",
+            "usrSeq": 2,
+            "exhibCretDate": "2022-06-20 11:24:58",
+            "exhibModDate": "2022-06-20 11:24:58",
+            "fileDirName": "12eef4ba-7d97-4ad5-8036-8608e43d5e9b",
+            "fileName": "12eef4ba-7d97-4ad5-8036-8608e43d5e9b_poster.jpg",
+            "goodsAllow": "1"
         },
         // 불러온 전시회를 등록한 사용자
         exhibUserInfo: {

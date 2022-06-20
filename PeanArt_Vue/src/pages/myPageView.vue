@@ -10,7 +10,7 @@
                 width="100%"
                 ></v-skeleton-loader>
             </v-container>
-            <v-container v-else>
+            <v-container fill-height v-else>
                 <v-row>
                     <v-col>
                         <h1>{{usrNickname}} 님 반갑습니다.</h1>
@@ -29,25 +29,25 @@
                     <v-col md="8" align-self="center">
                         <v-row>
                             <v-col md="2">
-                                <p class="text-subtitle-1">이름</p>
+                                <p class="text-h6">이름</p>
                             </v-col>
-                            <v-col class="offset-md-1">
+                            <v-col class="offset-md-1 text-h6">
                                 {{usrName}}
                             </v-col>
                         </v-row>
-                        <v-row class="mt-n8">
+                        <v-row class="">
                             <v-col md="2">
-                                <p class="text-subtitle-1">전화번호</p>
+                                <p class="text-h6">전화번호</p>
                             </v-col>
-                            <v-col class="offset-md-1">
+                            <v-col class="offset-md-1 text-h6">
                                 {{usrPhone}}
                             </v-col>
                         </v-row>
-                        <v-row class="mt-n8">
+                        <v-row class="">
                             <v-col md="2">
-                                <p class="text-subtitle-1">주소</p>
+                                <p class="text-h6">주소</p>
                             </v-col>
-                            <v-col class="offset-md-1">
+                            <v-col class="offset-md-1 text-h6">
                                 {{usrAddress}}
                             </v-col>
                         </v-row>
@@ -117,11 +117,11 @@
                 <v-row>
                     <div class="text-h6 font-weight-bold ml-4 mt-4">방문한 전시회 목록</div>
                 </v-row>
-                <v-row class="mt-8">
+                <v-row class="mt-8" justify="start">
                     <v-sheet
-                        class="mx-auto"
-                        elevation="1"
+                        elevation="0"
                         max-width="1000"
+                        class="ml-4"
                     >
                         <v-slide-group
                         class="pa-4"
@@ -153,9 +153,9 @@
                 </v-row>
                 <v-row class="mt-8">
                     <v-sheet
-                        class="mx-auto"
-                        elevation="1"
+                        elevation="0"
                         max-width="1000"
+                        class="ml-4"
                     >
                         <v-slide-group
                         class="pa-4"
@@ -200,11 +200,11 @@ export default {
 },
     data: () => ({
         // 사용자 정보 표시용 Variable
-        usrNickname: 'ㅁ',
-        usrId: 'ㅁㅁ',
-        usrName: 'ㅁㅁㅁ',
-        usrPhone: 'ㅁㅁㅁ',
-        usrAddress: 'ㅁㅁㅁ',
+        usrNickname: '김덕배',
+        usrId: 'exam@exam.com',
+        usrName: '김춘득',
+        usrPhone: '010-1234-5678',
+        usrAddress: '대구시 동구 동내로 70',
         usrProfile:'99497c6d-75a7-4fec-b29f-9d1b16bab6c7_admin@admin.com/ed852380-5e7a-4720-b39c-1f30eba49073_ADyj8mGBggubdRbkDHxdYAYP4q.jpg.png',
         // 프로필 이미지 변경용 Variable
         dialog:false,
@@ -219,24 +219,24 @@ export default {
             },{
                 exhibSeq: 1,
                 name: '2021 국민대학교 공업디자인학과 졸업 전시회',
-                exhibPosterUrl: 'exhib (2).png',
-            },{
-                exhibSeq: 1,
-                name: '2020 계명대학교 시각디자인과 졸업 전시',
-                exhibPosterUrl: 'exhib (3).png',
-            },{
-                exhibSeq: 1,
-                name: '2020 계명대학교 시각디자인과 졸업 전시',
-                exhibPosterUrl: 'exhib (1).png',
-            },{
-                exhibSeq: 1,
-                name: '2020 계명대학교 시각디자인과 졸업 전시',
-                exhibPosterUrl: 'exhib (1).png',
-            },{
-                exhibSeq: 1,
-                name: '2020 계명대학교 시각디자인과 졸업 전시',
-                exhibPosterUrl: 'exhib (1).png',
-            }
+                exhibPosterUrl: 'exhib (2).png',}
+            // },{
+            //     exhibSeq: 1,
+            //     name: '2020 계명대학교 시각디자인과 졸업 전시',
+            //     exhibPosterUrl: 'exhib (3).png',
+            // },{
+            //     exhibSeq: 1,
+            //     name: '2020 계명대학교 시각디자인과 졸업 전시',
+            //     exhibPosterUrl: 'exhib (1).png',
+            // },{
+            //     exhibSeq: 1,
+            //     name: '2020 계명대학교 시각디자인과 졸업 전시',
+            //     exhibPosterUrl: 'exhib (1).png',
+            // },{
+            //     exhibSeq: 1,
+            //     name: '2020 계명대학교 시각디자인과 졸업 전시',
+            //     exhibPosterUrl: 'exhib (1).png',
+            // }
         ],
         // 팔로우한 유저 목록용 list
         followedUser: [
@@ -312,30 +312,30 @@ export default {
         else{
             axios.get('/sessionCheck').then(response=>{
                 if(response.status==200){
-                    console.log()
+                    if(sessionStorage.getItem("usrId") == response.data){
+                    axios.get('/my-page').then(response=>{
+                        console.log(response)
+                        if(response.status != 200){
+                            alert('정보를 불러오는 중 에러가 발생했습니다.')
+                            this.$router.push('/main')
+                        }
+                        const data = response.data
+                        this.usrNickname = data.userInfo.usrNickname
+                        this.usrId = data.userInfo.usrId
+                        this.usrName = data.userInfo.usrName
+                        this.usrPhone = data.userInfo.usrPhone
+                        this.usrAddress = data.userInfo.usrAdrs
+                        this.usrProfile = data.profileImg
+                        this.visitedExhib = data.exhibList
+                        this.followedUser = data.followList
+                        this.isLoaded = true
+                    })
                 } else{
                     alert('비정상적인 접근입니다. 다시 시도해주세요.');
                     sessionStorage.removeItem("usrId")
                     this.$router.push('/main')
                 }
-            })
-            axios.get('/my-page').then(response=>{
-                console.log(response)
-                if(response.status != 200){
-                    alert('에러가 발생했습니다.')
-                    this.$router.push('/main')
-                }
-                const data = response.data
-                this.usrNickname = data.userInfo.usrNickname
-                this.usrId = data.userInfo.usrId
-                this.usrName = data.userInfo.usrName
-                this.usrPhone = data.userInfo.usrPhone
-                this.usrAddress = data.userInfo.usrAdrs
-                this.usrProfile = data.profileImg
-                this.visitedExhib = data.exhibList
-                this.followedUser = data.followList
-                this.isLoaded = true
-            })
+            }})
         }
     }
 }
