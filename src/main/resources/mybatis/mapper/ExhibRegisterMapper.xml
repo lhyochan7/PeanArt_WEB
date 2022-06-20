@@ -16,8 +16,8 @@
         values
         (
         #{exhibTitle}, ${exhibKind}, #{exhibTheme}, #{exhibSimpleExp}, #{exhibDetailExp},
-        #{exhibStartDate}, #{exhibEndDate}, #{exhibLocation}, #{exhibUri}, #{usrSeq},
-        SYSDATE(), SYSDATE(), #{fileDirName}, #{fileName}, #{goodsAllow}
+        #{exhibStartDate}, #{exhibEndDate}, #{exhibLocation}, ${exhibUri}, #{usrSeq},
+        SYSDATE(), SYSDATE(), #{fileDirName}, #{fileName}, ${goodsAllow}
         )
     </insert>
 
