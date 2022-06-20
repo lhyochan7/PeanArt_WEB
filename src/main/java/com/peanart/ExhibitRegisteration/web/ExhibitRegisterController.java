@@ -58,13 +58,15 @@ public class ExhibitRegisterController {
 
                 exhibitRegisterVO.setFileDirName(folderName);
                 exhibitRegisterVO.setFileName(dirUuid + "_" + posterFile.getOriginalFilename());
+                String posterFileName = exhibitRegisterVO.getFileName().split("\\.")[0] + "." + exhibitRegisterVO.getFileName().split("\\.")[1].toLowerCase();
 
                 File directory = new File(path + "/" + folderName);
                 if (!directory.exists()) {
                     directory.mkdir();
                 }
 
-                File poster = new File(path + "/" +folderName + "/" + dirUuid + "_" + posterFile.getOriginalFilename());
+                File poster= new File(path + "/" +folderName + "/" + dirUuid + "_" + posterFileName);
+
                 posterFile.transferTo(poster);
 
                 //String path = "http://localhost:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();
@@ -81,8 +83,9 @@ public class ExhibitRegisterController {
                         int fileIndex = 1;
                         FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
                         files.add(fvo);
+                        String uploadFileName = fvo.getFileName().split("\\.")[0] + "." + fvo.getFileName().split("\\.")[1].toLowerCase();
 
-                        File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + fvo.getFileName());
+                        File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + uploadFileName);
 
                         fvo.setFileDirName(folderName);
                         fvo.setExhibSeq(exhibSeq);
