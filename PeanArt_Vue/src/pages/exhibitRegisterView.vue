@@ -335,7 +335,7 @@ export default {
     menuEnd:false, // 마감일 토글용.
     // theme 선택 selectbox 용 variable
     exhibTheme: [],
-    items: ['디자인', '서양화', '사진', '모더니즘', '바로크', '풍경화', '모던한', '표현주의', '심플', '고전주의', '변화의', '비판적', '입체파', '밝은', '어두운', '추상화', '바로크'],
+    items: ['낭만주의', '르네상스', '리얼리즘', '미니멀리즘', '인상주의', '추상화', '그림', '서양화', '미술', '중세', '현대성', '개념주의', '초현실주의'],
     // 이미지 첨부 및 preview용 variable.
     posterUrl: null,
     posterImage: null,

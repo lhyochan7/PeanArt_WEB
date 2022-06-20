@@ -312,7 +312,7 @@ export default {
         else{
             axios.get('/sessionCheck').then(response=>{
                 if(response.status==200){
-                    
+                    console.log()
                 } else{
                     alert('비정상적인 접근입니다. 다시 시도해주세요.');
                     sessionStorage.removeItem("usrId")
