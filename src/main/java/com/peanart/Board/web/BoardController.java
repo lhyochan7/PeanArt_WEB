@@ -76,13 +76,13 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.OK).body("Ajax 해줘"); //페이지 전체 요청보단 ajax로 리뷰 영역만 갱신 해야함
     }
 
-    @PostMapping("/detailModifiy---------------") //게시글 수정
+    @PostMapping("/detailModifiy") //게시글 수정
     public ResponseEntity<String> modDetail(@RequestParam MultipartFile[] uploadFile, @RequestParam MultipartFile posterFile,
                                             HttpSession session, ExhibitRegisterVO exhibitRegisterVO) throws IOException {
 
 
             List<FileVO> originFile = boardService.getFile((int) session.getAttribute("exhinseq"));
-            // session.usrSeq == exhib.usrSeq true 면 sql 실행 아니면 fail 반환 하자
+
             int sessionUsrSeq = (int) session.getAttribute("usrSeq");
             int currentExhibUsrSeq = exhibitRegisterVO.getUsrSeq();
 
@@ -96,7 +96,7 @@ public class BoardController {
 
     }
 
-    @GetMapping("exhibDelete")
+    @GetMapping("/exhibDelete")
     public ResponseEntity exhibDelete(@RequestParam("exhibSeq") Integer exhibSeq){
 
         List<FileVO> removeFileList= boardService.getFile(exhibSeq);

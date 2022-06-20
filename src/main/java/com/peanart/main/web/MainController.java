@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-@RestController
+@Controller
 public class MainController {
     @Autowired
     private MainService mainService;
