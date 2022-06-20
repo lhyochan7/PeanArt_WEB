@@ -71,7 +71,7 @@ export default {
                 }
             }
             console.log(param);
-            axios.get("http://15.164.142.253:8080/search", param).then(response =>{
+            axios.get(this.$Url+"search", param).then(response =>{
                 console.log(response);
                 this.list = response.data;
                 this.isLoaded = true
