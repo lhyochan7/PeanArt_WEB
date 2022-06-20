@@ -15,9 +15,9 @@
         )
         values
         (
-        ${exhibTitle}, $exhibKind}, $exhibTheme}, ${exhibSimpleExp}, ${exhibDetailExp},
+        ${exhibTitle}, ${exhibKind}, ${exhibTheme}, ${exhibSimpleExp}, ${exhibDetailExp},
         ${exhibStartDate}, ${exhibEndDate}, ${exhibLocation}, ${exhibUri}, ${usrSeq},
-        SYSDATE(), SYSDATE(), ${fileDirName},${fileName}, ${goodsAllow}
+        SYSDATE(), SYSDATE(), ${fileDirName}, ${fileName}, ${goodsAllow}
         )
     </insert>
 
