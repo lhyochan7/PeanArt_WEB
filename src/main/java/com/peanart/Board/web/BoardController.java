@@ -44,7 +44,7 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @GetMapping("/detailA")
+    @GetMapping("/detail")
     public ResponseEntity<HashMap<String, Object>> getExhibInfo (HttpSession session, @RequestParam("exhibSeq") Integer exhibSeq, Model model) {
 
         HashMap<String, Object> map = new HashMap<>();
@@ -127,10 +127,10 @@ public class BoardController {
         for (MultipartFile file : uploadFile) {
             if (!file.isEmpty()) {
                 int fileIndex = 1;
-                FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
+                FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getContentType());
                 modFileList.add(fvo);
 
-                File newFileName = new File(path + "/" +originFileList.get(0).getFileDirName() + "/" + fvo.getFileUuid() + "_" + fvo.getFileName());
+                File newFileName = new File(path + "/" +originFileList.get(0).getFileDirName() + "/" + fvo.getFileUuid() );
 
                 fvo.setFileDirName(originFileList.get(0).getFileDirName());
                 fvo.setExhibSeq(originFileList.get(0).getExhibSeq());

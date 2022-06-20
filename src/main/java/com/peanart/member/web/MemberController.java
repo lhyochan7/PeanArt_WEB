@@ -48,6 +48,7 @@ public class MemberController {
             session.setAttribute("usrNickname", user.getUsrNickname());
             session.setAttribute("usrName", user.getUsrName());
             session.setAttribute("role", user.getRoleId());
+            System.out.println("userId session : " + session.getAttribute("usrId"));
 
             // body에 MemberVO user 리턴
             return ResponseEntity.ok()

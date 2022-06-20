@@ -80,10 +80,10 @@ public class MainController {
 
         for (MultipartFile file : uploadfile) {
             if (!file.isEmpty()) {
-                FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
+                FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getContentType());
                 files.add(fvo);
 
-                File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + fvo.getFileName());
+                File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid());
 
                 file.transferTo(newFileName);
             }
@@ -104,9 +104,8 @@ public class MainController {
 
     @GetMapping("/download")
     public ResponseEntity<Resource> download(@ModelAttribute FileVO fvo) throws IOException {
-        System.out.println(fvo.getFileName());
 
-        Path path = Paths.get(filePath + '/' + fvo.getFileUuid()+ '_' + fvo.getFileName());
+        Path path = Paths.get(filePath + '/' + fvo.getFileUuid());
 
         System.out.println(path.toString());
         //Path path = Paths.get(fileDirName + fileName);
@@ -182,10 +181,10 @@ public class MainController {
             for (MultipartFile file : uploadFile) {
                 if (!file.isEmpty()) {
                     int fileIndex = 1;
-                    FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
+                    FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getContentType());
                     modFileList.add(fvo);
 
-                    File newFileName = new File(path + "/" +originFileList.get(0).getFileDirName() + "/" + fvo.getFileUuid() + "_" + fvo.getFileName());
+                    File newFileName = new File(path + "/" +originFileList.get(0).getFileDirName() + "/" + fvo.getFileUuid());
 
                     fvo.setFileDirName(originFileList.get(0).getFileDirName());
                     fvo.setExhibSeq(originFileList.get(0).getExhibSeq());

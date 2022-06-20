@@ -28,11 +28,11 @@
     <insert id="insertExExhibFile" parameterType="FileVO">
         insert tb_file_exhibit
         (
-        exhib_seq, file_dir_name, file_uuid, file_name, file_exhib_cret_date
+        exhib_seq, file_dir_name, file_uuid, file_exhib_cret_date
         )
         values
         (
-        #{exhibSeq}, #{fileDirName}, #{fileUuid}, #{fileName}, SYSDATE()
+        #{exhibSeq}, #{fileDirName}, #{fileUuid}, SYSDATE()
         )
     </insert>
     

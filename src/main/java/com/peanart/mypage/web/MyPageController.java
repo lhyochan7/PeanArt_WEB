@@ -60,7 +60,7 @@ public class MyPageController {
                 String folderName = user.getFileDirName();
                 String fileName = user.getFileName();
 
-                String profileImg = "http://15.164.142.253:8080/imagePath/" + folderName + "/" + fileName;
+                String profileImg = "http://localhost:8080/imagePath/" + folderName + "/" + fileName;
 
                 rtn.put("profileImg", profileImg);
 
@@ -72,7 +72,7 @@ public class MyPageController {
                     exhibForm.setUsrSeq(exhibVO.getUsrSeq());
                     exhibForm.setExhibSeq(exhibVO.getExhibSeq());
                     exhibForm.setExhibTitle(exhibVO.getExhibTitle());
-                    exhibForm.setExhibPosterUrl("http://15.164.142.253:8080/imagePath/" + exhibVO.getFileDirName() + "/" + exhibVO.getFileName());
+                    exhibForm.setExhibPosterUrl("http://localhost:8080/imagePath/" + exhibVO.getFileDirName() + "/" + exhibVO.getFileName());
                     System.out.println(exhibForm);
                     exhibFormList.add(exhibForm);
                 }
@@ -85,7 +85,7 @@ public class MyPageController {
                     MyPageFollowForm followForm = new MyPageFollowForm();
                     followForm.setUsrId(followed.getUsrId());
                     followForm.setUsrNickname(followed.getUsrNickname());
-                    followForm.setFollowedImgUrl("http://15.164.142.253:8080/imagePath/" + followed.getFileDirName() + "/" + followed.getFileName());
+                    followForm.setFollowedImgUrl("http://localhost:8080/imagePath/" + followed.getFileDirName() + "/" + followed.getFileName());
                     System.out.println(followForm);
                     followFormList.add(followForm);
                 }
@@ -122,10 +122,10 @@ public class MyPageController {
                     directory.mkdir();
                 }
 
-                FileVO fvo = new FileVO(UUID.randomUUID().toString(), profileImg.getOriginalFilename(), profileImg.getContentType());
+                FileVO fvo = new FileVO(UUID.randomUUID().toString(), profileImg.getContentType());
 
                 // 확장자  소문자로
-                String fileName = fvo.getFileName().split("\\.")[0] + "." + fvo.getFileName().split("\\.")[1].toLowerCase();
+                String fileName = profileImg.getOriginalFilename().split("\\.")[0] + "." + profileImg.getOriginalFilename().split("\\.")[1].toLowerCase();
                 System.out.println("lowerCase : " + fileName);
                 File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + fileName);
 
@@ -162,10 +162,10 @@ public class MyPageController {
                 }
 
                 // 프로필 이미지 새로 만듭니다
-                FileVO fvo = new FileVO(UUID.randomUUID().toString(), profileImg.getOriginalFilename(), profileImg.getContentType());
+                FileVO fvo = new FileVO(UUID.randomUUID().toString(), profileImg.getContentType());
 
                 // 확장자  소문자로
-                String fileName = fvo.getFileName().split("\\.")[0] + "." + fvo.getFileName().split("\\.")[1].toLowerCase();
+                String fileName = profileImg.getOriginalFilename().split("\\.")[0] + "." + profileImg.getOriginalFilename().split("\\.")[1].toLowerCase();
                 System.out.println("lowerCase : " + fileName);
                 File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + fileName);
 

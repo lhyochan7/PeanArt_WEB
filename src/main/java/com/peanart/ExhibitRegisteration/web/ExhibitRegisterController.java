@@ -40,18 +40,14 @@ public class ExhibitRegisterController {
                               HttpServletRequest req,
                               HttpSession session,
                               @RequestPart("exhibData") ExhibitRegisterVO exhibitRegisterVO) throws IOException {
-        Map<String, Object> rtn = new HashMap<>();
         System.out.println("입구에용");
-        int usrSeq = 2;
-        //int usrSeq = Integer.parseInt(session.getAttribute("usrSeq").toString());
+
+        int usrSeq = Integer.parseInt(session.getAttribute("usrSeq").toString());
         try {
             if(usrSeq != 0){
-                //int usrSeq = (int)session.getAttribute("usrSeq");
-                //연결할때 주석 풀어서 usrSeq 값 부여 ^^
                 exhibitRegisterVO.setUsrSeq(usrSeq);
                 exhibitRegisterVO.setGoodsAllow(exhibitRegisterVO.getGoodsAllow());
                 exhibitRegisterVO.setExhibKind(exhibitRegisterVO.getExhibKind());
-
 
                 // 업로드 이미지들
                 List<FileVO> files = new ArrayList<>();
@@ -61,9 +57,8 @@ public class ExhibitRegisterController {
                 String folderName = dirUuid + "_" + exhibitRegisterVO.getExhibTitle();
 
                 exhibitRegisterVO.setFileDirName(folderName);
-                String posterFileName = "poster" + "." + exhibitRegisterVO.getFileName().split("\\.")[1].toLowerCase();
-
-
+                String posterFileName = "poster" + "." + posterFile.getOriginalFilename().split("\\.")[1].toLowerCase();
+                exhibitRegisterVO.setFileName(posterFileName);
                 exhibitRegisterVO.setFileName(dirUuid + "_" + posterFileName);
 
                 File directory = new File(path + "/" + folderName);
@@ -77,8 +72,7 @@ public class ExhibitRegisterController {
 
                 //String path = "http://15.164.142.253:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();asdasd
 
-                // rtn에 포스터 값 전달, Multipart type
-                rtn.put("poster", posterFile);
+
 
 
                 exRegService.insertExhib(exhibitRegisterVO);
@@ -87,19 +81,20 @@ public class ExhibitRegisterController {
                 for (MultipartFile file : uploadFile) {
                     if (!file.isEmpty()) {
                         int fileIndex = 1;
-                        FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getOriginalFilename(), file.getContentType());
-                        files.add(fvo);
-                        String uploadFileName = fvo.getFileName().split("\\.")[0] + "." + fvo.getFileName().split("\\.")[1].toLowerCase();
+                        String fileExtension = file.getOriginalFilename().split("\\.")[1].toLowerCase();
 
-                        File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "_" + uploadFileName);
+                        FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getContentType());
+                        files.add(fvo);
+
+                        File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "." + fileExtension);
 
                         fvo.setFileDirName(folderName);
                         fvo.setExhibSeq(exhibSeq);
+                        fvo.setFileUuid(fvo.getFileUuid() + "." + fileExtension);
                         exRegService.insertExExhibFile(fvo);
                         file.transferTo(newFileName);
 
-                        // rtn에 key : 파일+순서(1부터) value : 파일 multipart type
-                        rtn.put("fileIndex" + fileIndex, file);
+
                     }
                 }
 
@@ -108,7 +103,7 @@ public class ExhibitRegisterController {
                 RestTemplate rt = new RestTemplate();
                 rt.getForObject(uri, String.class);
 
-                return ResponseEntity.ok().body(rtn);
+                return ResponseEntity.ok().build();
             }
             return ResponseEntity.badRequest().build(); //400 400 400 400 400 400 0400 400
         }catch (Exception e){
