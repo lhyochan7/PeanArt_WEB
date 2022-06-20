@@ -8,7 +8,7 @@
             <v-card>
               <router-link style="text-decoration:none; color:black;" :to="{name: 'exhibitDetailView', params: {id: mainExhib.exhibSeq}}">
                 <!-- <v-img :src="getImgURL(mainExhib.fileDirName + '/' + mainExhib.fileName)" max-height="400"> -->
-                  <v-img :src="require('C:/img/63c9e7d8-9507-489c-89d1-a30718cf8cc3_seoul_design/63c9e7d8-9507-489c-89d1-a30718cf8cc3_poster.png')" max-height="400" class="rounded">
+                  <v-img :src="getImgURL(mainExhib.fileDirName + '/' + mainExhib.fileName)" max-height="400" class="rounded">
                   <v-container fill-height>
                     <v-layout>
                       <v-row justify="space-between">
