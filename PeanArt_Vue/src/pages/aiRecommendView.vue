@@ -41,7 +41,7 @@
                                                     align="center"
                                                     justify="center"
                                                 >
-                                                    <v-img :src="require('@/assets/ai_1.png')" max-width="150" max-height="150">
+                                                    <v-img :src="getImgUrlNotPrefix('AI_images/'+n+'.png')" max-width="150" max-height="150">
                                                         <v-scale-transition>
                                                         <v-icon
                                                             v-if="active"
@@ -121,7 +121,7 @@ export default {
     },
     data: ()=>({
         imageForAI:[],
-        items: ['디자인', '서양화', '사진', '현대미술', '미디어아트', '풍경화', '모던한', '유화', '심플', '세련된', '변화의', '비판적', '멀티컬러', '밝은', '어두운', '추상화'],
+        items: ['디자인', '서양화', '사진', '모더니즘', '바로크', '풍경화', '모던한', '표현주의', '심플', '고전주의', '변화의', '비판적', '입체파', '밝은', '어두운', '추상화', '바로크'],
         selectedPicture:[],
         selectedTheme: [],
         // step 이동용
@@ -135,7 +135,7 @@ export default {
         this.selectedTheme = [...this.selectedTheme]
       },
       pictureSelect(){
-        return (this.selectedPicture.length < 3 && this.selectedPicture.length > 0) || '작품은 1개 이상 선택 해야하며, 3개 이하로 선택 가능합니다.'
+        return (this.selectedPicture.length < 4 && this.selectedPicture.length > 0) || '작품은 1개 이상 선택 해야하며, 3개 이하로 선택 가능합니다.'
       },
       themeSelect() {
         return (this.selectedTheme.length < 6 && this.selectedTheme.length > 0 ) || '주제는 1개 이상 선택 해야하며, 5개 이하로 선택 가능합니다.';
@@ -146,27 +146,32 @@ export default {
                 this.step = 2
             }
         } else{
+            const idx2 = this.selectedPicture.map(e=>{
+                e = e + 1;
+                return e;
+            });
             var param = {
                 params:{
-                    idx: this.selectedPicture,
-                    keywords: this.selectedTheme
+                    idx: idx2.join(','),
+                    keywords: this.selectedTheme.join(',')
                 }
             }
-            axios.get('/AIpage', param).then(response=>{
+            axios.get('/AIpage', param, {headers: {'content-Type': "application/json; charset=UTF-8",
+            }}).then(response=>{
                 console.log(response)
                 if(response.status==200){
                     response.data.forEach
                 }
             })
         }
-      }
+      },
+        getImgUrlNotPrefix(pic){
+            return 'http://15.164.142.253:8080/imagePath/' + pic.replace('PNG', 'png')
+        }
     },
     mounted(){
         axios.get('')
     },
-    getImgUrlNotPrefix(pic){
-        return 'http://15.164.142.253:8080/imagePath/' + pic.replace('PNG', 'png')
-    }
 }
 </script>
 

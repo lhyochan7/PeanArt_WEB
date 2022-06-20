@@ -21,7 +21,7 @@
                     <v-col md="4">
                         <v-img
                         :src="getImgUrlNotPrefix(this.usrProfile)"
-                        height="300px"
+                        height="300px" 
                         width="300px"
                         contain>
                         </v-img>
