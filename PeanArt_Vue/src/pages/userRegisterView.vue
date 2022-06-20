@@ -191,7 +191,7 @@ export default {
               return;
           }
           const param = { params:{email: this.usr_email} }
-          axios.get("http://15.164.142.253:8080/duple-check", param).then(response =>{
+          axios.get("http://localhost:8080/duple-check", param).then(response =>{
               console.log(response);
               if(response.status === 404){
                   alert('에러가 발생했습니다. 잠시후 시도해주세요.');
@@ -216,7 +216,7 @@ export default {
               return;
           }
           const param = { params:{nickname: this.usr_nickname} }
-          axios.get("http://15.164.142.253:8080/duple-check", param).then(response =>{
+          axios.get("http://localhost:8080/duple-check", param).then(response =>{
               console.log(response);
               if(response.status === 404){
                   alert('에러가 발생했습니다. 잠시후 시도해주세요.');
