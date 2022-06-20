@@ -61,15 +61,17 @@ public class ExhibitRegisterController {
                 String folderName = dirUuid + "_" + exhibitRegisterVO.getExhibTitle();
 
                 exhibitRegisterVO.setFileDirName(folderName);
-                exhibitRegisterVO.setFileName(dirUuid + "_" + posterFile.getOriginalFilename());
-                String posterFileName = exhibitRegisterVO.getFileName().split("\\.")[0] + "." + exhibitRegisterVO.getFileName().split("\\.")[1].toLowerCase();
+                String posterFileName = "poster" + "." + exhibitRegisterVO.getFileName().split("\\.")[1].toLowerCase();
+
+
+                exhibitRegisterVO.setFileName(dirUuid + "_" + posterFileName);
 
                 File directory = new File(path + "/" + folderName);
                 if (!directory.exists()) {
                     directory.mkdir();
                 }
 
-                File poster= new File(path + "/" +folderName + "/" + dirUuid + "_" + posterFileName);
+                File poster= new File(path + "/" +folderName + "/" + dirUuid + "_" + posterFileName );
 
                 posterFile.transferTo(poster);
 
