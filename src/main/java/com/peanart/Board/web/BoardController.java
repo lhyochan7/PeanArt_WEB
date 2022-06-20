@@ -82,7 +82,7 @@ public class BoardController {
 
 
             List<FileVO> originFile = boardService.getFile((int) session.getAttribute("exhinseq"));
-            // session.usrSeq == exhib.usrSeq true 면 sql 실행 아니면 fail 반환 하자
+
             int sessionUsrSeq = (int) session.getAttribute("usrSeq");
             int currentExhibUsrSeq = exhibitRegisterVO.getUsrSeq();
 
