@@ -93,7 +93,7 @@ export default {
   }),
   methods: {
     getImgURL(pic) {
-      return 'http://localhost:8080/imagePath/' + pic.replace('PNG', 'png')}
+      return 'http://15.164.142.253:8080/imagePath/' + pic.replace('PNG', 'png')}
   },
   mounted(){
     axios.get('/mainPoster').then(response=>{

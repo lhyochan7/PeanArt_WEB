@@ -71,7 +71,7 @@ export default {
                 }
             }
             console.log(param);
-            axios.get("http://localhost:8080/search", param).then(response =>{
+            axios.get("http://15.164.142.253:8080/search", param).then(response =>{
                 console.log(response);
                 this.list = response.data;
                 this.isLoaded = true
@@ -84,7 +84,7 @@ export default {
                 kind: this.$route.query.kind
             }
         }
-        axios.get('http://localhost:8080/search', param).then(response =>{
+        axios.get('http://15.164.142.253:8080/search', param).then(response =>{
             console.log(response)
             this.list = response.data
         })

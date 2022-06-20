@@ -52,7 +52,7 @@ public class MyPageController {
             int usrSeq = 0;
             usrSeq = Integer.parseInt(session.getAttribute("usrSeq").toString());
 
-            //MyPage User Info / profileImg Url(localhost:8080/imagePath 포함)
+            //MyPage User Info / profileImg Url(15.164.142.253:8080/imagePath 포함)
             if(usrSeq != 0){
                 MyPageVO user = myPageService.getUserInfo(usrSeq);
                 rtn.put("userInfo", user);
@@ -60,11 +60,11 @@ public class MyPageController {
                 String folderName = user.getFileDirName();
                 String fileName = user.getFileName();
 
-                String profileImg = "http://localhost:8080/imagePath/" + folderName + "/" + fileName;
+                String profileImg = "http://15.164.142.253:8080/imagePath/" + folderName + "/" + fileName;
 
                 rtn.put("profileImg", profileImg);
 
-                // 다녀온 전시회 list / 타이틀, 포스터 Url(localhost:8080/imagePath 포함)
+                // 다녀온 전시회 list / 타이틀, 포스터 Url(15.164.142.253:8080/imagePath 포함)
                 List<MyPageExhibVO> exhibList = myPageService.getExhibList(usrSeq);
                 List<MyPageExhibForm> exhibFormList = new ArrayList<>();
                 for(MyPageExhibVO exhibVO : exhibList){
@@ -72,20 +72,20 @@ public class MyPageController {
                     exhibForm.setUsrSeq(exhibVO.getUsrSeq());
                     exhibForm.setExhibSeq(exhibVO.getExhibSeq());
                     exhibForm.setExhibTitle(exhibVO.getExhibTitle());
-                    exhibForm.setExhibPosterUrl("http://localhost:8080/imagePath/" + exhibVO.getFileDirName() + "/" + exhibVO.getFileName());
+                    exhibForm.setExhibPosterUrl("http://15.164.142.253:8080/imagePath/" + exhibVO.getFileDirName() + "/" + exhibVO.getFileName());
                     System.out.println(exhibForm);
                     exhibFormList.add(exhibForm);
                 }
                 rtn.put("exhibList", exhibFormList);
 
-                // follow list 폴더 이름, 파일 이름, 팔로우당한 사람 아이디, 닉네임 / 팔로우 당한사람 닉네임, 사진(localhost:8080/imagePath 포함)
+                // follow list 폴더 이름, 파일 이름, 팔로우당한 사람 아이디, 닉네임 / 팔로우 당한사람 닉네임, 사진(15.164.142.253:8080/imagePath 포함)
                 List<MyPageFollowVO> followList = myPageService.getFollowList(usrSeq);
                 List<MyPageFollowForm> followFormList = new ArrayList<>();
                 for(MyPageFollowVO followed : followList){
                     MyPageFollowForm followForm = new MyPageFollowForm();
                     followForm.setUsrId(followed.getUsrId());
                     followForm.setUsrNickname(followed.getUsrNickname());
-                    followForm.setFollowedImgUrl("http://localhost:8080/imagePath/" + followed.getFileDirName() + "/" + followed.getFileName());
+                    followForm.setFollowedImgUrl("http://15.164.142.253:8080/imagePath/" + followed.getFileDirName() + "/" + followed.getFileName());
                     System.out.println(followForm);
                     followFormList.add(followForm);
                 }

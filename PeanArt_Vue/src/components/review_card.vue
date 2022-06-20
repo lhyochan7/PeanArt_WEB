@@ -32,12 +32,8 @@ export default {
         reviewData: Object,
     },
     methods:{
-       getImgUrl(img){
-            console.log('C:/img/'+img.replace("PNG", "png"))
-            return require('C:/img/'+img.replace("PNG", "png"))
-        },
         getImgUrlNotPrefix(img){
-            return 'http://localhost:8080/imagePath/' + img.replace("PNG","png")
+            return 'http://15.164.142.253:8080/imagePath/' + img.replace("PNG","png")
         }
     }
 }

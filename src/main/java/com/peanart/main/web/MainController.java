@@ -90,7 +90,7 @@ public class MainController {
         }
 
 
-        //String path = "http://localhost:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();
+        //String path = "http://15.164.142.253:8080/imagePath/" + fvo.getUuid() + '_' + fvo.getFileName();
         model.addAttribute("files", files);
         //model.addAttribute("path", path);
 
@@ -139,7 +139,7 @@ public class MainController {
         map.put("userInfo", myPageVO);
         map.put("reviewList", reviewVO);
 
-        String imgPath = "http://localhost:8080/imagePath/";
+        String imgPath = "http://15.164.142.253:8080/imagePath/";
 
         model.addAttribute("imgPath",imgPath);
         model.addAttribute("map",map);
@@ -216,7 +216,7 @@ public class MainController {
 
     @GetMapping("/test11")
     public String test11() {
-        String uri = "http://localhost:5000/updateModel";
+        String uri = "http://15.164.142.253:5000/updateModel";
         RestTemplate rt = new RestTemplate();
         rt.getForObject(uri, String.class);
 

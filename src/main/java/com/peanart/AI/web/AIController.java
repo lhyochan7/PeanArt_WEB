@@ -42,7 +42,7 @@ public class AIController {
         System.out.println(idxPath);
         System.out.println(keywordsPath);
         // AI 모델 업데이트 실행 (flask 서버)
-        String uri = "http://localhost:5000/AIrecommend/" + idxPath + "/" + keywordsPath;
+        String uri = "http://15.164.142.253:5000/AIrecommend/" + idxPath + "/" + keywordsPath;
 
         System.out.println(uri);
         RestTemplate rt = new RestTemplate();

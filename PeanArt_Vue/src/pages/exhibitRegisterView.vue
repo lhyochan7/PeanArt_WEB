@@ -493,7 +493,7 @@ export default {
                     'goodsAllow':this.exhibGoodsAllow
             }
             frm.append('exhibData', new Blob([JSON.stringify(data)], {type: "application/json"}))
-            axios.post("http://localhost:8080/exhib/register", frm,{ headers: {
+            axios.post("http://15.164.142.253:8080/exhib/register", frm,{ headers: {
                 "Content-Type": undefined,
                 'Allow-Control-Allow-Origin': '*'
             },}).then(response => {
@@ -561,7 +561,7 @@ export default {
       // url을 파일로 바꿔주는 함수
       convertURLtoFile: async function(url) {
         console.log(url)
-        const response = await fetch('http://localhost:8080/imagePath/'+url);
+        const response = await fetch('http://15.164.142.253:8080/imagePath/'+url);
         const data = await response.blob();
         const ext = url.split(".").pop(); // url 구조에 맞게 수정할 것
         const filename = url.split("/").pop(); // url 구조에 맞게 수정할 것

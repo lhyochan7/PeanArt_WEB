@@ -265,9 +265,6 @@ export default {
         isLoaded: false,
     }),
     methods:{
-        getImgUrl(pic) {
-            return require('C:/img/' + pic)
-        },
         getImgUrlNotPrefix(pic){
             return pic.replace('PNG','png')
         },
