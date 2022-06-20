@@ -29,7 +29,7 @@
                                         <v-card-text class="text-subtitle-1">{{this.exhib.exhibDetailExp}}</v-card-text>
                                         <v-divider></v-divider>
                                         <v-card-text>전시 장소: {{this.exhib.exhibLocation}}</v-card-text>
-                                        <v-card-text>전시회 홈페이지 : {{this.exhib.exhibUri}}</v-card-text>
+                                        <v-card-text>전시회 홈페이지 : <a :href="this.exhib.exhibUri" style="text-decoration:none;color:black;">{{this.exhib.exhibUri}}</a></v-card-text>
                                         <v-card-text>전시 기간 : {{this.exhib.exhibStartDate}} ~ {{this.exhib.exhibEndDate}}</v-card-text>
                                     </v-card>
                                 </v-col>
@@ -58,7 +58,7 @@
                 <v-col md="10">
                     <v-row>                    
                         <v-col md="2" v-for="(item, index) in fileList" v-bind:key="index" align-self="center">
-                            <v-img :src="getImgUrl(item.fileDirName +'/'+ item.fileUuid + '_' +item.fileName)" max-height="200px" max-width="200px" contain></v-img>
+                            <v-img :src="getImgUrl(item.fileDirName +'/'+ item.fileUuid)" max-height="200px" max-width="200px" contain></v-img>
                         </v-col>
                         <v-col md="4">
                             <v-card outlined>
@@ -300,7 +300,7 @@ export default {
                         var param = {params:{
                             exhibSeq: this.$route.params.id
                         }}
-                        axios.get(this.$Url+'detailA',param).then(response=>{
+                        axios.get(this.$Url+'detail',param).then(response=>{
                             console.log(response);
                             if(response.status==200){
                                 this.userInfo = response.data.userInfo;
@@ -337,7 +337,7 @@ export default {
         var param = {params:{
             exhibSeq: this.$route.params.id
         }}
-        axios.get(this.$Url+'detailA',param).then(response=>{
+        axios.get(this.$Url+'detail',param).then(response=>{
             console.log(response);
             if(response.status==200){
                 this.userInfo = response.data.userInfo;

@@ -60,5 +60,4 @@ task npmBuild(type: NpmTask, dependsOn: ['deleteVueArtifact', 'frontNpmInstall']
     workingDir = file("${project.projectDir}/PeanArt_Vue")
     args = ['run', 'build']
 }
-
-//processResources.dependsOn 'npmBuild'
+processResources.dependsOn 'npmBuild'

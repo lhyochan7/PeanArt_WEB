@@ -48,6 +48,7 @@ public class MemberController {
             session.setAttribute("usrNickname", user.getUsrNickname());
             session.setAttribute("usrName", user.getUsrName());
             session.setAttribute("role", user.getRoleId());
+            System.out.println("userId session : " + session.getAttribute("usrId"));
 
             // body에 MemberVO user 리턴
             return ResponseEntity.ok()
@@ -114,6 +115,14 @@ public class MemberController {
         System.out.println(isAdmin.equals("1"));
         if(((String) session.getAttribute("usrId")).equals(email) && isAdmin.equals("1")){
             return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/sessionCheck")
+    public ResponseEntity <String> sessionCheck (HttpSession session){
+        if(session.getAttribute("usrId") != null || session.getAttribute("usrId") != ""){
+            return ResponseEntity.ok().body(session.getAttribute("usrId").toString());
         }
         return ResponseEntity.notFound().build();
     }
