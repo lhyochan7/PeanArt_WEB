@@ -251,7 +251,6 @@ export default {
     }),
     methods: {
         getImgUrl(img){
-            console.log('C:/img/'+img.replace("PNG", "png"))
             return 'http://localhost:8080/imagePath/'+img.replace("PNG", "png")
         },
         deleteExhib() {

@@ -6,20 +6,36 @@
         <v-row class="mt-16" justify="center">
           <v-col md="12">
             <v-card>
-              <v-img :src="getImgURL(mainExhib.fileDirName + '/' + mainExhib.fileName)" max-height="400">
-                <v-container fill-height>
-                  <v-layout>
-                    <v-card>
-                      <v-card-title>{{mainExhib.exhibTitle}}</v-card-title>
-                      <v-card-text class="mt-16">{{mainExhib.exhibStartDate}}</v-card-text>
-                      <v-card-text class="mt-8 font-weight-bold">{{mainExhib.exhibSimpleExp}}</v-card-text>
-                    </v-card>
-                    <v-spacer/>
-                    <v-img src="../assets/new_icon.png" max-width="180" max-height="180"></v-img>
-                  </v-layout>
-                </v-container>
-              </v-img>
+              <router-link style="text-decoration:none; color:black;" :to="{name: 'exhibitDetailView', params: {id: mainExhib.exhibSeq}}">
+                <v-img :src="getImgURL(mainExhib.fileDirName + '/' + mainExhib.fileName)" max-height="400">
+                  <v-container fill-height>
+                    <v-layout>
+                      <v-card>
+                        <v-card-title>{{mainExhib.exhibTitle}}</v-card-title>
+                        <v-card-text class="mt-16">{{mainExhib.exhibStartDate}}</v-card-text>
+                        <v-card-text class="mt-8 font-weight-bold">{{mainExhib.exhibSimpleExp}}</v-card-text>
+                      </v-card>
+                      <v-spacer/>
+                      <v-img src="../assets/new_icon.png" max-width="180" max-height="180"></v-img>
+                    </v-layout>
+                  </v-container>
+                </v-img>
+              </router-link>
             </v-card>
+          </v-col>
+        </v-row>
+        
+        <v-row v-if="isLoaded==false" class="mt-12">
+          <v-skeleton-loader
+          class="mx-auto"
+          type="card"
+          height="100%"
+          width="100%"
+          ></v-skeleton-loader>
+        </v-row>
+        <v-row v-else class="mt-12">
+          <v-col class="d-flex child-flex" cols="3" v-for="(item, index) in exhibList" v-bind:key="index">
+            <Exhib_card :exhibData="item"/>
           </v-col>
         </v-row>
         <v-divider class="mt-12"/>
@@ -30,33 +46,11 @@
         </v-row>
         <router-link style="text-decoration:none; color:black;" to="/airecommend">
           <v-row>
-            <v-col sm="3">
-              <v-img src="../assets/ai_1.png" class="rounded-xl"></v-img>
-            </v-col>
-            <v-col sm="3">
-              <v-img src="../assets/ai_2.png" class="rounded-xl"></v-img>
-            </v-col>
-            <v-col sm="3">
-              <v-img src="../assets/ai_3.png" class="rounded-xl"></v-img>
-            </v-col>
-            <v-col sm="3">
-              <v-img src="../assets/ai_4.png" class="rounded-xl"></v-img>
+            <v-col sm="3" v-for="i in 4" :key="i">
+              <v-img :src="getImgURL('AI_images/'+i+'.png')" class="rounded-xl" max-height="280" max-width="400"></v-img>
             </v-col>
           </v-row>
         </router-link>
-        <v-row v-if="isLoaded==false" class="mt-4">
-          <v-skeleton-loader
-          class="mx-auto"
-          type="card"
-          height="100%"
-          width="100%"
-          ></v-skeleton-loader>
-        </v-row>
-        <v-row v-else>
-          <v-col class="d-flex child-flex" cols="3" v-for="(item, index) in exhibList" v-bind:key="index">
-            <Exhib_card :exhibData="item"/>
-          </v-col>
-        </v-row>
       </v-container>
     </v-main>
     <foot_bar/>
