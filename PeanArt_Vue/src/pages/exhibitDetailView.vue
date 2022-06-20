@@ -8,7 +8,6 @@
             type="card"
             height="100%"
             width="100%"
-            v-if="isLoaded == false"
             ></v-skeleton-loader>
         </v-container>
         <v-container fluid v-else>
