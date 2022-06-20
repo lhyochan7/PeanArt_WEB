@@ -34,6 +34,8 @@ public class ExhibitRegisterController {
         return "exhibinsert";
     }
 
+
+
     @PostMapping(value = "/exhib/register", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity reg(@RequestPart("uploadFile") MultipartFile[] uploadFile,
                               @RequestPart("posterFile") MultipartFile posterFile,
@@ -54,11 +56,10 @@ public class ExhibitRegisterController {
 
                 // 고유 폴더 이름 만들기 ( UUID_전시회이름 )
                 String dirUuid = UUID.randomUUID().toString();
-                String folderName = dirUuid + "_" + exhibitRegisterVO.getExhibTitle();
+                String folderName = dirUuid;
 
                 exhibitRegisterVO.setFileDirName(folderName);
                 String posterFileName = "poster" + "." + posterFile.getOriginalFilename().split("\\.")[1].toLowerCase();
-                exhibitRegisterVO.setFileName(posterFileName);
                 exhibitRegisterVO.setFileName(dirUuid + "_" + posterFileName);
 
                 File directory = new File(path + "/" + folderName);
@@ -97,11 +98,11 @@ public class ExhibitRegisterController {
 
                     }
                 }
-
-                // AI 모델 업데이트 실행 (flask 서버)
-                String uri = "http://15.164.142.253:5000/updateModel";
-                RestTemplate rt = new RestTemplate();
-                rt.getForObject(uri, String.class);
+//
+//                // AI 모델 업데이트 실행 (flask 서버)
+//                String uri = "http://15.164.142.253:5000/updateModel";
+//                RestTemplate rt = new RestTemplate();
+//                rt.getForObject(uri, String.class);
 
                 return ResponseEntity.ok().build();
             }

@@ -24,10 +24,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 public class BoardController {
@@ -79,20 +76,83 @@ public class BoardController {
     @PostMapping("/detailModifiy") //게시글 수정
     public ResponseEntity<String> modDetail(@RequestParam MultipartFile[] uploadFile, @RequestParam MultipartFile posterFile,
                                             HttpSession session, ExhibitRegisterVO exhibitRegisterVO) throws IOException {
+        for (MultipartFile file : uploadFile) {
+            System.out.println(file.getOriginalFilename());
+        }
+        System.out.println(posterFile);
+        System.out.println(exhibitRegisterVO);
 
 
-            List<FileVO> originFile = boardService.getFile((int) session.getAttribute("exhinseq"));
+        // (1) ============ 기존 이미지들 전체 삭제 ============
+        int exhibSeq = (int) session.getAttribute("exhibSeq");
+        List<FileVO> removeFileList= boardService.getFile(exhibSeq);
+        String dirName = removeFileList.get(0).getFileDirName();
+        File file1 = new File(path+"/" +dirName);
+//        for(int i =0; i< removeFileList.size(); i++){
+//            boardService.deleteFiles(removeFileList.get(i));
+//        }
 
-            int sessionUsrSeq = (int) session.getAttribute("usrSeq");
-            int currentExhibUsrSeq = exhibitRegisterVO.getUsrSeq();
+        deleteFilesRecursively(file1);
 
-            if (sessionUsrSeq == currentExhibUsrSeq) {
-                modFiles(uploadFile,originFile,exhibitRegisterVO,posterFile);
-                boardService.modExhib(exhibitRegisterVO);
-            } else {
-                return ResponseEntity.status(HttpStatus.OK).body("다른 유저에용");
+
+        // (2) =============== 포스터 사진, 전시회 사진들 다시 생성 ===================
+
+        Map<String, Object> rtn = new HashMap<>();
+
+        //고유 폴더 이름 만들기 ( UUID_전시회이름 )
+        String dirUuid = UUID.randomUUID().toString();
+        String folderName = dirUuid; // + "_" + exhibitRegisterVO.getExhibTitle();
+        String posterFileName = "poster" + "." + posterFile.getOriginalFilename().split("\\.")[1].toLowerCase();
+
+        exhibitRegisterVO.setFileDirName(folderName);
+        exhibitRegisterVO.setFileName(dirUuid + "_" +posterFileName);
+
+        File directory = new File(path + "/" + folderName);
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+
+        File poster = new File(path + "/" +folderName + "/" + dirUuid + "_" +posterFileName);//posterFile.getOriginalFilename());
+        posterFile.transferTo(poster);
+
+        // rtn에 포스터 값 전달, Multipart type
+        rtn.put("poster", posterFile);
+
+        // 업로드 이미지들
+        List<FileVO> files = new ArrayList<>();
+
+
+        //exRegService.insertExhib(exhibitRegisterVO);
+        System.out.println(exhibSeq);
+        for (MultipartFile file : uploadFile) {
+            if (!file.isEmpty()) {
+                int fileIndex = 1;
+                String fileExtension = file.getOriginalFilename().split("\\.")[1].toLowerCase();
+
+                FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getContentType());
+                files.add(fvo);
+
+                File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "." + fileExtension);
+
+                fvo.setFileDirName(folderName);
+                fvo.setExhibSeq(exhibSeq);
+                fvo.setFileUuid(fvo.getFileUuid() + "." + fileExtension);
+                exRegService.insertExExhibFile(fvo);
+                file.transferTo(newFileName);
+                // rtn에 key : 파일+순서(1부터) value : 파일 multipart type
+                rtn.put("fileIndex" + fileIndex, file);
             }
-            return ResponseEntity.status(HttpStatus.OK).body("수정 끝나면 아마 boardList 페이지로 가야할듯 ?");
+        }
+
+
+        // (3) ================ 전시회 정보 수정 =======================
+        boardService.modExhib(exhibitRegisterVO);
+        System.out.println(exhibitRegisterVO);
+
+
+        int usrSeq = 2;
+        //int usrSeq = Integer.parseInt(session.getAttribute("usrSeq").toString());
+        return null;
 
     }
 
@@ -105,54 +165,54 @@ public class BoardController {
         deleteFilesRecursively(file);
 
         boardService.deleteExhib(exhibSeq);
-
-        // AI 모델 업데이트 실행 (flask 서버)
-        String uri = "http://15.164.142.253:5000/updateModel";
-        RestTemplate rt = new RestTemplate();
-        rt.getForObject(uri, String.class);
+//
+//        // AI 모델 업데이트 실행 (flask 서버)
+//        String uri = "http://15.164.142.253:5000/updateModel";
+//        RestTemplate rt = new RestTemplate();
+//        rt.getForObject(uri, String.class);
 
         return ResponseEntity.status(HttpStatus.OK).body("ok");
     }
 
     void modFiles(MultipartFile[] uploadFile, List<FileVO> originFileList, ExhibitRegisterVO exhibitRegisterVO, MultipartFile posterFile)throws IOException{
         try {
-        exhibitRegisterVO.setFileName(exhibitRegisterVO.getFileDirName() + "_" + posterFile.getOriginalFilename());
-        File poster = new File(path + "/" + exhibitRegisterVO.getFileDirName() + "/"
-                + exhibitRegisterVO.getFileDirName() + "_" + posterFile.getOriginalFilename());
-        posterFile.transferTo(poster);
+            exhibitRegisterVO.setFileName(exhibitRegisterVO.getFileDirName() + "_" + posterFile.getOriginalFilename());
+            File poster = new File(path + "/" + exhibitRegisterVO.getFileDirName() + "/"
+                    + exhibitRegisterVO.getFileDirName() + "_" + posterFile.getOriginalFilename());
+            posterFile.transferTo(poster);
 
 
-        List<FileVO> modFileList = new ArrayList<>();
+            List<FileVO> modFileList = new ArrayList<>();
 
-        for (MultipartFile file : uploadFile) {
-            if (!file.isEmpty()) {
-                int fileIndex = 1;
-                FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getContentType());
-                modFileList.add(fvo);
+            for (MultipartFile file : uploadFile) {
+                if (!file.isEmpty()) {
+                    int fileIndex = 1;
+                    FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getContentType());
+                    modFileList.add(fvo);
 
-                File newFileName = new File(path + "/" +originFileList.get(0).getFileDirName() + "/" + fvo.getFileUuid() );
+                    File newFileName = new File(path + "/" +originFileList.get(0).getFileDirName() + "/" + fvo.getFileUuid());
 
-                fvo.setFileDirName(originFileList.get(0).getFileDirName());
-                fvo.setExhibSeq(originFileList.get(0).getExhibSeq());
-                file.transferTo(newFileName);
-            }
-        }
-
-        for(FileVO mod : modFileList){
-            for(FileVO  origin : originFileList){
-                if(mod.getFileUuid() == origin.getFileUuid()){
-                    originFileList.remove(origin);
-                    modFileList.remove(mod);
+                    fvo.setFileDirName(originFileList.get(0).getFileDirName());
+                    fvo.setExhibSeq(originFileList.get(0).getExhibSeq());
+                    file.transferTo(newFileName);
                 }
             }
-        } //반복이 끝나면 originFile 에는 삭제될 데이터, fileVo에는 삽입될 데이터가 남는다.
 
-        for(FileVO removeFile : originFileList){
-            boardService.deleteFiles(removeFile);
-        }
-        for (FileVO modFile : modFileList){
-            exRegService.insertExExhibFile(modFile);
-        }
+            for(FileVO mod : modFileList){
+                for(FileVO  origin : originFileList){
+                    if(mod.getFileUuid() == origin.getFileUuid()){
+                        originFileList.remove(origin);
+                        modFileList.remove(mod);
+                    }
+                }
+            } //반복이 끝나면 originFile 에는 삭제될 데이터, fileVo에는 삽입될 데이터가 남는다.
+
+            for(FileVO removeFile : originFileList){
+                boardService.deleteFiles(removeFile);
+            }
+            for (FileVO modFile : modFileList){
+                exRegService.insertExExhibFile(modFile);
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

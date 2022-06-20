@@ -60,7 +60,7 @@ public class MyPageController {
                 String folderName = user.getFileDirName();
                 String fileName = user.getFileName();
 
-                String profileImg = "http://localhost:8080/imagePath/" + folderName + "/" + fileName;
+                String profileImg = "http://15.164.142.253:8080/imagePath/" + folderName + "/" + fileName;
 
                 rtn.put("profileImg", profileImg);
 
@@ -72,7 +72,7 @@ public class MyPageController {
                     exhibForm.setUsrSeq(exhibVO.getUsrSeq());
                     exhibForm.setExhibSeq(exhibVO.getExhibSeq());
                     exhibForm.setExhibTitle(exhibVO.getExhibTitle());
-                    exhibForm.setExhibPosterUrl("http://localhost:8080/imagePath/" + exhibVO.getFileDirName() + "/" + exhibVO.getFileName());
+                    exhibForm.setExhibPosterUrl("http://15.164.142.253:8080/imagePath/" + exhibVO.getFileDirName() + "/" + exhibVO.getFileName());
                     System.out.println(exhibForm);
                     exhibFormList.add(exhibForm);
                 }
@@ -85,7 +85,7 @@ public class MyPageController {
                     MyPageFollowForm followForm = new MyPageFollowForm();
                     followForm.setUsrId(followed.getUsrId());
                     followForm.setUsrNickname(followed.getUsrNickname());
-                    followForm.setFollowedImgUrl("http://localhost:8080/imagePath/" + followed.getFileDirName() + "/" + followed.getFileName());
+                    followForm.setFollowedImgUrl("http://15.164.142.253:8080/imagePath/" + followed.getFileDirName() + "/" + followed.getFileName());
                     System.out.println(followForm);
                     followFormList.add(followForm);
                 }
