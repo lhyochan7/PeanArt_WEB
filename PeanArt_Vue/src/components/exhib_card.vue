@@ -34,7 +34,7 @@ export default {
     imgsrc:'',
   }),
   mounted(){
-      var link = 'http://15.164.142.253:8080/imagePath/'+this.exhibData.fileDirName+'/'+this.exhibData.fileName
+      var link = this.$Url+'imagePath/'+this.exhibData.fileDirName+'/'+this.exhibData.fileName
       link = link.replace('PNG','png')
       this.imgsrc = link
   }

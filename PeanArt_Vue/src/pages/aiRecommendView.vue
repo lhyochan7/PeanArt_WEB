@@ -107,6 +107,16 @@
                         </template>
                 </v-col>
             </v-row>
+            <v-row justify="center" class="mt-16">
+                <v-col md="10">
+                    당신의 취향에 맞는 전시회는...
+                    <v-card>
+                        <Exhib_card :exhibData="mainExhib"></Exhib_card>
+                        <Exhib_card :exhibData="mainExhib"></Exhib_card>
+                        <Exhib_card :exhibData="mainExhib"></Exhib_card>
+                    </v-card>
+                </v-col>
+            </v-row>
         </v-container>
     </v-app>
 </template>
@@ -114,11 +124,13 @@
 <script>
 import nav_bar from '@/components/nav_bar.vue'
 import axios from 'axios';
+import Exhib_card from '../components/exhib_card.vue';
 export default {
     name:'aiRecommend',
     components:{
-        nav_bar
-    },
+    nav_bar,
+    Exhib_card
+},
     data: ()=>({
         imageForAI:[],
         items: ['디자인', '서양화', '사진', '모더니즘', '바로크', '풍경화', '모던한', '표현주의', '심플', '고전주의', '변화의', '비판적', '입체파', '밝은', '어두운', '추상화', '바로크'],
@@ -127,7 +139,18 @@ export default {
         // step 이동용
         step:1,
         // 추천 받은 전시회 목록
-        exhibList:[]
+        exhibList:[],
+        //
+        mainExhib: {
+        "exhibSeq": 9,
+        "exhibTitle": "seoul_design",
+        "exhibSimpleExp": "seoul_design",
+        "exhibStartDate": "2020-10-10 01:01:01",
+        "exhibEndDate": "2020-10-10 01:01:01",
+        "exhibLocation": "seoul_design",
+        "fileDirName": "63c9e7d8-9507-489c-89d1-a30718cf8cc3_seoul_design",
+        "fileName": "63c9e7d8-9507-489c-89d1-a30718cf8cc3_poster.PNG"
+    }
     }),
     methods:{
       remove (item) {
@@ -160,13 +183,15 @@ export default {
             }}).then(response=>{
                 console.log(response)
                 if(response.status==200){
-                    response.data.forEach
+                    response.data
+                    // exhibList에 서버로 부터 받은 array 중복제거 후 할당
+                    // 이후 그 안의 값 하나씩? 해서 exhib정보 불러오기
                 }
             })
         }
       },
         getImgUrlNotPrefix(pic){
-            return 'http://15.164.142.253:8080/imagePath/' + pic.replace('PNG', 'png')
+            return this.$Url+'imagePath/' + pic.replace('PNG', 'png')
         }
     },
     mounted(){

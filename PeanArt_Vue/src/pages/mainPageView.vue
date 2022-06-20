@@ -2,7 +2,7 @@
   <v-app>
     <nav_bar/>
     <v-main>
-      <v-container>      
+      <v-container>   
         <v-row class="mt-16" justify="center">
           <v-col md="12">
             <v-card>
@@ -87,7 +87,7 @@ export default {
   }),
   methods: {
     getImgURL(pic) {
-      return 'http://15.164.142.253:8080/imagePath/' + pic.replace('PNG', 'png')}
+      return this.$Url+'imagePath/' + pic.replace('PNG', 'png')}
   },
   mounted(){
     axios.get('/mainPoster').then(response=>{
