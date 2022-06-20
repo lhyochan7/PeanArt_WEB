@@ -33,7 +33,7 @@ public class MemberController {
 
     //Login 체크하기 / 로그인 성공 : HttpStatus = ok, 실패 : HttpStatus = bad request, 그 외 : not found
     @PostMapping("/loginCheck")
-    public ResponseEntity<MemberVO> checkLogin(HttpServletRequest req, HttpSession session, MemberVO memberVO){
+    public ResponseEntity<MemberVO> checkLogin(HttpServletRequest req, HttpSession session, @RequestBody MemberVO memberVO){
         try {
             System.out.println(memberVO);
             MemberVO user = memberService.loginCheck(memberVO);
@@ -104,5 +104,17 @@ public class MemberController {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
+    }
+    @GetMapping("/adminCheck")
+    public ResponseEntity<Map<String, Object>> adminCheck(HttpServletRequest req, HttpSession session, ModelMap model, @RequestParam("usrId") String email){
+        String isAdmin = (String) session.getAttribute("role");
+        System.out.println(isAdmin);
+        System.out.println((String) session.getAttribute("usrId"));
+        System.out.println(((String) session.getAttribute("usrId")).equals(email));
+        System.out.println(isAdmin.equals("1"));
+        if(((String) session.getAttribute("usrId")).equals(email) && isAdmin.equals("1")){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

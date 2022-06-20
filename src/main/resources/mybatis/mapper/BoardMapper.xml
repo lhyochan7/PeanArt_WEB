@@ -27,7 +27,9 @@
         WHERE A.usr_seq = #{usrSeq}
     </select>
     <select id="getReview" parameterType="int" resultType="ReviewVO">
-        SELECT * FROM tb_review
+        SELECT A.rev_seq, A.usr_seq, A.exhib_seq, A.rev_content, A.rev_cret_date, A.rev_mod_date, B.usr_nickname, C.file_dir_name, C.file_name FROM tb_review A
+        JOIN tb_user B ON A.usr_seq = B.usr_seq
+        JOIN tb_file_user C ON B.usr_seq = C.usr_seq
         WHERE exhib_seq = ${exhibSeq};
     </select>
 

@@ -64,7 +64,7 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.OK).body(map);
     }
 
-    @PostMapping("/reviewRegister.do")
+    @PostMapping("/reviewRegister")
     public ResponseEntity<String> regReview( HttpSession session, @RequestParam String revContent){
         ReviewVO reviewVO = new ReviewVO();
 
