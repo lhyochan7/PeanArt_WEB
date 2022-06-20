@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ExhibitRegisterVO {
     String exhibTitle;
-    int exhibKind;
+    String exhibKind;
     String exhibTheme;
     String exhibSimpleExp;
     String exhibDetailExp;
@@ -17,9 +17,26 @@ public class ExhibitRegisterVO {
     int usrSeq;
     String exhibCretDate;
     String exhibModDate;
+
+    public String getExhibKind() {
+        return exhibKind;
+    }
+
+    public void setExhibKind(String exhibKind) {
+        this.exhibKind = exhibKind;
+    }
+
+    public String getGoodsAllow() {
+        return goodsAllow;
+    }
+
+    public void setGoodsAllow(String goodsAllow) {
+        this.goodsAllow = goodsAllow;
+    }
+
     String fileDirName;
     String fileName;
-    int goodsAllow;
+    String goodsAllow;
 
     public String getExhibCretDate() {
         return exhibCretDate;
@@ -55,13 +72,7 @@ public class ExhibitRegisterVO {
 
     //file area
 
-    public int getExhibKind() {
-        return exhibKind;
-    }
 
-    public void setExhibKind(int exhibKind) {
-        this.exhibKind = exhibKind;
-    }
 
     public int getUsrSeq() {
         return usrSeq;
@@ -159,12 +170,6 @@ public class ExhibitRegisterVO {
                 '}';
     }
 
-    public int getGoodsAllow() {
-        return goodsAllow;
-    }
 
-    public void setGoodsAllow(int goodsAllow) {
-        this.goodsAllow = goodsAllow;
-    }
 
 }

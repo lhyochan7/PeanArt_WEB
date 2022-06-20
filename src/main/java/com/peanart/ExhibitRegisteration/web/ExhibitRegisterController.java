@@ -35,7 +35,11 @@ public class ExhibitRegisterController {
     }
 
     @PostMapping(value = "/exhib/register", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity reg(@RequestPart("uploadFile") MultipartFile[] uploadFile, @RequestPart("posterFile") MultipartFile posterFile, HttpServletRequest req, HttpSession session, @RequestPart("exhibData") ExhibitRegisterVO exhibitRegisterVO) throws IOException {
+    public ResponseEntity reg(@RequestPart("uploadFile") MultipartFile[] uploadFile,
+                              @RequestPart("posterFile") MultipartFile posterFile,
+                              HttpServletRequest req,
+                              HttpSession session,
+                              @RequestPart("exhibData") ExhibitRegisterVO exhibitRegisterVO) throws IOException {
         Map<String, Object> rtn = new HashMap<>();
         System.out.println("입구에용");
         int usrSeq = 2;
@@ -45,8 +49,8 @@ public class ExhibitRegisterController {
                 //int usrSeq = (int)session.getAttribute("usrSeq");
                 //연결할때 주석 풀어서 usrSeq 값 부여 ^^
                 exhibitRegisterVO.setUsrSeq(usrSeq);
-                exhibitRegisterVO.setGoodsAllow((int)exhibitRegisterVO.getGoodsAllow());
-                exhibitRegisterVO.setExhibKind((int)exhibitRegisterVO.getExhibKind());
+                exhibitRegisterVO.setGoodsAllow(exhibitRegisterVO.getGoodsAllow());
+                exhibitRegisterVO.setExhibKind(exhibitRegisterVO.getExhibKind());
 
 
                 // 업로드 이미지들

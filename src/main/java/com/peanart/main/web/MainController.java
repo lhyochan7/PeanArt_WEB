@@ -124,7 +124,7 @@ public class MainController {
 
 
 
-    @GetMapping("/detail")
+    @GetMapping("/detail_test")
     public String getExhibInfo (HttpSession session, @RequestParam("exhibSeq") Integer exhibSeq, Model model) {
 
         HashMap<String, Object> map = new HashMap<>();
@@ -150,7 +150,7 @@ public class MainController {
     }
 
 
-    @PostMapping(value="/detailModifiy",consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE}) //게시글 수정
+    @PostMapping(value="/detailModifiy_test",consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE}) //게시글 수정
     public ResponseEntity<String> modDetail(@RequestPart MultipartFile[] uploadFile, @RequestPart MultipartFile posterFile,
                                             HttpSession session, @RequestPart("exhibData") ExhibitRegisterVO exhibitRegisterVO) throws IOException {
         System.out.println(exhibitRegisterVO.toString());
