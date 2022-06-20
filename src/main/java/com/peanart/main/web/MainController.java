@@ -28,10 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -149,21 +146,113 @@ public class MainController {
     }
 
 
+    boolean deleteFilesRecursively(File rootFile) { //해당 폴더를 재귀적으로 다삭제하는 함수
+        File[] allFiles = rootFile.listFiles();
+        if (allFiles != null) {
+            for (File file : allFiles) {
+                deleteFilesRecursively(file);
+            }
+        }
+        System.out.println("Remove file: " + rootFile.getPath());
+        return rootFile.delete();
+    }
+
+
+
     @PostMapping(value="/detailModifiy_test",consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE}) //게시글 수정
     public ResponseEntity<String> modDetail(@RequestPart MultipartFile[] uploadFile, @RequestPart MultipartFile posterFile,
                                             HttpSession session, @RequestPart("exhibData") ExhibitRegisterVO exhibitRegisterVO) throws IOException {
-        System.out.println(exhibitRegisterVO.toString());
-        List<FileVO> originFile = boardService.getFile((int) session.getAttribute("exhibSeq"));
-        // session.usrSeq == exhib.usrSeq true 면 sql 실행 아니면 fail 반환 하자
-        int sessionUsrSeq = (int) session.getAttribute("usrSeq");
-        int currentExhibUsrSeq = exhibitRegisterVO.getUsrSeq();
-        if (sessionUsrSeq == currentExhibUsrSeq) {
-            modFiles(uploadFile,originFile,exhibitRegisterVO,posterFile);
-            boardService.modExhib(exhibitRegisterVO);
-        } else {
-            return ResponseEntity.status(HttpStatus.OK).body("다른 유저에용");
+
+
+
+        for (MultipartFile file : uploadFile) {
+            System.out.println(file.getOriginalFilename());
         }
-        return ResponseEntity.status(HttpStatus.OK).body("수정 끝나면 아마 boardList 페이지로 가야할듯 ?");
+        System.out.println(posterFile);
+        System.out.println(exhibitRegisterVO);
+
+
+        // (1) ============ 기존 이미지들 전체 삭제 ============
+        int exhibSeq = (int) session.getAttribute("exhibSeq");
+        List<FileVO> removeFileList= boardService.getFile(exhibSeq);
+        String dirName = removeFileList.get(0).getFileDirName();
+        File file1 = new File(path+"/" +dirName);
+        deleteFilesRecursively(file1);
+
+
+        // (2) =============== 포스터 사진, 전시회 사진들 다시 생성 ===================
+
+        Map<String, Object> rtn = new HashMap<>();
+
+        //고유 폴더 이름 만들기 ( UUID_전시회이름 )
+        String dirUuid = UUID.randomUUID().toString();
+        String folderName = dirUuid; // + "_" + exhibitRegisterVO.getExhibTitle();
+        String posterFileName = "poster" + "." + posterFile.getOriginalFilename().split("\\.")[1].toLowerCase();
+
+        exhibitRegisterVO.setFileDirName(folderName);
+        exhibitRegisterVO.setFileName(dirUuid + "_" +posterFileName);
+
+        File directory = new File(path + "/" + folderName);
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+
+        File poster = new File(path + "/" +folderName + "/" + dirUuid + "_" +posterFileName);//posterFile.getOriginalFilename());
+        posterFile.transferTo(poster);
+
+        // rtn에 포스터 값 전달, Multipart type
+        rtn.put("poster", posterFile);
+
+        // 업로드 이미지들
+        List<FileVO> files = new ArrayList<>();
+
+
+        //exRegService.insertExhib(exhibitRegisterVO);
+        System.out.println(exhibSeq);
+        for (MultipartFile file : uploadFile) {
+            if (!file.isEmpty()) {
+                int fileIndex = 1;
+                String fileExtension = file.getOriginalFilename().split("\\.")[1].toLowerCase();
+
+                FileVO fvo = new FileVO(UUID.randomUUID().toString(), file.getContentType());
+                files.add(fvo);
+
+                File newFileName = new File(path + "/" +folderName + "/" + fvo.getFileUuid() + "." + fileExtension);
+
+                fvo.setFileDirName(folderName);
+                fvo.setExhibSeq(exhibSeq);
+                fvo.setFileUuid(fvo.getFileUuid() + "." + fileExtension);
+                exRegService.insertExExhibFile(fvo);
+                file.transferTo(newFileName);
+                // rtn에 key : 파일+순서(1부터) value : 파일 multipart type
+                rtn.put("fileIndex" + fileIndex, file);
+            }
+        }
+
+
+        // (3) ================ 전시회 정보 수정 =======================
+        boardService.modExhib(exhibitRegisterVO);
+        System.out.println(exhibitRegisterVO);
+
+
+        int usrSeq = 2;
+        //int usrSeq = Integer.parseInt(session.getAttribute("usrSeq").toString());
+        return null;
+
+
+//
+//        System.out.println(exhibitRegisterVO.toString());
+//        List<FileVO> originFile = boardService.getFile((int) session.getAttribute("exhibSeq"));
+//        // session.usrSeq == exhib.usrSeq true 면 sql 실행 아니면 fail 반환 하자
+//        int sessionUsrSeq = (int) session.getAttribute("usrSeq");
+//        int currentExhibUsrSeq = exhibitRegisterVO.getUsrSeq();
+//        if (sessionUsrSeq == currentExhibUsrSeq) {
+//            modFiles(uploadFile,originFile,exhibitRegisterVO,posterFile);
+//            boardService.modExhib(exhibitRegisterVO);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.OK).body("다른 유저에용");
+//        }
+//        return ResponseEntity.status(HttpStatus.OK).body("수정 끝나면 아마 boardList 페이지로 가야할듯 ?");
 
     }
 

@@ -71,4 +71,5 @@
         delete from tb_file_exhibit
         where exhib_seq = #{exhibSeq} AND file_uuid = #{fileUuid}
     </delete>
+
 </mapper>
