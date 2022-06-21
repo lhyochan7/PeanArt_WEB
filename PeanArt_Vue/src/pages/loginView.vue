@@ -2,7 +2,7 @@
     <v-app>
         <nav_bar></nav_bar>
         <v-container fill-height>
-            <v-card height="110%" class="rounded-lg">
+            <v-card height="110%" max-height="560" class="rounded-lg">
                 <v-container class="px-4 py-4">
                     <v-row>
                         <v-col md="6">
