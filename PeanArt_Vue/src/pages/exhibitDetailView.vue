@@ -329,15 +329,7 @@ export default {
                 if(sessionStorage.getItem("usrId") != response.data){
                     // 세션 로그인한 상태 + [세션스토리지 아이디 = 서버 세션 아이디] 인 상황
                     console.log()
-                } else{
-                    alert('비정상적인 로그인 상태입니다.')
-                    sessionStorage.removeItem("usrId")
-                    this.$router.push('/main')
                 }
-            }else{
-                alert('비정상적인 로그인 상태입니다.')
-                sessionStorage.removeItem("usrId")
-                this.$router.push('/main')
             }
         })
             axios.get(this.$Url+'my-page').then(response=>{
