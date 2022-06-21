@@ -183,7 +183,7 @@ export default {
                     keywords: this.selectedTheme.join(',')
                 }
             }
-            axios.get('http://15.164.142.253:8080/AIpage', param, {headers: {'content-Type': "application/json; charset=UTF-8",
+            axios.get(this.$Url+'AIpage', param, {headers: {'content-Type': "application/json; charset=UTF-8",
                 'Allow-Control-Allow-Origin': '*'
             }}).then(async(response)=>{
                 console.log(response)

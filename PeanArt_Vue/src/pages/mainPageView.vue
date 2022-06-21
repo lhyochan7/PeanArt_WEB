@@ -135,7 +135,7 @@ export default {
       return this.$Url+'imagePath/' + pic.replace('PNG', 'png')}
   },
   mounted(){
-    axios.get('/mainPoster').then(response=>{
+    axios.get(this.$Url+'mainPoster').then(response=>{
       console.log(response);
       if(response.status==200){
         var data = response.data
