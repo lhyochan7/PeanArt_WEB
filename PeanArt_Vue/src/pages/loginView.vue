@@ -6,7 +6,7 @@
                 <v-container class="px-4 py-4">
                     <v-row>
                         <v-col md="6">
-                            <v-img src="../assets/cover.png" height="200%" max-height="556"></v-img>
+                            <v-img src="../assets/cover.png" height="556" max-height="556"></v-img>
                         </v-col>
                         <v-col md="6">
                             <v-text-field
