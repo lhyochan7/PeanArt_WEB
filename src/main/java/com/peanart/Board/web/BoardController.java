@@ -57,7 +57,6 @@ public class BoardController {
         map.put("reviewList", reviewVO);
 
         session.setAttribute("exhibSeq", exhibSeq);
-        session.setAttribute("usrSeq", exhibitRegisterVO.getUsrSeq());
         return ResponseEntity.status(HttpStatus.OK).body(map);
     }
 
