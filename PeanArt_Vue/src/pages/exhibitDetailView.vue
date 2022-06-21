@@ -320,7 +320,11 @@ export default {
         },
     },
     mounted() {
-        axios.get('/sessionCheck').then(response=>{
+       
+        this.userInfo = {}
+this.userId = sessionStorage.getItem("usdId")
+        if(this.userId != null){
+axios.get('/sessionCheck').then(response=>{
             if(response.status==200){
                 if(sessionStorage.getItem("usdId") != response.data){
                     // 세션 로그인한 상태 + [세션스토리지 아이디 = 서버 세션 아이디] 인 상황
@@ -336,9 +340,6 @@ export default {
                 this.$router.push('/main')
             }
         })
-        this.userInfo = {}
-this.userId = sessionStorage.getItem("usdId")
-        if(this.userId != null){
             axios.get(this.$Url+'my-page').then(response=>{
                 console.log(response);
                 if(response.status==200){
