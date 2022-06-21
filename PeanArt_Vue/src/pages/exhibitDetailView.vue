@@ -305,7 +305,7 @@ export default {
                         axios.get(this.$Url+'detail',param).then(response=>{
                             console.log(response);
                             if(response.status==200){
-                                this.userInfo = response.data.userInfo;
+                                this.exhibUserInfo = response.data.userInfo;
                                 this.reviewList = response.data.reviewList;
                                 this.exhib = response.data.exhib;
                                 this.fileList = response.data.fileList;
