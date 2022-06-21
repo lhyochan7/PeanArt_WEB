@@ -65,9 +65,9 @@
                             <v-card outlined>
                                 <v-container>
                                     <v-avatar size="100px">
-                                        <v-img :src="getImgUrl(this.userInfo.fileDirName +'/'+ this.userInfo.fileName)" max-width="100px"></v-img>
+                                        <v-img :src="getImgUrl(this.exhibUserInfo.fileDirName +'/'+ this.exhibUserInfo.fileName)" max-width="100px"></v-img>
                                     </v-avatar>
-                                    <v-card-title>{{this.userInfo.usrNickname}}</v-card-title>
+                                    <v-card-title>{{this.exhibUserInfo.usrNickname}}</v-card-title>
                                     <v-card-actions class="justify-space-around">
                                         <v-btn text color="red">팔로우 하기</v-btn>
                                         <v-btn text>정보 더보기</v-btn>
@@ -337,6 +337,7 @@ export default {
             }
         })
         this.userInfo = {}
+this.userId = sessionStorage.getItem("usdId")
         if(this.userId != null){
             axios.get(this.$Url+'my-page').then(response=>{
                 console.log(response);
@@ -361,7 +362,7 @@ export default {
         axios.get(this.$Url+'detail',param).then(response=>{
             console.log(response);
             if(response.status==200){
-                this.userInfo = response.data.userInfo;
+                this.exhibUserInfo = response.data.userInfo;
                 this.reviewList = response.data.reviewList;
                 this.exhib = response.data.exhib;
                 this.fileList = response.data.fileList;
