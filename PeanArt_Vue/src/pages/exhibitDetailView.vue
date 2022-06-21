@@ -322,9 +322,9 @@ export default {
     mounted() {
        
         this.userInfo = {}
-this.userId = sessionStorage.getItem("usrId")
+    this.userId = sessionStorage.getItem("usrId")
         if(this.userId != null){
-axios.get('/sessionCheck').then(response=>{
+    axios.get('/sessionCheck').then(response=>{
             if(response.status==200){
                 if(sessionStorage.getItem("usrId") != response.data){
                     // 세션 로그인한 상태 + [세션스토리지 아이디 = 서버 세션 아이디] 인 상황
@@ -355,6 +355,7 @@ axios.get('/sessionCheck').then(response=>{
                     this.userInfo = {}
                 }
             })
+        }
             var param = {params:{
                 exhibSeq: this.$route.params.id
             }}
