@@ -13,7 +13,7 @@
                     <v-layout>
                       <v-row justify="space-between">
                         <v-col md="3">
-                          <v-card height="100%">
+                          <v-card height="100%" class="overflow-y-auto">
                             <v-card-title class="text-h4 ml-2">{{mainExhib.exhibTitle}}</v-card-title>
                             <v-card-text class="mt-16 text-h6 ml-2">{{mainExhib.exhibStartDate}}</v-card-text>
                             <v-card-text class="mt-8 font-weight-bold text-h6 ml-2">{{mainExhib.exhibSimpleExp}}</v-card-text>
@@ -33,7 +33,7 @@
           </v-col>
         </v-row>
         
-        <v-row v-if="isLoaded==true" class="my-12" md="12">
+        <v-row v-if="isLoaded==false" class="my-12" md="12">
         <v-container>
           <v-skeleton-loader
           class="mx-auto"
