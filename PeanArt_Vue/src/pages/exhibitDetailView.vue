@@ -358,7 +358,6 @@ axios.get('/sessionCheck').then(response=>{
             var param = {params:{
                 exhibSeq: this.$route.params.id
             }}
-        }
         
         axios.get(this.$Url+'detail',param).then(response=>{
             console.log(response);
